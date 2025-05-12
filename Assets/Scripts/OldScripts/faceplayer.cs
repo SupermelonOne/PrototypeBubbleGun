@@ -4,11 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class FacePlayer : MonoBehaviour
-{
-    public GameObject popup;  // Assign the popup object in the Inspector
-
-    // Update is called once per frame
-    
+{    
     void Update()
     {
         // Find the player using the "Player" tag

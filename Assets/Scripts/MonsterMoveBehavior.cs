@@ -9,6 +9,10 @@ public class MonsterMoveBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
     List<Transform> hidingSpots = new List<Transform>();
+    [SerializeField] private float walkRange = 10;
+
+    [SerializeField] private float walkWaitTimer = 0;
+    [SerializeField] private float walkWaitTime = 10;
 
     private void Start()
     {
@@ -30,7 +34,31 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
-        agent.SetDestination(GetRandomPointOnNavmesh);
+        walkWaitTimer += Time.deltaTime;
+        if (walkWaitTimer > walkWaitTime)
+        {
+            walkWaitTimer = 0;
+            Vector3 randomPoint;
+            if (GetRandomPointOnNavmesh(transform.position, walkRange, out randomPoint))
+            {
+                agent.SetDestination(randomPoint);
+            }
+        }
+    }
+    bool GetRandomPointOnNavmesh(Vector3 center, float range, out Vector3 result)
+    {
+        for (int i = 0; i < 30; i++) // Try multiple times in case of failure
+        {
+            Vector3 randomPos = center + Random.insideUnitSphere * range;
+            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+
+        result = Vector3.zero;
+        return false;
     }
 
     public void GetTargeted()
