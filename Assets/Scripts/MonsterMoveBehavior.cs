@@ -25,7 +25,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         GameObject target = GameObject.Find("HidingSpots");
         if (target != null)
         {
-            hidingSpots = target.GetComponentsInChildren<Transform>().ToList();
+            hidingSpots = target.GetComponentsInChildren<Transform>().Where(t => t != target.transform).ToList();
         }
         else
         {
@@ -68,18 +68,30 @@ public class MonsterMoveBehavior : MonoBehaviour
         return false;
     }
 
-    public void GetTargeted()
+    public void Hide()
     {
         if (agent != null)
         {
+            walkWaitTimer = 0;
             agent.SetDestination(GetNearestHidingspot());
         }
     }
 
     private Vector3 GetNearestHidingspot()
     {
-        // TODO replace this function with a function calling from some event system or something, so not every enemy has to hold the entire array of hiding spots
-        return Vector3.zero;
+        Vector3 placeToGo = Vector3.zero;
+        float distanceToPlace = Mathf.Infinity;
 
+        foreach (Transform hideSpot in hidingSpots)
+        {
+            float distance = Vector3.Distance(hideSpot.position, transform.position);
+
+            if (distance < distanceToPlace)
+            {
+                placeToGo = hideSpot.position;
+                distanceToPlace = distance;
+            }
+        }
+        return placeToGo;
     }
 }
