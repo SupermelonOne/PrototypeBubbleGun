@@ -59,7 +59,7 @@ public class TopDownNetController : MonoBehaviour
         if (closeEnemy != null && closeEnemy.isCaptured)
         {
             ELabel.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKey(KeyCode.E))
             {
                 Destroy(closeEnemy.gameObject);
             }

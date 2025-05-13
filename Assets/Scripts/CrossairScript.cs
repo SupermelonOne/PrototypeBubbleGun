@@ -5,8 +5,10 @@ using UnityEngine;
 public class CrossairScript : MonoBehaviour
 {
     private Vector3 raycastPosition;
+    private float lastFireTime = -float.MaxValue;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Camera cam;
+    [SerializeField] private float fireCooldown = 0.5f;
 
     private void Update()
     {
@@ -23,8 +25,9 @@ public class CrossairScript : MonoBehaviour
             raycastPosition = ray.origin + ray.direction * 1000f;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.time >= lastFireTime + fireCooldown)
         {
+            lastFireTime = Time.time;
             GameObject spawnedBullet = Instantiate(bullet);
             spawnedBullet.transform.position = cam.transform.position;
             MoveToTargetAndDestroy moveToTargetAndDestroy = spawnedBullet.AddComponent<MoveToTargetAndDestroy>();
