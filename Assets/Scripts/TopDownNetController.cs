@@ -61,6 +61,7 @@ public class TopDownNetController : MonoBehaviour
             ELabel.SetActive(true);
             if (Input.GetKey(KeyCode.E))
             {
+                Points.Instance.AddPoints(1);
                 Destroy(closeEnemy.gameObject);
             }
         }
