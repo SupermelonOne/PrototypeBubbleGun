@@ -446,7 +446,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.083333336
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 59eeee7365e523748bd95cccd1601c4c, type: 2}
   m_BuildHeightMesh: 0
@@ -1512,14 +1512,6 @@ PrefabInstance:
       propertyPath: spawnAreaObject
       value: 
       objectReference: {fileID: 1171001980}
-    - target: {fileID: 8016799839715098010, guid: 010f103b52ddfa54b88e92638c880214, type: 3}
-      propertyPath: sprites.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8016799839715098010, guid: 010f103b52ddfa54b88e92638c880214, type: 3}
-      propertyPath: sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: fee2dd82fd79cfd40a85f2414702cd1e, type: 3}
     - target: {fileID: 9201541866961484691, guid: 010f103b52ddfa54b88e92638c880214, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.618138

@@ -17,6 +17,7 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Start()
     {
+        walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
         {

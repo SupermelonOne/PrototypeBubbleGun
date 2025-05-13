@@ -373,7 +373,7 @@ MonoBehaviour:
   canMove: 1
   walkRange: 10
   walkWaitTimer: 8
-  walkWaitTime: 10
+  walkWaitTime: 8
 --- !u!54 &6851758903211431307
 Rigidbody:
   m_ObjectHideFlags: 0

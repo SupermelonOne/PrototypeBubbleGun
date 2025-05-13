@@ -11,6 +11,14 @@ public class CrossairScript : MonoBehaviour
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private float hideDistance = Mathf.Infinity;
 
+    private void Start()
+    {
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
+    }
+
     private void Update()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -44,6 +52,8 @@ public class CrossairScript : MonoBehaviour
             GameObject spawnedBullet = Instantiate(bullet);
             spawnedBullet.transform.position = cam.transform.position;
             MoveToTargetAndDestroy moveToTargetAndDestroy = spawnedBullet.AddComponent<MoveToTargetAndDestroy>();
+            // TODO dont do this but add curvature to bubble path instead
+            raycastPosition = ray.origin + ray.direction * 1000f;
             moveToTargetAndDestroy.targetPosition = raycastPosition;
         }
     }

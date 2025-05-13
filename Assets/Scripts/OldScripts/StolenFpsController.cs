@@ -31,8 +31,36 @@ public class StolenFpsController : MonoBehaviour
         if (!canMove) return;
 
         // Get input
-        float inputVertical = Input.GetAxis("Vertical");
-        float inputHorizontal = Input.GetAxis("Horizontal");
+        float vertical;
+        float horizontal;
+        if (Input.GetAxis("Vertical") >= 1)
+        {
+            vertical = 1f;
+        }
+        else if (Input.GetAxis("Vertical") <= -1)
+        {
+            vertical = -1f;
+        }
+        else
+        {
+            vertical = 0;
+        }
+
+        // TODO remove this controller and make a funny new one for the script
+/*        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            horizontal = 1f;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            horizontal = -1f;
+        }
+        else*/
+        {
+            horizontal= 0;
+        }
+        float inputVertical = vertical;
+        float inputHorizontal = horizontal;
 
         // Determine if running
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
