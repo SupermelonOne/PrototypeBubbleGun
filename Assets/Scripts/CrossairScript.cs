@@ -6,10 +6,11 @@ public class CrossairScript : MonoBehaviour
 {
     private Vector3 raycastPosition;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private Camera cam;
 
     private void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red);
         if (Physics.Raycast(ray, out hit))
@@ -24,9 +25,8 @@ public class CrossairScript : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("shoot bullet to " + raycastPosition);
             GameObject spawnedBullet = Instantiate(bullet);
-            spawnedBullet.transform.position = Camera.main.transform.position;
+            spawnedBullet.transform.position = cam.transform.position;
             MoveToTargetAndDestroy moveToTargetAndDestroy = spawnedBullet.AddComponent<MoveToTargetAndDestroy>();
             moveToTargetAndDestroy.targetPosition = raycastPosition;
         }

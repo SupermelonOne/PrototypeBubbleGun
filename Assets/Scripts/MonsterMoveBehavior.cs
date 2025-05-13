@@ -9,6 +9,7 @@ public class MonsterMoveBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
     List<Transform> hidingSpots = new List<Transform>();
+    public bool canMove = true;
     [SerializeField] private float walkRange = 10;
 
     [SerializeField] private float walkWaitTimer = 0;
@@ -34,6 +35,12 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove)
+        {
+            agent.isStopped = true;
+            return;
+        }
+        agent.isStopped = false;
         walkWaitTimer += Time.deltaTime;
         if (walkWaitTimer > walkWaitTime)
         {
