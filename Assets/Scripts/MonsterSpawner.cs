@@ -12,6 +12,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private GameObject spawnAreaObject; // Assign the Plane or area GameObject here
 
+    [SerializeField] private Sprite[] sprites;
     private Vector3 areaCenter;
     private Vector3 areaSize;
 
@@ -47,7 +48,7 @@ public class MonsterSpawner : MonoBehaviour
             var posX = Random.Range(areaCenter.x - areaSize.x / 2, areaCenter.x + areaSize.x / 2);
             var posZ = Random.Range(areaCenter.z - areaSize.z / 2, areaCenter.z + areaSize.z / 2);
             var pos = new Vector3(posX, transform.position.y, posZ);
-            
+            monsterPrefab.GetComponentInChildren<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
             Instantiate(monsterPrefab, pos, Quaternion.identity);
         }
     }
