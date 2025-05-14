@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CatchScript : MonoBehaviour
 {
+
+    void Start()
+    {
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -13,9 +19,14 @@ public class CatchScript : MonoBehaviour
             {
                 if (monster.isCaptured)
                 {
-                    Destroy(other.gameObject);
+                    monster.PutInNet(transform);
+                    Debug.Log("should be captured");
                 }
             }
         }
+    }
+    void Update()
+    {
+
     }
 }

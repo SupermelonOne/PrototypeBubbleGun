@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TreeEditor;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,11 +11,14 @@ public class MonsterMoveBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
     List<Transform> hidingSpots = new List<Transform>();
-    public bool canMove = true;
+    public float waitTime = 0;
     [SerializeField] private float walkRange = 10;
 
     [SerializeField] private float walkWaitTimer = 0;
     [SerializeField] private float walkWaitTime = 10;
+
+    public bool isCaught = false;
+    public Transform netPosition;
 
     private void Start()
     {
@@ -36,22 +41,34 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
-        if (!canMove)
+        if (!isCaught)
         {
-            agent.isStopped = true;
-            return;
-        }
-        agent.isStopped = false;
-        walkWaitTimer += Time.deltaTime;
-        if (walkWaitTimer > walkWaitTime)
-        {
-            walkWaitTimer = 0;
-            Vector3 randomPoint;
-            if (GetRandomPointOnNavmesh(transform.position, walkRange, out randomPoint))
+            if (waitTime > 0)
             {
-                agent.SetDestination(randomPoint);
+                waitTime -= Time.deltaTime;
+                return;
+            }
+            agent.isStopped = false;
+            walkWaitTimer += Time.deltaTime;
+            if (walkWaitTimer > walkWaitTime)
+            {
+                walkWaitTimer = 0;
+                Vector3 randomPoint;
+                if (GetRandomPointOnNavmesh(transform.position, walkRange, out randomPoint))
+                {
+                    agent.SetDestination(randomPoint);
+                }
             }
         }
+        else if (netPosition != null)
+        {
+            transform.position = netPosition.position;
+            if (transform.localScale.x > 0.5f)
+            {
+                transform.localScale *= 0.995f;
+            }
+        }
+
     }
     bool GetRandomPointOnNavmesh(Vector3 center, float range, out Vector3 result)
     {
@@ -94,5 +111,23 @@ public class MonsterMoveBehavior : MonoBehaviour
             }
         }
         return placeToGo;
+    }
+
+    public void StopMoving(float stopTime)
+    {
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+        waitTime = stopTime;
+        walkWaitTimer = walkWaitTime;
+    }
+
+    public void Capture(Transform transformToFollow)
+    {
+        netPosition = transformToFollow;
+        isCaught = true;
+        //Destroy(GetComponent<Collider>());
+        Destroy(GetComponent<NavMeshAgent>());
     }
 }

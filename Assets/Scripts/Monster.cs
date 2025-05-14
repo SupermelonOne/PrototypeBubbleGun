@@ -21,29 +21,36 @@ public class Monster : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //debugging is my passion
-        Debug.Log("arrrr, ive been shot in me penis");
-        CaptureMonster();
-        StartCoroutine(CountDownAndRelease(5.0f));
+        if (other.CompareTag("Bubble"))
+        {
+            CaptureMonster();
+            StartCoroutine(CountDownAndRelease(5.0f));
+        }
     }
 
     private void CaptureMonster()
     {
         isCaptured = true;
         bubble.SetActive(true);
-        moveBehavior.canMove = false;
+        moveBehavior.StopMoving(5.0f);
     }
 
     private void ReleaseMonster()
     {
         isCaptured = false;
         bubble.SetActive(false);
-        moveBehavior.canMove = true;
+        //moveBehavior.canMove = true;
+    }
+
+    public void PutInNet(Transform netTransform)
+    {
+        moveBehavior.Capture(netTransform);
     }
 
     private IEnumerator CountDownAndRelease(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        bubble.SetActive(false);
         ReleaseMonster();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CrossairScript : MonoBehaviour
 {
+    [SerializeField] private Transform bubbleSpawnPosition;
     private Vector3 raycastPosition;
     private float lastFireTime = -float.MaxValue;
     [SerializeField] private GameObject bullet;
@@ -41,7 +42,6 @@ public class CrossairScript : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     hit.collider.GetComponent<MonsterMoveBehavior>().Hide();
-                    Debug.Log("HIDE");
                 }
             }
         }
@@ -50,10 +50,17 @@ public class CrossairScript : MonoBehaviour
         {
             lastFireTime = Time.time;
             GameObject spawnedBullet = Instantiate(bullet);
-            spawnedBullet.transform.position = cam.transform.position;
+            if (bubbleSpawnPosition != null)
+            {
+                spawnedBullet.transform.position = bubbleSpawnPosition.position;
+            }
+            else
+            {
+                spawnedBullet.transform.position = cam.transform.position;
+            }
             MoveToTargetAndDestroy moveToTargetAndDestroy = spawnedBullet.AddComponent<MoveToTargetAndDestroy>();
             // TODO dont do this but add curvature to bubble path instead
-            raycastPosition = ray.origin + ray.direction * 1000f;
+            //raycastPosition = ray.origin + ray.direction * 1000f;
             moveToTargetAndDestroy.targetPosition = raycastPosition;
         }
     }
