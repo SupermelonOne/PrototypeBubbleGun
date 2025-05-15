@@ -8,6 +8,7 @@ public class RotateCamera : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float sensitivity = 100;
     private float rotation = 0;
+    private float realRotation = 0;
 
     private void Start()
     {
@@ -21,8 +22,29 @@ public class RotateCamera : MonoBehaviour
     {
         if (rotation != 0)
         {
-            _camera.transform.Rotate(new Vector3(0, rotation, 0) * sensitivity * Time.deltaTime);
+
         }
+        if (rotation == -1)
+        {
+            if (realRotation > -2f)
+            {
+                realRotation -= 0.005f;
+                realRotation *= 1.003f;
+            }
+        }
+        else if (rotation == 1)
+        {
+            if (realRotation < 2f)
+            {
+                realRotation += 0.005f;
+                realRotation *= 1.003f;
+            }
+        }
+        else
+        {
+            realRotation = 0;
+        }
+        _camera.transform.Rotate(new Vector3(0, realRotation, 0) * sensitivity * Time.deltaTime);
     }
 
     public void leftTrue()

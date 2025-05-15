@@ -11,9 +11,13 @@ public class CrossairScript : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private float hideDistance = Mathf.Infinity;
-
+    [SerializeField] private AudioSource audioSource;
     private void Start()
     {
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
         if (cam == null)
         {
             cam = Camera.main;
@@ -22,9 +26,9 @@ public class CrossairScript : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = (cam.ScreenPointToRay(Input.mousePosition));
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
         if (Physics.Raycast(ray, out hit))
         {
             raycastPosition = hit.point;
@@ -32,7 +36,7 @@ public class CrossairScript : MonoBehaviour
         else
         {
             // Default to a far point in the ray's direction if nothing is hit
-            raycastPosition = ray.origin + ray.direction * 1000f;
+            raycastPosition = ray.origin + ray.direction * 15f;
         }
         if (hit.collider != null)
         {
@@ -49,6 +53,11 @@ public class CrossairScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && Time.time >= lastFireTime + fireCooldown)
         {
             lastFireTime = Time.time;
+            if (audioSource != null)
+            {
+                audioSource.Play();
+                audioSource.pitch = Random.Range(0.8f, 1.2f);
+            }
             GameObject spawnedBullet = Instantiate(bullet);
             if (bubbleSpawnPosition != null)
             {
@@ -62,6 +71,12 @@ public class CrossairScript : MonoBehaviour
             // TODO dont do this but add curvature to bubble path instead
             //raycastPosition = ray.origin + ray.direction * 1000f;
             moveToTargetAndDestroy.targetPosition = raycastPosition;
+        }
+
+        if (bubbleSpawnPosition != null)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(ray.direction); 
+            bubbleSpawnPosition.rotation = Quaternion.Slerp(bubbleSpawnPosition.rotation, targetRotation, 15f * Time.deltaTime);
         }
     }
 }

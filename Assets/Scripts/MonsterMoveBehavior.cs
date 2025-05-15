@@ -1,9 +1,8 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Linq;
-using TreeEditor;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,11 +16,15 @@ public class MonsterMoveBehavior : MonoBehaviour
     [SerializeField] private float walkWaitTimer = 0;
     [SerializeField] private float walkWaitTime = 10;
 
+    [SerializeField] private float bubbleFloatSpeed = 10f;
+    Rigidbody rb;
+
     public bool isCaught = false;
     public Transform netPosition;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
@@ -46,7 +49,13 @@ public class MonsterMoveBehavior : MonoBehaviour
             if (waitTime > 0)
             {
                 waitTime -= Time.deltaTime;
+                transform.position += new Vector3(0, bubbleFloatSpeed * Time.deltaTime, 0);
                 return;
+            }
+            if (rb != null && !rb.useGravity)
+            {
+                rb.useGravity = true;
+                agent.enabled = true;    ;
             }
             agent.isStopped = false;
             walkWaitTimer += Time.deltaTime;
@@ -128,6 +137,11 @@ public class MonsterMoveBehavior : MonoBehaviour
         netPosition = transformToFollow;
         isCaught = true;
         //Destroy(GetComponent<Collider>());
+        rb.useGravity = false;
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
         Destroy(GetComponent<NavMeshAgent>());
     }
 }

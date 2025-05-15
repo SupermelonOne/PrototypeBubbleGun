@@ -427,7 +427,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83b0449d26a46f409e17c27f0b7ac1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bubbleSpawnPosition: {fileID: 0}
   bullet: {fileID: 3568903257925425604, guid: f1d4d6245f2c2d14b820272d0a1f97ae, type: 3}
+  cam: {fileID: 0}
+  fireCooldown: 0.5
+  hideDistance: 10
+  audioSource: {fileID: 0}
 --- !u!114 &8848925532425051835
 MonoBehaviour:
   m_ObjectHideFlags: 0

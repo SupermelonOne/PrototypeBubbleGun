@@ -15,9 +15,10 @@ public class CatchScript : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Monster monster = other.GetComponent<Monster>();
-            if (monster != null)
+            MonsterMoveBehavior moveBehavior = other.GetComponent<MonsterMoveBehavior>();
+            if (monster != null && moveBehavior != null)
             {
-                if (monster.isCaptured)
+                if (monster.isCaptured && !moveBehavior.isCaught)
                 {
                     monster.PutInNet(transform);
                     Debug.Log("should be captured");
