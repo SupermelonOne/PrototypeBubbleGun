@@ -12,6 +12,7 @@ public class CrossairScript : MonoBehaviour
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private float hideDistance = Mathf.Infinity;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private LayerMask layermask;
     private void Start()
     {
         if (audioSource == null)
@@ -29,7 +30,7 @@ public class CrossairScript : MonoBehaviour
         Ray ray = (cam.ScreenPointToRay(Input.mousePosition));
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layermask))
         {
             raycastPosition = hit.point;
         }
@@ -46,6 +47,7 @@ public class CrossairScript : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     hit.collider.GetComponent<MonsterMoveBehavior>().Hide();
+                    Debug.Log("raycasted on an enemy");
                 }
             }
         }

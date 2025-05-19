@@ -137,7 +137,6 @@ public class MonsterMoveBehavior : MonoBehaviour
         netPosition = transformToFollow;
         isCaught = true;
         //Destroy(GetComponent<Collider>());
-        rb.useGravity = false;
         if (agent != null)
         {
             agent.enabled = false;

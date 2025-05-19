@@ -4864,6 +4864,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1505753642}
     - target: {fileID: 1436302601032872585, guid: 5aef635c556d1994995dff05148406c3, type: 3}
+      propertyPath: layermask.m_Bits
+      value: 215
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436302601032872585, guid: 5aef635c556d1994995dff05148406c3, type: 3}
       propertyPath: bubbleSpawnPosition
       value: 
       objectReference: {fileID: 604551065}
