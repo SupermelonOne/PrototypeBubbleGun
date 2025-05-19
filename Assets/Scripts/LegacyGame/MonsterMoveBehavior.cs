@@ -22,6 +22,8 @@ public class MonsterMoveBehavior : MonoBehaviour
     public bool isCaught = false;
     public Transform netPosition;
 
+    [SerializeField] private bool goToSecond = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,6 +37,11 @@ public class MonsterMoveBehavior : MonoBehaviour
         if (target != null)
         {
             hidingSpots = target.GetComponentsInChildren<Transform>().Where(t => t != target.transform).ToList();
+            foreach(Transform point in hidingSpots)
+            {
+                if (goToSecond)
+                Debug.Log("position is at: " + point.position);
+            }
         }
         else
         {
@@ -78,6 +85,10 @@ public class MonsterMoveBehavior : MonoBehaviour
             }
         }
 
+        if (agent.isStopped)
+        {
+            goToSecond = false;
+        }
     }
     bool GetRandomPointOnNavmesh(Vector3 center, float range, out Vector3 result)
     {
@@ -108,16 +119,31 @@ public class MonsterMoveBehavior : MonoBehaviour
     {
         Vector3 placeToGo = Vector3.zero;
         float distanceToPlace = Mathf.Infinity;
+        Vector3 secondPlace = Vector3.zero;
+        float distanceToSecond = Mathf.Infinity;
+
+        int howMany = 0;
 
         foreach (Transform hideSpot in hidingSpots)
         {
             float distance = Vector3.Distance(hideSpot.position, transform.position);
-
+            howMany++;
             if (distance < distanceToPlace)
             {
+                secondPlace = placeToGo;
+                distanceToSecond = distanceToPlace;
                 placeToGo = hideSpot.position;
                 distanceToPlace = distance;
             }
+        }
+        Debug.Log("how many = " + howMany);
+        if (goToSecond || distanceToPlace < 3)
+        {
+            goToSecond = true;
+            Debug.Log(distanceToPlace);
+            Debug.Log(placeToGo);
+            Debug.Log(secondPlace);
+            placeToGo = secondPlace;
         }
         return placeToGo;
     }
