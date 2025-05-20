@@ -96,5 +96,6 @@ public class StolenFpsController : MonoBehaviour
 
         // Move the character
         characterController.Move(moveDirection * Time.deltaTime);
+
     }
 }
