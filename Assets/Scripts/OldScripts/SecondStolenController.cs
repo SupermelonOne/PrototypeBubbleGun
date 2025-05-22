@@ -21,7 +21,6 @@ public class SecondStolenController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(transform.forward);
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
     }

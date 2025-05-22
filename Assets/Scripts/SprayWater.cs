@@ -49,10 +49,10 @@ public class SprayWater : MonoBehaviour
             }
 
             waterStream.transform.forward = (sprayEndPoint - waterStream.transform.position).normalized;
-            float distance = (sprayEndPoint - waterStream.transform.position).magnitude;
+            float distance = (sprayEndPoint - waterStream.transform.position).magnitude/2;
             if (waterLength < distance)
             {
-                waterLength += distance * Time.deltaTime;
+                waterLength += 100f * Time.deltaTime;
             }
             if (waterLength > distance)
             {
@@ -71,6 +71,9 @@ public class SprayWater : MonoBehaviour
                 }
                 Destroy(waterStream, 2);
                 GameObject waterStreamObject = GameObject.Find("WaterStreamObject");
+                if (waterStreamObject != null)
+                    Destroy(waterStreamObject);
+                waterStreamObject = GameObject.Find("WaterStreamObject");
                 if (waterStreamObject != null)
                     Destroy(waterStreamObject);
                 ray = new Ray(transform.position, Vector3.down);
