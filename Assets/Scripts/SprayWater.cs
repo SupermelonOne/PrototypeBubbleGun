@@ -15,6 +15,8 @@ public class SprayWater : MonoBehaviour
 
     [SerializeField] Camera cam;
 
+    private float waterLength = 0;
+
     Ray ray;
     RaycastHit hit;
 
@@ -29,6 +31,7 @@ public class SprayWater : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             waterStream = Instantiate(streamObject);
+            waterLength = 0;
         }
         if (Input.GetMouseButton(0) && waterStream != null)
         {
@@ -47,7 +50,15 @@ public class SprayWater : MonoBehaviour
 
             waterStream.transform.forward = (sprayEndPoint - waterStream.transform.position).normalized;
             float distance = (sprayEndPoint - waterStream.transform.position).magnitude;
-            waterStream.transform.localScale = new Vector3(1, 1, distance);
+            if (waterLength < distance)
+            {
+                waterLength += distance * Time.deltaTime;
+            }
+            if (waterLength > distance)
+            {
+                waterLength = distance;
+            }
+            waterStream.transform.localScale = new Vector3(1, 1, waterLength);
         }
         if (Input.GetMouseButtonUp(0))
         {
