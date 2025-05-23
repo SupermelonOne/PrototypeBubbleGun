@@ -75,13 +75,29 @@ public class MonsterMoveBehavior : MonoBehaviour
                     agent.SetDestination(randomPoint);
                 }
             }
+            if (transform.localScale.x < 0.9f)
+            {
+                Vector3 scale = new Vector3(
+                    transform.localScale.x + 0.5f * Time.deltaTime,
+                    transform.localScale.y + 0.5f * Time.deltaTime,
+                    transform.localScale.z + 0.5f * Time.deltaTime
+                    );
+                transform.localScale = scale;
+            }
         }
         else if (netPosition != null)
         {
             transform.position = netPosition.position;
             if (transform.localScale.x > 0.5f)
             {
-                transform.localScale *= 0.995f;
+                float shrinkAmount = 0.5f * Time.deltaTime;
+                Debug.Log(shrinkAmount);
+                Vector3 scale = new Vector3(
+                    transform.localScale.x - shrinkAmount, 
+                    transform.localScale.y - shrinkAmount, 
+                    transform.localScale.z - shrinkAmount
+                    );
+                transform.localScale = scale;
             }
         }
 
@@ -163,10 +179,15 @@ public class MonsterMoveBehavior : MonoBehaviour
         netPosition = transformToFollow;
         isCaught = true;
         //Destroy(GetComponent<Collider>());
-        if (agent != null)
+/*        if (agent != null)
         {
             agent.enabled = false;
         }
-        Destroy(GetComponent<NavMeshAgent>());
+        Destroy(GetComponent<NavMeshAgent>());*/
+    }
+    public void Release()
+    {
+        isCaught = false;
+        netPosition = null;
     }
 }
