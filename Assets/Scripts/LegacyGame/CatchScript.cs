@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CatchScript : MonoBehaviour
 {
-    List<MonsterMoveBehavior> caughtMonsters = new List<MonsterMoveBehavior>();
+    [HideInInspector] public List<MonsterMoveBehavior> caughtMonsters = new List<MonsterMoveBehavior>();
+    [SerializeField] private int capacity = 1;
+    private bool allowCatching = false;
     void Start()
     {
 
@@ -12,20 +14,23 @@ public class CatchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (allowCatching && caughtMonsters.Count < capacity)
         {
-            Monster monster = other.GetComponent<Monster>();
-            MonsterMoveBehavior moveBehavior = other.GetComponent<MonsterMoveBehavior>();
-            if (monster != null && moveBehavior != null)
+            if (other.CompareTag("Enemy"))
             {
-                if (monster.isCaptured && !moveBehavior.isCaught)
+                Monster monster = other.GetComponent<Monster>();
+                MonsterMoveBehavior moveBehavior = other.GetComponent<MonsterMoveBehavior>();
+                if (monster != null && moveBehavior != null && !moveBehavior.isCaught)
                 {
-                    Debug.Log("should be captured");
-                }
-                moveBehavior.Capture(transform);
-                if (!caughtMonsters.Contains(moveBehavior))
-                {
-                    caughtMonsters.Add(moveBehavior);
+                    if (monster.isCaptured && !moveBehavior.isCaught)
+                    {
+                        Debug.Log("should be captured");
+                    }
+                    moveBehavior.Capture(transform);
+                    if (!caughtMonsters.Contains(moveBehavior))
+                    {
+                        caughtMonsters.Add(moveBehavior);
+                    }
                 }
             }
         }
@@ -39,6 +44,11 @@ public class CatchScript : MonoBehaviour
             {
                 monster.Release();
             }
+            caughtMonsters.Clear(); 
         }
+        if (true) // TODO add check for if this player is holding down move button, if so, allow to catch, than if it catches smthng in the same button press, disable r smthng
+        {
+            allowCatching = true;
+        }    
     }
 }

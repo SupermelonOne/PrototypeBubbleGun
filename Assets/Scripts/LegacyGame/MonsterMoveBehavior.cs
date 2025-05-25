@@ -8,6 +8,7 @@ using UnityEngine.AI;
 
 public class MonsterMoveBehavior : MonoBehaviour
 {
+    [HideInInspector] public bool inStation = false;
     NavMeshAgent agent;
     List<Transform> hidingSpots = new List<Transform>();
     public float waitTime = 0;
@@ -47,6 +48,16 @@ public class MonsterMoveBehavior : MonoBehaviour
         {
             Debug.Log("Error: HidingSpots not found");
         }
+    }
+
+    public void EnterStation()
+    {
+        inStation = true;
+    }
+
+    public void ExitStation()
+    {
+        inStation = false;
     }
 
     private void Update()
@@ -91,7 +102,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             if (transform.localScale.x > 0.5f)
             {
                 float shrinkAmount = 0.5f * Time.deltaTime;
-                Debug.Log(shrinkAmount);
+                //Debug.Log(shrinkAmount);
                 Vector3 scale = new Vector3(
                     transform.localScale.x - shrinkAmount, 
                     transform.localScale.y - shrinkAmount, 

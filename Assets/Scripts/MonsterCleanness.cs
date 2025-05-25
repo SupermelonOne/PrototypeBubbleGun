@@ -9,6 +9,7 @@ public class MonsterCleanness : MonoBehaviour
     [SerializeField] private Sprite goodTexture;
     [SerializeField] private Sprite badTexture;
     [SerializeField] private SpriteRenderer status;
+    public bool clean = false;
 
     private void Start()
     {
@@ -34,7 +35,11 @@ public class MonsterCleanness : MonoBehaviour
         {
             Debug.Log("awyeah clean");
             if (status != null)
+            {
                 status.sprite = goodTexture;
+
+            }
+            clean = true;
         }
     }
     public void RemoveDirt(DirtScript dirt)

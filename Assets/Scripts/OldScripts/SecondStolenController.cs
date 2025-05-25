@@ -21,6 +21,8 @@ public class SecondStolenController : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
     }
