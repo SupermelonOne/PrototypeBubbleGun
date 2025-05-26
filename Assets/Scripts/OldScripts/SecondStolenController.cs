@@ -56,6 +56,14 @@ public class SecondStolenController : MonoBehaviour
                 m_playerInput.GamePad.Shoot.started += sprayWater.OnFire;
                 m_playerInput.GamePad.Shoot.canceled += sprayWater.OnFire;
             }
+
+            ShootBubble shootBubble = GetComponent<ShootBubble>();
+            if (shootBubble != null)
+            {
+                m_playerInput.GamePad.Shoot.performed += shootBubble.OnFire;
+                m_playerInput.GamePad.Shoot.started += shootBubble.OnFire;
+                m_playerInput.GamePad.Shoot.canceled += shootBubble.OnFire;
+            }
         }
 
 
