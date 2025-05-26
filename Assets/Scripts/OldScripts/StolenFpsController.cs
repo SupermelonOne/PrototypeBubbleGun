@@ -33,11 +33,11 @@ public class StolenFpsController : MonoBehaviour
         // Get input
         float vertical;
         float horizontal;
-        if (Input.GetAxis("Vertical") >= 1)
+        if (UnityEngine.Input.GetAxis("Vertical") >= 1)
         {
             vertical = 1f;
         }
-        else if (Input.GetAxis("Vertical") <= -1)
+        else if (UnityEngine.Input.GetAxis("Vertical") <= -1)
         {
             vertical = -1f;
         }
@@ -63,7 +63,7 @@ public class StolenFpsController : MonoBehaviour
         float inputHorizontal = horizontal;
 
         // Determine if running
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isRunning = UnityEngine.Input.GetKey(KeyCode.LeftShift);
         float speed = isRunning ? runningSpeed : walkingSpeed;
 
         // Get camera's forward and right (flattened on Y axis)
@@ -83,7 +83,7 @@ public class StolenFpsController : MonoBehaviour
         moveDirection.y = movementDirectionY;
 
         // Jumping
-        if (Input.GetButton("Jump") && characterController.isGrounded)
+        if (UnityEngine.Input.GetButton("Jump") && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
         }

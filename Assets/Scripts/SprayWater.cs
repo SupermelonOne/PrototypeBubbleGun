@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SprayWater : MonoBehaviour
 {
@@ -20,6 +21,51 @@ public class SprayWater : MonoBehaviour
     Ray ray;
     RaycastHit hit;
 
+    private bool holding = false;
+
+    // TODO check if this works, and set raycast to each person's camera (maybe it does it automatically, probably doesn't)
+    public void OnFire(InputValue button)
+    {
+        if (button.isPressed)
+        {
+            StartShooting();
+        }
+        if (!button.isPressed)
+        {
+            StopShooting();
+        }
+    }
+
+    private void StartShooting()
+    {
+        waterStream = Instantiate(streamObject);
+        waterLength = 0;
+        holding = true;
+    }
+    private void StopShooting()
+    {
+        if (waterStream != null)
+        {
+            List<ParticleSystem> particleSystems = waterStream.GetComponentsInChildren<ParticleSystem>().ToList<ParticleSystem>();
+            foreach (ParticleSystem particle in particleSystems)
+            {
+                particle.Stop();
+            }
+            Destroy(waterStream, 2);
+            GameObject waterStreamObject = GameObject.Find("WaterStreamObject");
+            if (waterStreamObject != null)
+                Destroy(waterStreamObject);
+            waterStreamObject = GameObject.Find("WaterStreamObject");
+            if (waterStreamObject != null)
+                Destroy(waterStreamObject);
+            ray = new Ray(transform.position, Vector3.down);
+            if (Physics.Raycast(ray, out hit, 2f))
+            {
+
+            }
+        }
+    }
+
     private void Start()
     {
         if (origin == null) origin = transform;
@@ -28,17 +74,11 @@ public class SprayWater : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            waterStream = Instantiate(streamObject);
-            waterLength = 0;
-        }
-        if (Input.GetMouseButton(0) && waterStream != null)
+        if (holding && waterStream != null)
         {
             waterStream.transform.position = origin.position;
 
-
-            Ray ray = (cam.ScreenPointToRay(Input.mousePosition));
+            Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
             RaycastHit hit;
 
             Vector3 sprayEndPoint = ray.direction * 50;
@@ -59,29 +99,6 @@ public class SprayWater : MonoBehaviour
                 waterLength = distance;
             }
             waterStream.transform.localScale = new Vector3(1, 1, waterLength);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            if (waterStream != null)
-            {
-                List<ParticleSystem> particleSystems = waterStream.GetComponentsInChildren<ParticleSystem>().ToList<ParticleSystem>();
-                foreach(ParticleSystem particle in particleSystems)
-                {
-                    particle.Stop();
-                }
-                Destroy(waterStream, 2);
-                GameObject waterStreamObject = GameObject.Find("WaterStreamObject");
-                if (waterStreamObject != null)
-                    Destroy(waterStreamObject);
-                waterStreamObject = GameObject.Find("WaterStreamObject");
-                if (waterStreamObject != null)
-                    Destroy(waterStreamObject);
-                ray = new Ray(transform.position, Vector3.down);
-                if (Physics.Raycast(ray, out hit, 2f))
-                {
-
-                }
-            }
         }
     }
 }

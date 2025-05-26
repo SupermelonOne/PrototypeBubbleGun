@@ -22,7 +22,7 @@ public class MoveToMouse : MonoBehaviour
 
     void Placing()
     {
-        screenPosition = Input.mousePosition;
+        screenPosition = UnityEngine.Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(screenPosition);
 
         if (Physics.Raycast(ray, out RaycastHit hitData, 100, layerMask))

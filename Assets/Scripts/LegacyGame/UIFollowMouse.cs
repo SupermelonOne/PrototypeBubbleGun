@@ -20,8 +20,8 @@ public class UIFollowMouse : MonoBehaviour
     {
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRectTransform,    
-            Input.mousePosition,
+            canvasRectTransform,
+            UnityEngine.Input.mousePosition,
             null,
             out pos
         );

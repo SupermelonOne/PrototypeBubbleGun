@@ -16,24 +16,24 @@ public class wasd : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKey(KeyCode.W))
+        if (UnityEngine.Input.GetKey(KeyCode.W))
         {
             rb.AddForce(Vector3.up * modifier * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (UnityEngine.Input.GetKey(KeyCode.S))
         {
             rb.AddForce(Vector3.down * modifier * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (UnityEngine.Input.GetKey(KeyCode.A))
         {
             rb.AddForce(new Vector3(0, 0, 1) * modifier * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (UnityEngine.Input.GetKey(KeyCode.D))
         {
             rb.AddForce(new Vector3(0, 0, -1) * modifier *   Time.deltaTime);
         }
-        if (!Input.GetKey(KeyCode.D) && ! Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        if (!UnityEngine.Input.GetKey(KeyCode.D) && !UnityEngine.Input.GetKey(KeyCode.A) && !UnityEngine.Input.GetKey(KeyCode.W) && !UnityEngine.Input.GetKey(KeyCode.S))
         {
             rb.velocity = new Vector3 (0, 0, 0);
         }

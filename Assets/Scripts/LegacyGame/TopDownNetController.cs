@@ -42,8 +42,8 @@ public class TopDownNetController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = UnityEngine.Input.GetAxis("Horizontal");
+        float vertical = UnityEngine.Input.GetAxis("Vertical");
 
         // Get camera forward and right, but flatten the Y axis
 
@@ -59,7 +59,7 @@ public class TopDownNetController : MonoBehaviour
         if (closeEnemy != null && closeEnemy.isCaptured)
         {
             ELabel.SetActive(true);
-            if (Input.GetKey(KeyCode.E))
+            if (UnityEngine.Input.GetKey(KeyCode.E))
             {
                 Points.Instance.AddPoints(1);
                 Destroy(closeEnemy.gameObject);

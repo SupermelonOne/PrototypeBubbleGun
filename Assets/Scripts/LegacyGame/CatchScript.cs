@@ -38,7 +38,7 @@ public class CatchScript : MonoBehaviour
     void Update()
     {
         //change this to controller input
-        if (Input.GetKeyDown(KeyCode.E))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.E))
         {
             foreach(var monster in caughtMonsters)
             {

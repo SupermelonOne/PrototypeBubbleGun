@@ -27,7 +27,7 @@ public class CrossairScript : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = (cam.ScreenPointToRay(Input.mousePosition));
+        Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layermask))
@@ -52,7 +52,7 @@ public class CrossairScript : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && Time.time >= lastFireTime + fireCooldown)
+        if (UnityEngine.Input.GetMouseButtonDown(0) && Time.time >= lastFireTime + fireCooldown)
         {
             lastFireTime = Time.time;
             if (audioSource != null)
