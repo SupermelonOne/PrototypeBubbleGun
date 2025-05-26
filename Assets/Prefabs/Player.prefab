@@ -1029,9 +1029,9 @@ GameObject:
   - component: {fileID: 4446469576580601726}
   - component: {fileID: 8579663926201596866}
   - component: {fileID: 5773160383616814930}
+  - component: {fileID: 8535597845255342817}
   - component: {fileID: 8579127135312752420}
   - component: {fileID: 4904447660104135398}
-  - component: {fileID: 8535597845255342817}
   - component: {fileID: 906714018096308078}
   - component: {fileID: 2563046183756910013}
   - component: {fileID: 5435211697704405707}
@@ -1109,6 +1109,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8535597845255342817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896062762840238760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a483ab9502e8845ae927ea1ee0411e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Horizontal: p1Hor
+  Vertical: p1Ver
+  camHorizontal: p1CamHor
+  camVertical: p1CamVer
+  sensitivity: 2
+  jumpButton: p1Jump
+  speedModifier: 8
+  playerCamera: {fileID: 8157560693681419678}
+  gravity: 20
+  lookXLimit: 45
+  jumpforce: 14
+  playerInput: {fileID: 0}
 --- !u!114 &8579127135312752420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,29 +1174,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8535597845255342817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896062762840238760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01a483ab9502e8845ae927ea1ee0411e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Horizontal: p1Hor
-  Vertical: p1Ver
-  camHorizontal: p1CamHor
-  camVertical: p1CamVer
-  sensitivity: 0.5
-  jumpButton: p1Jump
-  speedModifier: 8
-  playerCamera: {fileID: 8157560693681419678}
-  gravity: 20
-  lookXLimit: 45
-  jumpforce: 14
 --- !u!143 &906714018096308078
 CharacterController:
   m_ObjectHideFlags: 0

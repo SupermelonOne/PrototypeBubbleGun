@@ -23,15 +23,21 @@ public class SprayWater : MonoBehaviour
 
     private bool holding = false;
 
+
+
+
+
     // TODO check if this works, and set raycast to each person's camera (maybe it does it automatically, probably doesn't)
-    public void OnFire(InputValue button)
+    public void OnFire(InputAction.CallbackContext button)
     {
-        if (button.isPressed)
+        if (button.started)
         {
+            holding = true;
             StartShooting();
         }
-        if (!button.isPressed)
+        if (button.canceled)
         {
+            holding = false;
             StopShooting();
         }
     }
@@ -40,7 +46,6 @@ public class SprayWater : MonoBehaviour
     {
         waterStream = Instantiate(streamObject);
         waterLength = 0;
-        holding = true;
     }
     private void StopShooting()
     {
@@ -74,11 +79,21 @@ public class SprayWater : MonoBehaviour
 
     private void Update()
     {
+/*        if (Input.GetMouseButtonDown(0))
+        {
+            StartShooting();
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            StopShooting();
+        }*/
+
         if (holding && waterStream != null)
         {
             waterStream.transform.position = origin.position;
 
-            Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
+            //Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
+            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
             RaycastHit hit;
 
             Vector3 sprayEndPoint = ray.direction * 50;

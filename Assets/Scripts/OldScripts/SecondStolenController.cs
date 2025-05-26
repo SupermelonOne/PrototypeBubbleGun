@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class SecondStolenController : MonoBehaviour
 {
-    //private PlayerInput playerInput;
+    // OMG THIS CODE :(
 
     [SerializeField] private string Horizontal = "Horizontal";
     [SerializeField] private string Vertical = "Vertical";
@@ -32,30 +32,49 @@ public class SecondStolenController : MonoBehaviour
     float rotationX = 0;
     [SerializeField] private float jumpforce = 5;
 
-/*    private void Awake()
-    {
-        playerInput = new PlayerInput();
-    }*/
+
+    private PlayerInputActions m_playerInput;
+    public PlayerInput playerInput;
+
     private void OnEnable()
     {
-        //inputAction.Enable();
+        m_playerInput = new PlayerInputActions();
+        playerInput = GetComponent<PlayerInput>();
+
+        if (playerInput != null)
+        {
+            playerInput.actions = m_playerInput.asset;
+
+            m_playerInput.GamePad.Jump.performed += OnJump;
+            m_playerInput.GamePad.Jump.started += OnJump;
+            m_playerInput.GamePad.Jump.canceled += OnJump;
+
+            SprayWater sprayWater = GetComponent<SprayWater>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.Shoot.performed += sprayWater.OnFire;
+                m_playerInput.GamePad.Shoot.started += sprayWater.OnFire;
+                m_playerInput.GamePad.Shoot.canceled += sprayWater.OnFire;
+            }
+        }
+
+
     }
     private void OnDisable()
     {
-        //inputAction.Disable();
-    }
-
-    public void OnJump()
-    {
-        jumpInput = true;
-    }
-
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        if (characterController == null)
-            characterController = GetComponent<CharacterController>();
+        if (m_playerInput != null)
+        {
+            m_playerInput.GamePad.Jump.performed -= OnJump;
+            m_playerInput.GamePad.Jump.started -= OnJump;
+            m_playerInput.GamePad.Jump.canceled -= OnJump;
+            SprayWater sprayWater = GetComponent<SprayWater>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.Shoot.performed -= sprayWater.OnFire;
+                m_playerInput.GamePad.Shoot.started -= sprayWater.OnFire;
+                m_playerInput.GamePad.Shoot.canceled -= sprayWater.OnFire;
+            }
+        }
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
@@ -67,44 +86,47 @@ public class SecondStolenController : MonoBehaviour
         m_lookAmt = ctx.ReadValue<Vector2>();
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {   
+            jumpInput = true;
+        }
+        if (context.canceled)
+        {
+            jumpInput = false;
+        }
+    }
+
+    private void Start()
+    {   
+        if (characterController == null)
+            characterController = GetComponent<CharacterController>();
+    }
+
     void Update()
     {
-
-        //rotationX += -UnityEngine.Input.GetAxis(camVertical) * sensitivity;
         rotationX += -m_lookAmt.y * sensitivity;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        //transform.rotation *= Quaternion.Euler(0, UnityEngine.Input.GetAxis(camHorizontal) * sensitivity, 0);
         transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
-
-/*        if (camVertical == "p2CamVer")
-        {
-            Debug.Log(-Input.GetAxis(camVertical));
-            Debug.Log(-Input.GetAxis(camHorizontal));
-        }*/
 
         if (!characterController.isGrounded)
         {
             verticalMovement.y -= gravity * Time.deltaTime;
         }
-        else
+        else if (!jumpInput)
         {
             verticalMovement.y = 0;
         }
-        /*        if (inputAction. && characterController.isGrounded)
-                {
-                    verticalMovement.y = jumpforce;
-                }*/
-        /*        if (inputAction.GamePad.Jump.triggered && characterController.isGrounded)
-                {
-                    verticalMovement.y = jumpforce;
-                }*/
         if (jumpInput && characterController.isGrounded)
         {
-            verticalMovement.y = jumpforce;
+            if (characterController != null && characterController.isGrounded)
+            {
+                verticalMovement.y = jumpforce;
+            }
         }
 
-        //Vector3 direction = new Vector3(UnityEngine.Input.GetAxis(Horizontal), 0, UnityEngine.Input.GetAxis(Vertical));
         Vector3 direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
         if (direction.magnitude > 1)
         {
@@ -123,7 +145,5 @@ public class SecondStolenController : MonoBehaviour
 
         desiredDirection += verticalMovement;
         characterController.Move(desiredDirection * Time.deltaTime);
-
-        jumpInput = false;
     }
 }
