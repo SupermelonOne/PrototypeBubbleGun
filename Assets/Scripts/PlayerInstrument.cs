@@ -14,7 +14,9 @@ public class PlayerInstrument : MonoBehaviour
     private void Start()
     {
         SecondStolenController[] players = FindObjectsOfType<SecondStolenController>();
-        activeinstrument = players.Length;
+        //activeinstrument = players.Length;
+        SwitchWeapon(players.Length);
+        
     }
 
     private void SelectWeapon()

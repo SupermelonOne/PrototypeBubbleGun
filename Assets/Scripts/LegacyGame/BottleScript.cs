@@ -65,7 +65,8 @@ public class BottleScript : MonoBehaviour
     {
         foreach(var monster in monsters)
         {
-            Destroy(monster);
+            Destroy(monster.gameObject);
+            sleepParticles.SetActive(false);
         }
         monsters.Clear();
 
