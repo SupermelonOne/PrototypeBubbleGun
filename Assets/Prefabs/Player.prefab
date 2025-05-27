@@ -1041,7 +1041,7 @@ GameObject:
   - component: {fileID: 5435211697704405707}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1084,6 +1084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a483ab9502e8845ae927ea1ee0411e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnPosition: {fileID: 0}
   Horizontal: p1Hor
   Vertical: p1Ver
   camHorizontal: p1CamHor
@@ -1092,9 +1093,9 @@ MonoBehaviour:
   jumpButton: p1Jump
   speedModifier: 8
   playerCamera: {fileID: 8157560693681419678}
-  gravity: 20
+  gravity: 25
   lookXLimit: 45
-  jumpforce: 14
+  jumpforce: 11
   playerInput: {fileID: 0}
 --- !u!114 &8345090487047766309
 MonoBehaviour:

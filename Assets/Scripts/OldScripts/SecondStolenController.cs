@@ -8,6 +8,9 @@ public class SecondStolenController : MonoBehaviour
 {
     // OMG THIS CODE :(
 
+    [SerializeField] private Transform respawnPosition;
+
+
     [SerializeField] private string Horizontal = "Horizontal";
     [SerializeField] private string Vertical = "Vertical";
 
@@ -136,10 +139,13 @@ public class SecondStolenController : MonoBehaviour
     {   
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
+        GameObject respawnObj = GameObject.Find("SpawnPlace");
+        respawnPosition = respawnObj.transform;
     }
 
     void Update()
     {
+
         rotationX += -m_lookAmt.y * sensitivity;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
@@ -179,5 +185,10 @@ public class SecondStolenController : MonoBehaviour
 
         desiredDirection += verticalMovement;
         characterController.Move(desiredDirection * Time.deltaTime);
+
+        if (transform.position.y < -90)
+        {
+            transform.position = respawnPosition.position;
+        }
     }
 }
