@@ -15082,6 +15082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaae05623a26964f8f9e086d8e1cced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterCleanness: {fileID: 0}
   isCaptured: 0
   caughtParticles: {fileID: 4512701905727612846}
   sprayParticles: {fileID: 7093666625919198369}
