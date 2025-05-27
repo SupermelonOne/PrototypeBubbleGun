@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MonsterCleanness : MonoBehaviour
 {
+
     List<DirtScript> dirtSpots = new List<DirtScript>();
     [SerializeField] private Sprite goodTexture;
     [SerializeField] private Sprite badTexture;
@@ -45,5 +46,20 @@ public class MonsterCleanness : MonoBehaviour
     public void RemoveDirt(DirtScript dirt)
     {
         dirtSpots.Remove(dirt);
+    }
+
+    public void GetSoaped()
+    {
+        foreach(var dirt in dirtSpots)
+        {
+            dirt.GetSoaped();
+        }
+    }
+    public void DeSoaped()
+    {
+        foreach (var dirt in dirtSpots)
+        {
+            dirt.GetDeSoaped();
+        }
     }
 }

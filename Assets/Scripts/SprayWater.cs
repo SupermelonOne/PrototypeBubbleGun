@@ -30,15 +30,18 @@ public class SprayWater : MonoBehaviour
     // TODO check if this works, and set raycast to each person's camera (maybe it does it automatically, probably doesn't)
     public void OnFire(InputAction.CallbackContext button)
     {
-        if (button.started)
+        if (this.enabled)
         {
-            holding = true;
-            StartShooting();
-        }
-        if (button.canceled)
-        {
-            holding = false;
-            StopShooting();
+            if (button.started)
+            {
+                holding = true;
+                StartShooting();
+            }
+            if (button.canceled)
+            {
+                holding = false;
+                StopShooting();
+            }
         }
     }
 

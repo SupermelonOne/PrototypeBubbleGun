@@ -4902,7 +4902,7 @@ GameObject:
   - component: {fileID: 708304563280105442}
   m_Layer: 2
   m_Name: WashHitbox
-  m_TagString: Cleaner
+  m_TagString: WaterSpray
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5080,7 +5080,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fa0a9f2b2ff9fcb46904854a5116110e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b8ea76c68f4df984c9b76ac805d69ac8, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.33
   m_Pitch: 1

@@ -62,6 +62,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""a33d3b98-3a76-48a6-8b28-a44fb6c26b08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""aed09e92-3521-4146-aa7f-0c12ea46ab54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,8 +250,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""09ecfb3a-d87d-4af0-8203-acb44db1af66"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""id"": ""744daa6d-0a3e-4477-bc54-f6d5034154f8"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -243,12 +261,23 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""744daa6d-0a3e-4477-bc54-f6d5034154f8"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""109f7283-dffc-452b-aac2-0b62fe22a164"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Shoot"",
+                    ""action"": ""SwapLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ee3dfe7-ee78-4441-a601-21572b275a96"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -263,6 +292,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_GamePad_OnMove = m_GamePad.FindAction("OnMove", throwIfNotFound: true);
         m_GamePad_OnLook = m_GamePad.FindAction("OnLook", throwIfNotFound: true);
         m_GamePad_Shoot = m_GamePad.FindAction("Shoot", throwIfNotFound: true);
+        m_GamePad_SwapLeft = m_GamePad.FindAction("SwapLeft", throwIfNotFound: true);
+        m_GamePad_SwapRight = m_GamePad.FindAction("SwapRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -328,6 +359,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePad_OnMove;
     private readonly InputAction m_GamePad_OnLook;
     private readonly InputAction m_GamePad_Shoot;
+    private readonly InputAction m_GamePad_SwapLeft;
+    private readonly InputAction m_GamePad_SwapRight;
     public struct GamePadActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -336,6 +369,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @OnMove => m_Wrapper.m_GamePad_OnMove;
         public InputAction @OnLook => m_Wrapper.m_GamePad_OnLook;
         public InputAction @Shoot => m_Wrapper.m_GamePad_Shoot;
+        public InputAction @SwapLeft => m_Wrapper.m_GamePad_SwapLeft;
+        public InputAction @SwapRight => m_Wrapper.m_GamePad_SwapRight;
         public InputActionMap Get() { return m_Wrapper.m_GamePad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -357,6 +392,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @SwapLeft.started += instance.OnSwapLeft;
+            @SwapLeft.performed += instance.OnSwapLeft;
+            @SwapLeft.canceled += instance.OnSwapLeft;
+            @SwapRight.started += instance.OnSwapRight;
+            @SwapRight.performed += instance.OnSwapRight;
+            @SwapRight.canceled += instance.OnSwapRight;
         }
 
         private void UnregisterCallbacks(IGamePadActions instance)
@@ -373,6 +414,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @SwapLeft.started -= instance.OnSwapLeft;
+            @SwapLeft.performed -= instance.OnSwapLeft;
+            @SwapLeft.canceled -= instance.OnSwapLeft;
+            @SwapRight.started -= instance.OnSwapRight;
+            @SwapRight.performed -= instance.OnSwapRight;
+            @SwapRight.canceled -= instance.OnSwapRight;
         }
 
         public void RemoveCallbacks(IGamePadActions instance)
@@ -396,5 +443,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnOnMove(InputAction.CallbackContext context);
         void OnOnLook(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnSwapLeft(InputAction.CallbackContext context);
+        void OnSwapRight(InputAction.CallbackContext context);
     }
 }

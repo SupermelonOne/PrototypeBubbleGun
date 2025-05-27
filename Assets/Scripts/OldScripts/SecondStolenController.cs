@@ -64,6 +64,19 @@ public class SecondStolenController : MonoBehaviour
                 m_playerInput.GamePad.Shoot.started += shootBubble.OnFire;
                 m_playerInput.GamePad.Shoot.canceled += shootBubble.OnFire;
             }
+            ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.Shoot.performed += scrubSponge.OnFire;
+                m_playerInput.GamePad.Shoot.started += scrubSponge.OnFire;
+                m_playerInput.GamePad.Shoot.canceled += scrubSponge.OnFire;
+            }
+            PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
+                m_playerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
+            }
         }
 
 
@@ -81,6 +94,19 @@ public class SecondStolenController : MonoBehaviour
                 m_playerInput.GamePad.Shoot.performed -= sprayWater.OnFire;
                 m_playerInput.GamePad.Shoot.started -= sprayWater.OnFire;
                 m_playerInput.GamePad.Shoot.canceled -= sprayWater.OnFire;
+            }
+            ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.Shoot.performed -= scrubSponge.OnFire;
+                m_playerInput.GamePad.Shoot.started -= scrubSponge.OnFire;
+                m_playerInput.GamePad.Shoot.canceled -= scrubSponge.OnFire;
+            }
+            PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
+            if (sprayWater != null)
+            {
+                m_playerInput.GamePad.SwapLeft.started -= playerInstrument.SwitchLeft;
+                m_playerInput.GamePad.SwapRight.started -= playerInstrument.SwitchRight;
             }
         }
     }

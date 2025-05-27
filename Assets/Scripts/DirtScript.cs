@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DirtScript : MonoBehaviour
 {
+    bool canClean = false;
     [SerializeField] private float maxHealth = 1; //time needs to be cleaned
     private float health;
     ParticleSystem particleSystem;
@@ -18,17 +19,20 @@ public class DirtScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Cleaner"))
+        if (canClean)
         {
-            health -= Time.deltaTime;
-            if (dirtVisual != null)
+            if (other.CompareTag("Cleaner"))
             {
-                float modelSize = ((health / maxHealth) * 0.7f)+ 0.3f;
-                dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
-            }
-            if (particleSystem != null)
-            {
-                particleSystem.Play();
+                health -= Time.deltaTime;
+                if (dirtVisual != null)
+                {
+                    float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
+                    dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
+                }
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
             }
         }
     }
@@ -43,5 +47,13 @@ public class DirtScript : MonoBehaviour
                 monsterCleanness.CheckDirt();
             }
         }
+    }
+    public void GetSoaped()
+    {
+        canClean = true;
+    }
+    public void GetDeSoaped()
+    {
+        canClean = false;
     }
 }

@@ -22,9 +22,11 @@ public class BottleScript : MonoBehaviour
     {
         if (capacity > amountFilled)
         {
-            if (other.CompareTag("Enemy"))
+            CatchScript catchScript = other.GetComponent<CatchScript>();
+            if (catchScript != null && catchScript.caughtMonsters.Count > 0)
             {
-                MonsterMoveBehavior moveBehavior = other.GetComponent<MonsterMoveBehavior>();
+                MonsterMoveBehavior moveBehavior = catchScript.caughtMonsters[0];
+                catchScript.caughtMonsters.RemoveAt(0);
                 if (moveBehavior.isCaught && moveBehavior != null)
                 {
                     moveBehavior.netPosition = transform;
@@ -35,6 +37,7 @@ public class BottleScript : MonoBehaviour
                     {
                         sleepParticles.SetActive(true);
                     }
+
                 }
             }
         }

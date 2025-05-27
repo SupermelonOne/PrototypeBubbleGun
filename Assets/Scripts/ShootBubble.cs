@@ -25,8 +25,7 @@ public class ShootBubble : MonoBehaviour
             cam = Camera.main;
         }
     }
-
-    public void OnFire(InputAction.CallbackContext button)
+    private void ShootFunction()
     {
         if (Time.time >= lastFireTime + fireCooldown)
         {
@@ -49,6 +48,13 @@ public class ShootBubble : MonoBehaviour
             // TODO dont do this but add curvature to bubble path instead
             //raycastPosition = ray.origin + ray.direction * 1000f;
             moveToTargetAndDestroy.targetPosition = raycastPosition;
+        }
+    }
+    public void OnFire(InputAction.CallbackContext button)
+    {
+        if (this.enabled)
+        {
+            ShootFunction();
         }
     }
 
