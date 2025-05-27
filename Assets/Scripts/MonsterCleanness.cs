@@ -11,6 +11,7 @@ public class MonsterCleanness : MonoBehaviour
     [SerializeField] private Sprite badTexture;
     [SerializeField] private SpriteRenderer status;
     public bool clean = false;
+    public bool done = false;
 
     private void Start()
     {
@@ -35,11 +36,6 @@ public class MonsterCleanness : MonoBehaviour
         if (dirtSpots.Count <= 0)
         {
             Debug.Log("awyeah clean");
-            if (status != null)
-            {
-                status.sprite = goodTexture;
-
-            }
             clean = true;
         }
     }
@@ -60,6 +56,24 @@ public class MonsterCleanness : MonoBehaviour
         foreach (var dirt in dirtSpots)
         {
             dirt.GetDeSoaped();
+        }
+    }
+
+    public void SetDone()
+    {
+        if (status != null)
+        {
+            status.sprite = goodTexture;
+            done = true;
+        }
+    }
+
+    public void SetUndone()
+    {
+        if (status != null)
+        {
+            status.sprite = badTexture;
+            done = false;
         }
     }
 }

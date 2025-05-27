@@ -9,7 +9,7 @@ using Debug = UnityEngine.Debug;
 [RequireComponent(typeof(MonsterMoveBehavior))]
 public class Monster : MonoBehaviour
 {
-    MonsterCleanness monsterCleanness;
+    public MonsterCleanness monsterCleanness;
 
     private MonsterMoveBehavior moveBehavior;
     [HideInInspector] public bool isCaptured = false;
@@ -60,6 +60,14 @@ public class Monster : MonoBehaviour
                 if (soapiness <= 0)
                 {
                     monsterCleanness.DeSoaped();
+                    if (monsterCleanness.clean)
+                    {
+                        monsterCleanness.SetDone();
+                    }
+                    else
+                    {
+                        monsterCleanness.SetUndone();
+                    }
                 }
                 bubble.transform.localScale = new Vector3(soapiness / 2, soapiness/2, soapiness/2);
             }
@@ -84,6 +92,9 @@ public class Monster : MonoBehaviour
         {
             monsterCleanness.GetSoaped();
         }
+           
+        monsterCleanness.SetUndone();
+        
     }
 
     private void CaptureMonster()

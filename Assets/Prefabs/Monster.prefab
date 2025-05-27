@@ -14953,10 +14953,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696fd2f63e3dfa643b2e2031dd981a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goodTexture: {fileID: 0}
-  badTexture: {fileID: 0}
+  goodTexture: {fileID: 21300000, guid: 4082e98c1eea80d49befd62bcd1615c7, type: 3}
+  badTexture: {fileID: 21300000, guid: 5e95e31060292f9479b3077450ef70b3, type: 3}
   status: {fileID: 7748134202536106875}
   clean: 0
+  done: 0
 --- !u!23 &3200791309001163510
 MeshRenderer:
   m_ObjectHideFlags: 0

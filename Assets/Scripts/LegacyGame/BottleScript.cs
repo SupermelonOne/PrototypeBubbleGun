@@ -10,6 +10,9 @@ public class BottleScript : MonoBehaviour
     [SerializeField] private int capacity = 1;
     private int amountFilled;
 
+    private float clearTime = 5;
+    private float clearTimer = 0;
+
     private void Start()
     {
         if (sleepParticles != null)
@@ -26,18 +29,20 @@ public class BottleScript : MonoBehaviour
             if (catchScript != null && catchScript.caughtMonsters.Count > 0)
             {
                 MonsterMoveBehavior moveBehavior = catchScript.caughtMonsters[0];
-                catchScript.caughtMonsters.RemoveAt(0);
-                if (moveBehavior.isCaught && moveBehavior != null)
+                if (moveBehavior != null && moveBehavior.isCaught)
                 {
-                    moveBehavior.netPosition = transform;
-                    monsters.Add(moveBehavior);
-                    amountFilled++;
-                    Debug.Log("monster should sleep now");
-                    if (sleepParticles != null && !sleepParticles.activeSelf)
+                    Monster monsterScript = moveBehavior.GetComponent<Monster>();
+                    if (monsterScript != null && monsterScript.monsterCleanness != null && monsterScript.monsterCleanness.done)
                     {
-                        sleepParticles.SetActive(true);
+                        moveBehavior.netPosition = transform;
+                        monsters.Add(moveBehavior);
+                        amountFilled++;
+                        if (sleepParticles != null && !sleepParticles.activeSelf)
+                        {
+                            sleepParticles.SetActive(true);
+                        }
+                        catchScript.caughtMonsters.RemoveAt(0);
                     }
-
                 }
             }
         }
@@ -45,6 +50,24 @@ public class BottleScript : MonoBehaviour
 
     private void Update()
     {
+        if (monsters.Count > 0)
+        {
+            clearTimer += Time.deltaTime;
+            if (clearTimer > clearTime)
+            {
+                clearTimer = 0;
+                ClearBed();
+            }
+        }
+    }
+    
+    private void ClearBed()
+    {
+        foreach(var monster in monsters)
+        {
+            Destroy(monster);
+        }
+        monsters.Clear();
 
     }
 }

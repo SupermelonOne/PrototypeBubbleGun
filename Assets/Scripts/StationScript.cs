@@ -32,7 +32,7 @@ public class StationScript : MonoBehaviour
         }
         if (caughtMonster != null)
         {
-            if (caughtMonster.clean)
+            if (caughtMonster.done)
             {
                 caughtMonster = null;
                 if (moveBehavior != null)
