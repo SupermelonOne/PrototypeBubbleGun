@@ -1150,7 +1150,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   layermask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 211
 --- !u!114 &8579127135312752420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1373,6 +1373,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: aed09e92-3521-4146-aa7f-0c12ea46ab54
     m_ActionName: GamePad/SwapRight[/XInputControllerWindows/rightTrigger,/XInputControllerWindows1/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f695f807-9f0e-4725-b8eb-b2a2003c7571
+    m_ActionName: GamePad/ReleaseMonster[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: GamePad
