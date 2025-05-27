@@ -80,6 +80,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReleaseMonster"",
+                    ""type"": ""Button"",
+                    ""id"": ""f695f807-9f0e-4725-b8eb-b2a2003c7571"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -280,6 +289,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""SwapRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78715312-c1e2-4986-b0c7-72650d8693e0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleaseMonster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -294,6 +314,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_GamePad_Shoot = m_GamePad.FindAction("Shoot", throwIfNotFound: true);
         m_GamePad_SwapLeft = m_GamePad.FindAction("SwapLeft", throwIfNotFound: true);
         m_GamePad_SwapRight = m_GamePad.FindAction("SwapRight", throwIfNotFound: true);
+        m_GamePad_ReleaseMonster = m_GamePad.FindAction("ReleaseMonster", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePad_Shoot;
     private readonly InputAction m_GamePad_SwapLeft;
     private readonly InputAction m_GamePad_SwapRight;
+    private readonly InputAction m_GamePad_ReleaseMonster;
     public struct GamePadActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -371,6 +393,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Shoot => m_Wrapper.m_GamePad_Shoot;
         public InputAction @SwapLeft => m_Wrapper.m_GamePad_SwapLeft;
         public InputAction @SwapRight => m_Wrapper.m_GamePad_SwapRight;
+        public InputAction @ReleaseMonster => m_Wrapper.m_GamePad_ReleaseMonster;
         public InputActionMap Get() { return m_Wrapper.m_GamePad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -398,6 +421,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapRight.started += instance.OnSwapRight;
             @SwapRight.performed += instance.OnSwapRight;
             @SwapRight.canceled += instance.OnSwapRight;
+            @ReleaseMonster.started += instance.OnReleaseMonster;
+            @ReleaseMonster.performed += instance.OnReleaseMonster;
+            @ReleaseMonster.canceled += instance.OnReleaseMonster;
         }
 
         private void UnregisterCallbacks(IGamePadActions instance)
@@ -420,6 +446,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @SwapRight.started -= instance.OnSwapRight;
             @SwapRight.performed -= instance.OnSwapRight;
             @SwapRight.canceled -= instance.OnSwapRight;
+            @ReleaseMonster.started -= instance.OnReleaseMonster;
+            @ReleaseMonster.performed -= instance.OnReleaseMonster;
+            @ReleaseMonster.canceled -= instance.OnReleaseMonster;
         }
 
         public void RemoveCallbacks(IGamePadActions instance)
@@ -445,5 +474,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnSwapLeft(InputAction.CallbackContext context);
         void OnSwapRight(InputAction.CallbackContext context);
+        void OnReleaseMonster(InputAction.CallbackContext context);
     }
 }
