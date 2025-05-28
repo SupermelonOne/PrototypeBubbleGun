@@ -15063,7 +15063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inStation: 0
   waitTime: 0
-  walkRange: 10
+  walkRange: 50
   walkWaitTimer: 8
   walkWaitTime: 8
   bubbleFloatSpeed: 3
