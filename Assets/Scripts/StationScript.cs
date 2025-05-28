@@ -37,6 +37,7 @@ public class StationScript : MonoBehaviour
                 caughtMonster = null;
                 if (moveBehavior != null)
                 {
+                    moveBehavior.ExitStation();
                     moveBehavior.Release();
                 }
             }

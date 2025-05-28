@@ -12,7 +12,7 @@ public class MonsterMoveBehavior : MonoBehaviour
     NavMeshAgent agent;
     List<Transform> hidingSpots = new List<Transform>();
     public float waitTime = 0;
-    [SerializeField] private float walkRange = 10;
+    [SerializeField] private float walkRange = 50;
 
     [SerializeField] private float walkWaitTimer = 0;
     [SerializeField] private float walkWaitTime = 10;
@@ -99,17 +99,33 @@ public class MonsterMoveBehavior : MonoBehaviour
         else if (netPosition != null)
         {
             transform.position = netPosition.position;
-            if (transform.localScale.x > 0.5f)
+            if (inStation)
             {
-                float shrinkAmount = 0.5f * Time.deltaTime;
-                //Debug.Log(shrinkAmount);
-                Vector3 scale = new Vector3(
-                    transform.localScale.x - shrinkAmount, 
-                    transform.localScale.y - shrinkAmount, 
-                    transform.localScale.z - shrinkAmount
-                    );
-                transform.localScale = scale;
+                if (transform.localScale.x < 0.9f)
+                {
+                    Vector3 scale = new Vector3(
+                        transform.localScale.x + 0.5f * Time.deltaTime,
+                        transform.localScale.y + 0.5f * Time.deltaTime,
+                        transform.localScale.z + 0.5f * Time.deltaTime
+                        );
+                    transform.localScale = scale;
+                }
             }
+            else
+            {
+                if (transform.localScale.x > 0.5f)
+                {
+                    float shrinkAmount = 0.5f * Time.deltaTime;
+                    //Debug.Log(shrinkAmount);
+                    Vector3 scale = new Vector3(
+                        transform.localScale.x - shrinkAmount,
+                        transform.localScale.y - shrinkAmount,
+                        transform.localScale.z - shrinkAmount
+                        );
+                    transform.localScale = scale;
+                }
+            }
+
         }
 
         if (agent.isStopped)

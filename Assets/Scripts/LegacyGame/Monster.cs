@@ -60,6 +60,7 @@ public class Monster : MonoBehaviour
                 if (soapiness <= 0)
                 {
                     monsterCleanness.DeSoaped();
+                    bubble.SetActive(false);
                     if (monsterCleanness.clean)
                     {
                         monsterCleanness.SetDone();
