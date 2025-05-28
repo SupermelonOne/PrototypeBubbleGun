@@ -69,6 +69,7 @@ public class BottleScript : MonoBehaviour
             sleepParticles.SetActive(false);
         }
         monsters.Clear();
+        amountFilled = 0;
 
     }
 }
