@@ -6,34 +6,33 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class MonsterMoveBehavior : MonoBehaviour
 {
+    public float waitTime;
+    public bool isCaught;
+    public Transform netPosition;
+    
     [HideInInspector] public bool inStation = false;
-    NavMeshAgent agent;
-    List<Transform> hidingSpots = new List<Transform>();
-    public float waitTime = 0;
+    
     [SerializeField] private float walkRange = 50;
-
     [SerializeField] private float walkWaitTimer = 0;
     [SerializeField] private float walkWaitTime = 10;
-
     [SerializeField] private float bubbleFloatSpeed = 10f;
-    Rigidbody rb;
+    
+    private bool goToSecond;
+    private Rigidbody rb;
+    private NavMeshAgent agent;
+    private List<Transform> hidingSpots = new List<Transform>();
 
-    public bool isCaught = false;
-    public Transform netPosition;
-
-    [SerializeField] private bool goToSecond = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
-        if (agent == null)
-        {
-            this.AddComponent<NavMeshAgent>();
-        }
+
+        /*
         GameObject target = GameObject.Find("HidingSpots");
         if (target != null)
         {
@@ -41,13 +40,13 @@ public class MonsterMoveBehavior : MonoBehaviour
             foreach(Transform point in hidingSpots)
             {
                 if (goToSecond)
-                Debug.Log("position is at: " + point.position);
+                    Debug.Log("position is at: " + point.position);
             }
         }
         else
         {
             Debug.Log("Error: HidingSpots not found");
-        }
+        }*/
     }
 
     public void EnterStation()
@@ -62,77 +61,82 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
-        if (!isCaught)
-        {
-            if (waitTime > 0)
-            {
-                waitTime -= Time.deltaTime;
-                transform.position += new Vector3(0, bubbleFloatSpeed * Time.deltaTime, 0);
-                return;
-            }
-            if (rb != null && !rb.useGravity)
-            {
-                rb.useGravity = true;
-                agent.enabled = true;    ;
-            }
-            agent.isStopped = false;
-            walkWaitTimer += Time.deltaTime;
-            if (walkWaitTimer > walkWaitTime)
-            {
-                walkWaitTimer = 0;
-                Vector3 randomPoint;
-                if (GetRandomPointOnNavmesh(transform.position, walkRange, out randomPoint))
-                {
-                    agent.SetDestination(randomPoint);
-                }
-            }
-            if (transform.localScale.x < 0.9f)
-            {
-                Vector3 scale = new Vector3(
-                    transform.localScale.x + 0.5f * Time.deltaTime,
-                    transform.localScale.y + 0.5f * Time.deltaTime,
-                    transform.localScale.z + 0.5f * Time.deltaTime
-                    );
-                transform.localScale = scale;
-            }
-        }
-        else if (netPosition != null)
-        {
-            transform.position = netPosition.position;
-            if (inStation)
-            {
-                if (transform.localScale.x < 0.9f)
-                {
-                    Vector3 scale = new Vector3(
-                        transform.localScale.x + 0.5f * Time.deltaTime,
-                        transform.localScale.y + 0.5f * Time.deltaTime,
-                        transform.localScale.z + 0.5f * Time.deltaTime
-                        );
-                    transform.localScale = scale;
-                }
-            }
-            else
-            {
-                if (transform.localScale.x > 0.5f)
-                {
-                    float shrinkAmount = 0.5f * Time.deltaTime;
-                    //Debug.Log(shrinkAmount);
-                    Vector3 scale = new Vector3(
-                        transform.localScale.x - shrinkAmount,
-                        transform.localScale.y - shrinkAmount,
-                        transform.localScale.z - shrinkAmount
-                        );
-                    transform.localScale = scale;
-                }
-            }
+        goToSecond = !agent.isStopped;
 
+        if (isCaught)
+        {
+            InNet();
+            return;
         }
 
-        if (agent.isStopped)
+        if (waitTime > 0)
         {
-            goToSecond = false;
+            waitTime -= Time.deltaTime;
+            transform.position += new Vector3(0, bubbleFloatSpeed * Time.deltaTime, 0);
+            return;
+        }
+        
+        if (!rb.useGravity)
+        {
+            rb.useGravity = true;
+            agent.enabled = true;   
+        }
+        
+        agent.isStopped = false;
+        //pretty sure this isnt how Time.deltaTime works, if this function doesnt work this is prolly the reason
+        walkWaitTimer += Time.deltaTime;
+        
+        if (walkWaitTimer > walkWaitTime)
+        {
+            walkWaitTimer = 0;
+            if (GetRandomPointOnNavmesh(transform.position, walkRange, out var randomPoint))
+            {
+                agent.SetDestination(randomPoint);
+            }
+        }
+        
+        if (transform.localScale.x < 0.9f)
+        {
+            var growAmount = 0.5f * Time.deltaTime;
+            ResizeMonster(growAmount);
         }
     }
+
+    private void InNet()
+    {
+        if (netPosition is null) return;
+        
+        transform.position = netPosition.position;
+        
+        if (inStation)
+        {
+            if (transform.localScale.x < 0.9f)
+            {
+                var growAmount = 0.5f * Time.deltaTime;
+                ResizeMonster(growAmount);
+            }
+        }
+        else
+        {
+            if (transform.localScale.x > 0.5f)
+            {
+                var shrinkAmount = -0.5f * Time.deltaTime;
+                ResizeMonster(shrinkAmount);
+            }
+        }
+
+    }
+
+    private void ResizeMonster(float resizeFactor)
+    {
+        Vector3 scale = new Vector3(
+            transform.localScale.x + resizeFactor,
+            transform.localScale.y + resizeFactor,
+            transform.localScale.z + resizeFactor
+        );
+        transform.localScale = scale;
+    }
+    
     bool GetRandomPointOnNavmesh(Vector3 center, float range, out Vector3 result)
     {
         for (int i = 0; i < 30; i++) // Try multiple times in case of failure
@@ -151,67 +155,48 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     public void Hide()
     {
-        if (agent != null)
-        {
-            walkWaitTimer = 0;
-            agent.SetDestination(GetNearestHidingspot());
-        }
+        walkWaitTimer = 0;
+        agent.SetDestination(GetNearestHidingspot());
     }
-
+    
     private Vector3 GetNearestHidingspot()
     {
-        Vector3 placeToGo = Vector3.zero;
-        float distanceToPlace = Mathf.Infinity;
-        Vector3 secondPlace = Vector3.zero;
-        float distanceToSecond = Mathf.Infinity;
+        var placeToGo = Vector3.zero;
+        var distanceToPlace = Mathf.Infinity;
+        var secondPlace = Vector3.zero;
 
-        int howMany = 0;
-
-        foreach (Transform hideSpot in hidingSpots)
+        foreach (var hideSpot in hidingSpots)
         {
-            float distance = Vector3.Distance(hideSpot.position, transform.position);
-            howMany++;
-            if (distance < distanceToPlace)
-            {
-                secondPlace = placeToGo;
-                distanceToSecond = distanceToPlace;
-                placeToGo = hideSpot.position;
-                distanceToPlace = distance;
-            }
+            var distance = Vector3.Distance(hideSpot.position, transform.position);
+            
+            if (!(distance < distanceToPlace)) continue;
+            
+            secondPlace = placeToGo;
+            placeToGo = hideSpot.position;
+            distanceToPlace = distance;
         }
-        Debug.Log("how many = " + howMany);
+        Debug.Log("amount of hiding spots = " + hidingSpots.Count);
         if (goToSecond || distanceToPlace < 3)
         {
-            goToSecond = true;
-            Debug.Log(distanceToPlace);
-            Debug.Log(placeToGo);
-            Debug.Log(secondPlace);
+            goToSecond = true; ;
             placeToGo = secondPlace;
         }
         return placeToGo;
     }
-
+    
     public void StopMoving(float stopTime)
     {
-        if (agent != null)
-        {
-            agent.isStopped = true;
-        }
+        agent.isStopped = true;
         waitTime = stopTime;
         walkWaitTimer = walkWaitTime;
     }
-
+    
     public void Capture(Transform transformToFollow)
     {
         netPosition = transformToFollow;
         isCaught = true;
-        //Destroy(GetComponent<Collider>());
-/*        if (agent != null)
-        {
-            agent.enabled = false;
-        }
-        Destroy(GetComponent<NavMeshAgent>());*/
     }
+    
     public void Release()
     {
         isCaught = false;
