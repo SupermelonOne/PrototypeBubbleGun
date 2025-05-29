@@ -1,0 +1,73 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+[RequireComponent(typeof(SpriteRenderer))]
+public class MonsterCleanness : MonoBehaviour
+{
+
+    List<DirtScript> dirtSpots = new List<DirtScript>();
+    [SerializeField] private Sprite goodTexture;
+    [SerializeField] private Sprite badTexture;
+    [SerializeField] private SpriteRenderer status;
+    public bool clean = false;
+    public bool done = false;
+
+    private void Start()
+    {
+        List<DirtScript> customEdits = GetComponentsInChildren<DirtScript>().ToList<DirtScript>();
+        foreach(var dirt in customEdits)
+        {
+            if (!dirtSpots.Contains(dirt))
+            {
+                dirtSpots.Add(dirt);
+            }
+        }
+    }
+
+    public void CheckDirt()
+    {
+        foreach (var dirt in dirtSpots)
+        {
+            if (dirt == null)
+                dirtSpots.Remove(dirt);
+            break;
+        }
+        if (dirtSpots.Count <= 0)
+        {
+            Debug.Log("awyeah clean");
+            clean = true;
+        }
+    }
+    public void RemoveDirt(DirtScript dirt)
+    {
+        dirtSpots.Remove(dirt);
+    }
+
+    public void GetSoaped()
+    {
+        foreach(var dirt in dirtSpots)
+        {
+            dirt.GetSoaped();
+        }
+    }
+    public void DeSoaped()
+    {
+        foreach (var dirt in dirtSpots)
+        {
+            dirt.GetDeSoaped();
+        }
+    }
+
+    public void SetDone()
+    {
+        status.sprite = goodTexture;
+        done = true;
+    }
+
+    public void SetUndone()
+    {
+        status.sprite = badTexture;
+        done = false;
+    }
+}

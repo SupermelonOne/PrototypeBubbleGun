@@ -9,6 +9,7 @@ TagManager:
   - UI
   - Cleaner
   - WaterSpray
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX

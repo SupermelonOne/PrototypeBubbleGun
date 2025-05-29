@@ -10,9 +10,20 @@ public class FacePlayer : MonoBehaviour
     [SerializeField] private Camera cam;
     private List<Transform> cameras = new List<Transform>();
 
+    private void OnEnable()
+    {
+        PlayerEventBus.Subscribe<PlayerJoin>(OnPlayerJoined);
+    }
+
+    private void OnDisable()
+    {
+        PlayerEventBus.UnSubscribe<PlayerJoin>(OnPlayerJoined);
+    }
+
     private void Start()
     {
         List<Camera> cameraObjs = FindObjectsOfType<Camera>().ToList<Camera>();
+        //Debug.Log(cameraObjs.Count);
         foreach (var camera in cameraObjs)
         {
             cameras.Add(camera.transform);
@@ -21,13 +32,16 @@ public class FacePlayer : MonoBehaviour
 
     void Update()
     {
+
         if (cameras.Count > 0)
         {
             float distanceToCam = Mathf.Infinity;
             foreach (var camera in cameras)
             {
-                if (distanceToCam < Vector3.Distance(camera.position, transform.position))
+                float distanceToCamLocal = Vector3.Distance(camera.position, transform.position);
+                if (distanceToCam > distanceToCamLocal)
                 {
+                    distanceToCam = distanceToCamLocal;
                     cam = camera.GetComponent<Camera>();
                 }
             }
@@ -38,5 +52,10 @@ public class FacePlayer : MonoBehaviour
             this.transform.LookAt(pos);
             this.transform.Rotate(0, 180, 0); // Optional: Rotate 180 degrees if the text is backward
         }
+    }
+
+    private void OnPlayerJoined(PlayerJoin playerJoin)
+    {
+        cameras.Add(playerJoin.camera.transform);
     }
 }
