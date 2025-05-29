@@ -13,10 +13,8 @@ public class PlayerInstrument : MonoBehaviour
     [SerializeField] private GameObject gunObj;
     private void Start()
     {
-        SecondStolenController[] players = FindObjectsOfType<SecondStolenController>();
-        //activeinstrument = players.Length;
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
         SwitchWeapon(players.Length);
-        
     }
 
     private void SelectWeapon()

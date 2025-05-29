@@ -4,10 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SecondStolenController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    // OMG THIS CODE :(
-
     [SerializeField] private Transform respawnPosition;
 
 
@@ -36,43 +34,43 @@ public class SecondStolenController : MonoBehaviour
     [SerializeField] private float jumpforce = 5;
 
 
-    private PlayerInputActions m_playerInput;
+    private PlayerInputActions mPlayerInput;
     public PlayerInput playerInput;
 
     private void OnEnable()
     {
-        m_playerInput = new PlayerInputActions();
+        mPlayerInput = new PlayerInputActions();
         playerInput = GetComponent<PlayerInput>();
 
         if (playerInput != null)
         {
-            playerInput.actions = m_playerInput.asset;
+            playerInput.actions = mPlayerInput.asset;
 
-            m_playerInput.GamePad.Jump.performed += OnJump;
-            m_playerInput.GamePad.Jump.started += OnJump;
-            m_playerInput.GamePad.Jump.canceled += OnJump;
+            mPlayerInput.GamePad.Jump.performed += OnJump;
+            mPlayerInput.GamePad.Jump.started += OnJump;
+            mPlayerInput.GamePad.Jump.canceled += OnJump;
 
             foreach (var action in GetComponents<PlayerAction>())
             {
-                m_playerInput.GamePad.Shoot.performed += action.OnFire;
-                m_playerInput.GamePad.Shoot.started += action.OnFire;
-                m_playerInput.GamePad.Shoot.canceled += action.OnFire;
+                mPlayerInput.GamePad.Shoot.performed += action.OnFire;
+                mPlayerInput.GamePad.Shoot.started += action.OnFire;
+                mPlayerInput.GamePad.Shoot.canceled += action.OnFire;
             }
         }
     }
     private void OnDisable()
     {
-        if (m_playerInput != null)
+        if (mPlayerInput != null)
         {
-            m_playerInput.GamePad.Jump.performed -= OnJump;
-            m_playerInput.GamePad.Jump.started -= OnJump;
-            m_playerInput.GamePad.Jump.canceled -= OnJump;
+            mPlayerInput.GamePad.Jump.performed -= OnJump;
+            mPlayerInput.GamePad.Jump.started -= OnJump;
+            mPlayerInput.GamePad.Jump.canceled -= OnJump;
             
             foreach (var action in GetComponents<PlayerAction>())
             {
-                m_playerInput.GamePad.Shoot.performed -= action.OnFire;
-                m_playerInput.GamePad.Shoot.started -= action.OnFire;
-                m_playerInput.GamePad.Shoot.canceled -= action.OnFire;
+                mPlayerInput.GamePad.Shoot.performed -= action.OnFire;
+                mPlayerInput.GamePad.Shoot.started -= action.OnFire;
+                mPlayerInput.GamePad.Shoot.canceled -= action.OnFire;
             }
         }
     }
@@ -89,13 +87,9 @@ public class SecondStolenController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
-        {   
             jumpInput = true;
-        }
         if (context.canceled)
-        {
             jumpInput = false;
-        }
     }
 
     private void Start()
@@ -103,51 +97,41 @@ public class SecondStolenController : MonoBehaviour
         //TODO: make players spawn here when they first join, also lets not use GameObject.Find
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
+        
         GameObject respawnObj = GameObject.Find("SpawnPlace");
         respawnPosition = respawnObj.transform;
+        
         PlayerEventBus.Invoke(new PlayerJoin(playerCamera));
     }
 
     void Update()
     {
-
+        if (characterController == null) return;
+        
         rotationX += -m_lookAmt.y * sensitivity;
         rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
         transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
 
-        if (!characterController.isGrounded)
-        {
-            verticalMovement.y -= gravity * Time.deltaTime;
-        }
-        else if (!jumpInput)
-        {
-            verticalMovement.y = 0;
-        }
         if (jumpInput && characterController.isGrounded)
-        {
-            if (characterController != null && characterController.isGrounded)
-            {
-                verticalMovement.y = jumpforce;
-            }
-        }
+            verticalMovement.y = jumpforce;
+        else if (!characterController.isGrounded)
+            verticalMovement.y -= gravity * Time.deltaTime;
+        else if (!jumpInput)
+            verticalMovement.y = 0;
+        
 
-        Vector3 direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
+        var direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
+        
         if (direction.magnitude > 1)
-        {
             direction.Normalize();
-        }
-        Vector3 camForward = playerCamera.transform.forward;
-        camForward.y = 0;
-        camForward.Normalize();
-        Vector3 camRight = playerCamera.transform.right;
-        camRight.y = 0;
-        camRight.Normalize();
-        Vector3 desiredDirection = (direction.z * camForward + direction.x * camRight);
-        desiredDirection *= speedModifier;
+        
+        var camForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
+        var camRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
+        
+        var desiredDirection = (direction.z * camForward + direction.x * camRight) * speedModifier;
 
-
-
+        
         desiredDirection += verticalMovement;
         characterController.Move(desiredDirection * Time.deltaTime);
 
