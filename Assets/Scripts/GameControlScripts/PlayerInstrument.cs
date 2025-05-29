@@ -5,51 +5,53 @@ using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Experimental.GraphView.GraphView;
+[RequireComponent(typeof(ShootBubble))]
+[RequireComponent(typeof(SprayWater))]
+[RequireComponent(typeof(ScrubSponge))]
 
 public class PlayerInstrument : MonoBehaviour
 {
-    int activeinstrument = 0;
     [SerializeField] private GameObject spongeObj;
     [SerializeField] private GameObject gunObj;
+    private int activeInstrument;
+
+    private ShootBubble shootBubble;
+    private ScrubSponge scrubSponge;
+    private SprayWater sprayWater;
     private void Start()
     {
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         SwitchWeapon(players.Length);
+        
+        scrubSponge = GetComponent<ScrubSponge>();
+        sprayWater = GetComponent<SprayWater>();
+        shootBubble = GetComponent<ShootBubble>();
+        
+        if (spongeObj == null)
+            Debug.LogError("missing spongeObj");
+        if (gunObj == null)
+            Debug.LogError("missing gunObj");
     }
 
-    private void SelectWeapon()
+    private void SelectWeapon(int index)
     {
-
-        switch (activeinstrument)
+        switch (index)
         {
             case 1:
-                ShootBubble shootBubble = GetComponent<ShootBubble>();
-                if (shootBubble != null)
-                    shootBubble.enabled = true;
-                if (gunObj != null)
-                    gunObj.SetActive(true);
-                else
-                    Debug.Log("missing ShootBubble script");
+                shootBubble.enabled = true;
+                gunObj.SetActive(true);
                 break;
             case 2:
-                SprayWater sprayWater = GetComponent<SprayWater>();
-                if (sprayWater != null)
-                    sprayWater.enabled = true;
-                if (gunObj != null)
-                    gunObj.SetActive(true);
-                else
-                    Debug.Log("missing SprayWater script");
+                sprayWater.enabled = true;
+                gunObj.SetActive(true);
                 break;
             case 3:
-                ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
-                if (scrubSponge != null)
-                    scrubSponge.enabled = true;
-                if (spongeObj != null)
-                    spongeObj.SetActive(true);
-                else
-                    Debug.Log("missing SpongeScript script");
+                scrubSponge.enabled = true;
+                spongeObj.SetActive(true); 
                 break;
-
+            default:
+                Debug.LogError("invalid index");
+                break;
         }
     }
 
@@ -62,44 +64,29 @@ public class PlayerInstrument : MonoBehaviour
         SwitchWeapon(-1);
     }
 
-    public void SwitchWeapon(int direction)
+    private void SwitchWeapon(int direction)
     {
-        activeinstrument += direction;
-        if (activeinstrument > 3)
+        activeInstrument += direction;
+        if (activeInstrument > 3)
         {
-            activeinstrument = 1;
+            activeInstrument = 1;
         }
-        if (activeinstrument < 1)
+        if (activeInstrument < 1)
         {
-            activeinstrument = 3;
+            activeInstrument = 3;
         }
 
         DisableAll();
-        SelectWeapon();
+        SelectWeapon(activeInstrument);
     }
 
     private void DisableAll()
     {
-        if (spongeObj != null)
-            spongeObj.SetActive(false);
-        if (gunObj != null)
-            gunObj.SetActive(false);
-        ShootBubble shootBubble = GetComponent<ShootBubble>();
-        if (shootBubble != null)
-            shootBubble.enabled = false;
-        else
-            Debug.Log("missing ShootBubble script");
-
-        SprayWater sprayWater = GetComponent<SprayWater>();
-        if (sprayWater != null)
-            sprayWater.enabled = false;
-        else
-            Debug.Log("missing SprayWater script");
-
-        ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
-        if (scrubSponge != null)
-            scrubSponge.enabled = false;
-        else
-            Debug.Log("missing SpongeScript script");
+        //no null checks because they cant be null
+        spongeObj.SetActive(false);
+        gunObj.SetActive(false);
+        shootBubble.enabled = false;
+        sprayWater.enabled = false;
+        scrubSponge.enabled = false;
     }
 }
