@@ -51,7 +51,7 @@ public class Monster : MonoBehaviour
     {
         if (other.CompareTag("WaterSpray"))
         {
-            if (soapiness >= 0)
+            if (soapiness > 0)
             {
                 soapiness -= Time.deltaTime;
                 if (sprayParticles != null)

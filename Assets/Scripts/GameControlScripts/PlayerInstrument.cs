@@ -18,11 +18,8 @@ public class PlayerInstrument : MonoBehaviour
     [SerializeField] private ShootBubble shootBubble;
     [SerializeField]private ScrubSponge scrubSponge;
     [SerializeField]private SprayWater sprayWater;
-    private void Awake()
+    private void Start()
     {
-        PlayerController[] players = FindObjectsOfType<PlayerController>();
-        SwitchWeapon(players.Length);
-        
         scrubSponge = GetComponent<ScrubSponge>();
         sprayWater = GetComponent<SprayWater>();
         shootBubble = GetComponent<ShootBubble>();
@@ -32,6 +29,9 @@ public class PlayerInstrument : MonoBehaviour
             Debug.LogError("missing spongeObj");
         if (gunObj == null)
             Debug.LogError("missing gunObj");
+        
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
+        SwitchWeapon(players.Length);
     }
 
     private void SelectWeapon(int index)
@@ -55,6 +55,8 @@ public class PlayerInstrument : MonoBehaviour
                 break;
         }
     }
+    
+   
 
     public void SwitchLeft(InputAction.CallbackContext button)
     {
