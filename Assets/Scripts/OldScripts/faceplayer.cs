@@ -57,10 +57,5 @@ public class FacePlayer : MonoBehaviour
     private void OnPlayerJoined(PlayerJoin playerJoin)
     {
         cameras.Add(playerJoin.camera.transform);
-        Debug.Log("camera added: " + cameras.Count);
-        foreach (var camera in cameras)
-        {
-            Debug.Log(camera.name);
-        }
     }
 }

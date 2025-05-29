@@ -945,7 +945,6 @@ GameObject:
   - component: {fileID: 3259395009605644225}
   - component: {fileID: 8157560693681419678}
   - component: {fileID: 9015304452873045779}
-  - component: {fileID: 7794380030428808711}
   m_Layer: 0
   m_Name: P1Camera
   m_TagString: Untagged
@@ -1150,14 +1149,6 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
---- !u!81 &7794380030428808711
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841920339291189282}
-  m_Enabled: 1
 --- !u!1 &896062762840238760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,7 +1447,7 @@ MonoBehaviour:
       - m_Target: {fileID: 8535597845255342817}
         m_TargetAssemblyTypeName: SecondStolenController, Assembly-CSharp
         m_MethodName: OnJump
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1528,7 +1519,7 @@ MonoBehaviour:
     m_ActionId: f695f807-9f0e-4725-b8eb-b2a2003c7571
     m_ActionName: GamePad/ReleaseMonster[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: GamePad
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 8157560693681419678}
