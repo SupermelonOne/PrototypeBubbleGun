@@ -1,14 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ParticleSystem))]
 public class DirtScript : MonoBehaviour
 {
-    private bool canClean = false;
+    bool canClean = false;
     [SerializeField] private float maxHealth = 1; //time needs to be cleaned
     private float health;
-    //honestly I don't know why this has to be new but otherwise the compiler yells, so I'll just do what it tells me
-    private new ParticleSystem particleSystem;
-    private MonsterCleanness monsterCleanness;
+    ParticleSystem particleSystem;
+    MonsterCleanness monsterCleanness;
 
     [SerializeField] private Transform dirtVisual;
     private void Start()
@@ -19,16 +19,22 @@ public class DirtScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (!canClean || !other.CompareTag("Cleaner")) return;
-        
-        health -= Time.deltaTime;
-        if (dirtVisual != null)
+        if (canClean)
         {
-            float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
-            dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
+            if (other.CompareTag("Cleaner"))
+            {
+                health -= Time.deltaTime;
+                if (dirtVisual != null)
+                {
+                    float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
+                    dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
+                }
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
+            }
         }
-        particleSystem.Play();
-        
     }
     private void Update()
     {
