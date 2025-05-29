@@ -1218,12 +1218,8 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   lookXLimit: 45
   respawnPosition: {fileID: 0}
-  Horizontal: p1Hor
-  Vertical: p1Ver
-  camHorizontal: p1CamHor
-  camVertical: p1CamVer
+  playerCamera: {fileID: 8157560693681419678}
   sensitivity: 10
-  jumpButton: p1Jump
   speedModifier: 8
   gravity: 25
   jumpForce: 5
@@ -1260,7 +1256,7 @@ MonoBehaviour:
   cam: {fileID: 8157560693681419678}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 211
   raycastPosition: {x: 0, y: 0, z: 0}
   sponge: {fileID: 1589207347328273646}
   origin: {fileID: 8055015228600447540}
@@ -1282,16 +1278,12 @@ MonoBehaviour:
   cam: {fileID: 8157560693681419678}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 211
   raycastPosition: {x: 0, y: 0, z: 0}
   bubbleSpawnPosition: {fileID: 8055015228600447540}
   bullet: {fileID: 3568903257925425604, guid: f1d4d6245f2c2d14b820272d0a1f97ae, type: 3}
   fireCooldown: 0.5
   hideDistance: Infinity
-  audioSource: {fileID: 2029484876596636403}
-  layermask:
-    serializedVersion: 2
-    m_Bits: 211
 --- !u!114 &8579127135312752420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,7 +1300,7 @@ MonoBehaviour:
   cam: {fileID: 8157560693681419678}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 211
   raycastPosition: {x: 0, y: 0, z: 0}
   origin: {fileID: 8055015228600447540}
   streamObject: {fileID: 5652114630186641790, guid: cdf6036366c4b204692faf6d7d90c311, type: 3}
