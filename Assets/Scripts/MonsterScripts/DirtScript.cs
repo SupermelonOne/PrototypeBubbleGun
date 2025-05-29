@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(ParticleSystem))]
 public class DirtScript : MonoBehaviour
 {
     bool canClean = false;
@@ -19,22 +19,16 @@ public class DirtScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (canClean)
+        if (!canClean || !other.CompareTag("Cleaner")) return;
+        
+        health -= Time.deltaTime;
+        if (dirtVisual != null)
         {
-            if (other.CompareTag("Cleaner"))
-            {
-                health -= Time.deltaTime;
-                if (dirtVisual != null)
-                {
-                    float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
-                    dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
-                }
-                if (particleSystem != null)
-                {
-                    particleSystem.Play();
-                }
-            }
+            float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
+            dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
         }
+        particleSystem.Play();
+        
     }
     private void Update()
     {
