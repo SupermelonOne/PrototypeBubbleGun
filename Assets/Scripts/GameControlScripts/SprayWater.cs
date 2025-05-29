@@ -9,7 +9,7 @@ public class SprayWater : PlayerAction
     [SerializeField] private Transform origin;
     [SerializeField] private GameObject streamObject;
     private GameObject waterStream;
-    private float waterLength = 0;
+    private float waterLength;
     private Vector3 sprayEndPoint;
     private Coroutine sprayCoroutine;
 
@@ -41,28 +41,21 @@ public class SprayWater : PlayerAction
 
     protected override void StartShooting()
     {
-        waterStream = Instantiate(streamObject);
+        waterStream = Instantiate(streamObject, transform);
         waterLength = 0;
     }
     
     protected override void StopShooting()
     {
-        if (waterStream != null)
-        {
-            var particleSystems = waterStream.GetComponentsInChildren<ParticleSystem>().ToList();
-            foreach (var particle in particleSystems)
-            {
-                particle.Stop();
-            }
-            
-            //TODO: fix this abomination 
-            Destroy(waterStream, 2);
-            GameObject waterStreamObject = GameObject.Find("WaterStreamObject");
-            if (waterStreamObject != null)
-                Destroy(waterStreamObject);
-            waterStreamObject = GameObject.Find("WaterStreamObject");
-            if (waterStreamObject != null)
-                Destroy(waterStreamObject);
-        }
+        if (waterStream == null)
+            return;
+        
+        var particleSystems = waterStream.GetComponentsInChildren<ParticleSystem>().ToList();
+        foreach (var particle in particleSystems)
+            particle.Stop();
+        
+        var waterStreamObject = waterStream.GetComponentInChildren<MeshBreathe>();
+        waterStreamObject.gameObject.SetActive(false);
+        Destroy(waterStream, 2);
     }
 }
