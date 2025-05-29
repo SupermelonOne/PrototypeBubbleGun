@@ -23,7 +23,7 @@ public class ScrubSponge : PlayerAction
     private Vector3 realDestination;
 
     
-    public override void ButtonDown()
+    protected override void ButtonDown()
     {
         if (sponge == null) return;
 
@@ -41,12 +41,12 @@ public class ScrubSponge : PlayerAction
         sponge.position = Vector3.Slerp(sponge.position, realDestination, Time.deltaTime * 10f);
     }
 
-    public override void StopShooting()
+    protected override void StopShooting()
     {
         sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
     }
 
-    public override void OnMonsterCast(RaycastHit hit)
+    protected override void OnMonsterCast(RaycastHit hit)
     {
         hitPoint = hit.point;
     }

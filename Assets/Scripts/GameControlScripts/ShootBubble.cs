@@ -12,7 +12,7 @@ public class ShootBubble : PlayerAction
     [SerializeField] private float hideDistance = Mathf.Infinity;
 
 
-    public override void ButtonDown()
+    protected override void ButtonDown()
     {
         if (bubbleSpawnPosition != null)
         {
@@ -21,7 +21,7 @@ public class ShootBubble : PlayerAction
         }
     }
 
-    public override void StartShooting()
+    protected override void StartShooting()
     {
         if (Time.time >= lastFireTime + fireCooldown)
         {
@@ -47,7 +47,7 @@ public class ShootBubble : PlayerAction
         }
     }
 
-    public override void OnMonsterCast(RaycastHit hit)
+    protected override void OnMonsterCast(RaycastHit hit)
     {
         float distanceToHit = hit.distance;
         if (distanceToHit < hideDistance)

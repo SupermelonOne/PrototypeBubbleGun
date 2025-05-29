@@ -7,16 +7,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public abstract class PlayerAction : MonoBehaviour
 {
-    [SerializeField] public Camera cam;
     [SerializeField] public AudioSource audioSource;
+    [SerializeField] public Camera cam;
     
     [SerializeField] private LayerMask layerMask;
-
     
     [HideInInspector] public Vector3 raycastPosition;
 
-    private Coroutine sprayCoroutine;
     private bool holding;
+    private Coroutine sprayCoroutine;
+
 
     public void OnFire(InputAction.CallbackContext button)
     {
@@ -40,27 +40,27 @@ public abstract class PlayerAction : MonoBehaviour
             }
         }
     }
-    public abstract void OnMonsterCast(RaycastHit hit);
-    public virtual void StartShooting() { }
 
-    public virtual void StopShooting() { }
+    protected abstract void OnMonsterCast(RaycastHit hit);
+    protected virtual void StartShooting() { }
+    protected virtual void StopShooting() { }
 
     private IEnumerator OnButtonDown()
     {
         while (holding)
         {
-            OnButtonDown();
+            ButtonDown();
             yield return null; // wait for next frame
         }
     }
     
-    public virtual void ButtonDown(){}
+    protected virtual void ButtonDown(){}
     private void Start()
     {
         Initialize();
     }
 
-    public void Initialize()
+    protected void Initialize()
     {
         if (audioSource == null)
         {
@@ -87,7 +87,4 @@ public abstract class PlayerAction : MonoBehaviour
         if (hit.collider != null)
             OnMonsterCast(hit);
     }
-    
-    
-
 }
