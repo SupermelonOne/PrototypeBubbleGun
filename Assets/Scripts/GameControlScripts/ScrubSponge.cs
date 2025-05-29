@@ -4,25 +4,17 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ScrubSponge : MonoBehaviour
+public class ScrubSponge : PlayerAction
 {
     [SerializeField] private float range = 15;
 
     [SerializeField] private Transform sponge;
 
     [SerializeField] private Transform origin;
-    private Vector3 outPoint = Vector3.zero;
 
-    [SerializeField] private LayerMask layersToSpray;
+    
+    private Vector3 hitPoint;
 
-    [SerializeField] Camera cam;
-
-    private float waterLength = 0;
-
-    Ray ray;
-    RaycastHit hit;
-
-    private bool holding = false;
 
 
     [SerializeField] private float scrubSpeed = 0.1f;
@@ -30,64 +22,35 @@ public class ScrubSponge : MonoBehaviour
     private float scrubTimer = 0;
     private Vector3 realDestination;
 
-    // TODO check if this works, and set raycast to each person's camera (maybe it does it automatically, probably doesn't)
-    public void OnFire(InputAction.CallbackContext button)
+    
+    public override void ButtonDown()
     {
-        if (button.started)
+        if (sponge == null) return;
+
+       
+        hitPoint = cam.transform.forward * 15;
+
+
+        scrubTimer += Time.deltaTime;
+        if (scrubTimer > scrubSpeed)
         {
-            holding = true;
-            StartShooting();
+            scrubTimer = 0;
+            realDestination = GetRandomVector(hitPoint, scrubIntensity);
         }
-        if (button.canceled)
-        {
-            holding = false;
-            StopShooting();
-        }
+
+        sponge.position = Vector3.Slerp(sponge.position, realDestination, Time.deltaTime * 10f);
     }
 
-    private void StartShooting()
-    { 
-
-    }
-    private void StopShooting()
+    public override void StopShooting()
     {
-        
+        sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
     }
 
-    private void Start()
+    public override void OnMonsterCast(RaycastHit hit)
     {
-        if (origin == null) origin = transform;
-        if (cam == null) cam = Camera.main;
+        hitPoint = hit.point;
     }
-
-    private void Update()
-    {
-
-        if (holding && sponge != null)
-        {
-            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-            RaycastHit hit;
-
-            Vector3 hitPoint = ray.direction * 15;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layersToSpray))
-            {
-                hitPoint = hit.point;
-            }
-
-            scrubTimer += Time.deltaTime;
-            if (scrubTimer > scrubSpeed)
-            {
-                scrubTimer = 0;
-                realDestination = GetRandomVector(hitPoint, scrubIntensity);
-            }
-            sponge.position = Vector3.Slerp(sponge.position, realDestination, Time.deltaTime * 10f);
-        }
-        else
-        {
-            sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
-        }
-    }
+ 
 
     private Vector3 GetRandomVector (Vector3 input, float distance)
     {

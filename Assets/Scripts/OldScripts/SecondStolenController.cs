@@ -52,37 +52,13 @@ public class SecondStolenController : MonoBehaviour
             m_playerInput.GamePad.Jump.started += OnJump;
             m_playerInput.GamePad.Jump.canceled += OnJump;
 
-            SprayWater sprayWater = GetComponent<SprayWater>();
-            if (sprayWater != null)
+            foreach (var action in GetComponents<PlayerAction>())
             {
-                m_playerInput.GamePad.Shoot.performed += sprayWater.OnFire;
-                m_playerInput.GamePad.Shoot.started += sprayWater.OnFire;
-                m_playerInput.GamePad.Shoot.canceled += sprayWater.OnFire;
-            }
-
-            ShootBubble shootBubble = GetComponent<ShootBubble>();
-            if (shootBubble != null)
-            {
-                m_playerInput.GamePad.Shoot.performed += shootBubble.OnFire;
-                m_playerInput.GamePad.Shoot.started += shootBubble.OnFire;
-                m_playerInput.GamePad.Shoot.canceled += shootBubble.OnFire;
-            }
-            ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
-            if (sprayWater != null)
-            {
-                m_playerInput.GamePad.Shoot.performed += scrubSponge.OnFire;
-                m_playerInput.GamePad.Shoot.started += scrubSponge.OnFire;
-                m_playerInput.GamePad.Shoot.canceled += scrubSponge.OnFire;
-            }
-            PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
-            if (sprayWater != null)
-            {
-                m_playerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
-                m_playerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
+                m_playerInput.GamePad.Shoot.performed += action.OnFire;
+                m_playerInput.GamePad.Shoot.started += action.OnFire;
+                m_playerInput.GamePad.Shoot.canceled += action.OnFire;
             }
         }
-
-
     }
     private void OnDisable()
     {
@@ -91,25 +67,12 @@ public class SecondStolenController : MonoBehaviour
             m_playerInput.GamePad.Jump.performed -= OnJump;
             m_playerInput.GamePad.Jump.started -= OnJump;
             m_playerInput.GamePad.Jump.canceled -= OnJump;
-            SprayWater sprayWater = GetComponent<SprayWater>();
-            if (sprayWater != null)
+            
+            foreach (var action in GetComponents<PlayerAction>())
             {
-                m_playerInput.GamePad.Shoot.performed -= sprayWater.OnFire;
-                m_playerInput.GamePad.Shoot.started -= sprayWater.OnFire;
-                m_playerInput.GamePad.Shoot.canceled -= sprayWater.OnFire;
-            }
-            ScrubSponge scrubSponge = GetComponent<ScrubSponge>();
-            if (sprayWater != null)
-            {
-                m_playerInput.GamePad.Shoot.performed -= scrubSponge.OnFire;
-                m_playerInput.GamePad.Shoot.started -= scrubSponge.OnFire;
-                m_playerInput.GamePad.Shoot.canceled -= scrubSponge.OnFire;
-            }
-            PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
-            if (sprayWater != null)
-            {
-                m_playerInput.GamePad.SwapLeft.started -= playerInstrument.SwitchLeft;
-                m_playerInput.GamePad.SwapRight.started -= playerInstrument.SwitchRight;
+                m_playerInput.GamePad.Shoot.performed -= action.OnFire;
+                m_playerInput.GamePad.Shoot.started -= action.OnFire;
+                m_playerInput.GamePad.Shoot.canceled -= action.OnFire;
             }
         }
     }
@@ -137,6 +100,7 @@ public class SecondStolenController : MonoBehaviour
 
     private void Start()
     {   
+        //TODO: make players spawn here when they first join, also lets not use GameObject.Find
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
         GameObject respawnObj = GameObject.Find("SpawnPlace");

@@ -4,53 +4,56 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SprayWater : MonoBehaviour
+public class SprayWater : PlayerAction
 {
     [SerializeField] private Transform origin;
-    private Vector3 outPoint = Vector3.zero;
-
     [SerializeField] private GameObject streamObject;
     private GameObject waterStream = null;
-
-    [SerializeField] private LayerMask layersToSpray;
-
-    [SerializeField] Camera cam;
-
     private float waterLength = 0;
+    private Vector3 sprayEndPoint;
+    private Coroutine sprayCoroutine;
 
-    Ray ray;
-    RaycastHit hit;
-
-    private bool holding = false;
-
-
-
-
-
+    
     // TODO check if this works, and set raycast to each person's camera (maybe it does it automatically, probably doesn't)
-    public void OnFire(InputAction.CallbackContext button)
+
+
+
+    public override void OnMonsterCast(RaycastHit hit)
     {
-        if (this.enabled)
-        {
-            if (button.started)
-            {
-                holding = true;
-                StartShooting();
-            }
-            if (button.canceled)
-            {
-                holding = false;
-                StopShooting();
-            }
-        }
+        sprayEndPoint = hit.point;
     }
 
-    private void StartShooting()
+
+
+    public override void ButtonDown()
+    {
+        if (waterStream == null)
+            return;
+        
+        waterStream.transform.position = origin.position;
+
+        sprayEndPoint = cam.transform.forward * 50;
+        
+        waterStream.transform.forward = (sprayEndPoint - waterStream.transform.position).normalized;
+        float distance = (sprayEndPoint - waterStream.transform.position).magnitude/2;
+        if (waterLength < distance)
+        {
+            waterLength += 100f * Time.deltaTime;
+        }
+        if (waterLength > distance)
+        {
+            waterLength = distance;
+        }
+        waterStream.transform.localScale = new Vector3(1, 1, waterLength);
+        
+    }
+
+    public override void StartShooting()
     {
         waterStream = Instantiate(streamObject);
         waterLength = 0;
     }
-    private void StopShooting()
+    public override void StopShooting()
     {
         if (waterStream != null)
         {
@@ -59,6 +62,8 @@ public class SprayWater : MonoBehaviour
             {
                 particle.Stop();
             }
+            
+            //TODO: fix this abomination 
             Destroy(waterStream, 2);
             GameObject waterStreamObject = GameObject.Find("WaterStreamObject");
             if (waterStreamObject != null)
@@ -66,57 +71,6 @@ public class SprayWater : MonoBehaviour
             waterStreamObject = GameObject.Find("WaterStreamObject");
             if (waterStreamObject != null)
                 Destroy(waterStreamObject);
-            ray = new Ray(transform.position, Vector3.down);
-            if (Physics.Raycast(ray, out hit, 2f))
-            {
-
-            }
-        }
-    }
-
-    private void Start()
-    {
-        if (origin == null) origin = transform;
-        if (cam == null) cam = Camera.main;
-    }
-
-    private void Update()
-    {
-/*        if (Input.GetMouseButtonDown(0))
-        {
-            StartShooting();
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            StopShooting();
-        }*/
-
-        if (holding && waterStream != null)
-        {
-            waterStream.transform.position = origin.position;
-
-            //Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
-            Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-            RaycastHit hit;
-
-            Vector3 sprayEndPoint = ray.direction * 50;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layersToSpray))
-            {
-                sprayEndPoint = hit.point;
-            }
-
-            waterStream.transform.forward = (sprayEndPoint - waterStream.transform.position).normalized;
-            float distance = (sprayEndPoint - waterStream.transform.position).magnitude/2;
-            if (waterLength < distance)
-            {
-                waterLength += 100f * Time.deltaTime;
-            }
-            if (waterLength > distance)
-            {
-                waterLength = distance;
-            }
-            waterStream.transform.localScale = new Vector3(1, 1, waterLength);
         }
     }
 }
