@@ -16,7 +16,6 @@ public class StolenFpsController : MonoBehaviour
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
 
     [HideInInspector]
     public bool canMove = true;

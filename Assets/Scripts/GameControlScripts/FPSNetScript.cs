@@ -7,9 +7,9 @@ public class FPSNetScript : MonoBehaviour
 {
     [SerializeField] private Transform netTransform;
     [SerializeField] private float rotateModifier = 15f;
-    [SerializeField] private string Vertical = "Vertical";
+    //[SerializeField] private string Vertical = "Vertical";
     //[SerializeField] private int verticalAmp = 1;
-    [SerializeField] private string Horizontal = "Horizontal";
+    //[SerializeField] private string Horizontal = "Horizontal";
     //[SerializeField] private int horizontalAmp = 1;
 
     private Vector2 m_moveAmt = Vector2.zero;

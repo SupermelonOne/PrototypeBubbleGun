@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 [RequireComponent(typeof(ParticleSystem))]
 public class DirtScript : MonoBehaviour
 {
-    bool canClean = false;
+    private bool canClean = false;
     [SerializeField] private float maxHealth = 1; //time needs to be cleaned
     private float health;
-    ParticleSystem particleSystem;
-    MonsterCleanness monsterCleanness;
+    //honestly I don't know why this has to be new but otherwise the compiler yells, so I'll just do what it tells me
+    private new ParticleSystem particleSystem;
+    private MonsterCleanness monsterCleanness;
 
     [SerializeField] private Transform dirtVisual;
     private void Start()

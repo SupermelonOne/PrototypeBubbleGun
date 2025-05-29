@@ -1,17 +1,18 @@
 using UnityEngine;
 //using Handout;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
 public class LatheSpline : MeshCreator
 {
 
-    public int NumCurves = 10; //number of segments around the mesh
-    public bool ModifySharedMesh = false;
+    public int numCurves = 10; //number of segments around the mesh
+    public bool modifySharedMesh = false;
 
     //helper function to map the x,y location of a vertex to an index in a 1D array
-    private int getIndex(int x, int y, int height)
+    private int GetIndex(int x, int y, int height)
     {
         return y + x * height;
     }
@@ -22,15 +23,15 @@ public class LatheSpline : MeshCreator
         Curve curve = GetComponent<Curve>();
         if (curve == null)
             return;
-        List<Vector3> _vertices = curve.points;
+        List<Vector3> vertices = curve.points;
 
         MeshBuilder meshBuilder = new MeshBuilder();
 
-        int vertexCount = _vertices.Count;
-        int curveCount = NumCurves;
-        float verticalTotalLength = 0;
+        int vertexCount = vertices.Count;
+        int curveCount = numCurves;
+        //float verticalTotalLength = 0;
         Vector2 previousPoint = Vector2.zero;
-        float objectSurface = 0;
+        //float objectSurface = 0;
         for (int vertexIndex = 0; vertexIndex <= vertexCount; vertexIndex++)
         {
             /*			int pVertIndex = vertexIndex;
@@ -64,7 +65,7 @@ public class LatheSpline : MeshCreator
             for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex++)
             {
                 //create a Vector3 from a Vector2 (or: set the z-coordinate of the curve point to zero):
-                Vector3 vertex = new Vector3(_vertices[vertexIndex].x, _vertices[vertexIndex].y, 0);
+                Vector3 vertex = new Vector3(vertices[vertexIndex].x, vertices[vertexIndex].y, 0);
                 // TODO: add correct uvs
                 float uvX = (float)curveIndex / (float)(curveCount - 1); // instead of / curveCount
                 float uvY = (float)vertexIndex / (float)(vertexCount - 1);
@@ -86,10 +87,10 @@ public class LatheSpline : MeshCreator
                 int nextCurveIndex = curveIndex + 1;
 
                 //generate 4 vertices (quad):
-                int v0 = getIndex(curveIndex, vertexIndex, vertexCount);
-                int v1 = getIndex(nextCurveIndex, vertexIndex, vertexCount);
-                int v2 = getIndex(nextCurveIndex, vertexIndex + 1, vertexCount);
-                int v3 = getIndex(curveIndex, vertexIndex + 1, vertexCount);
+                int v0 = GetIndex(curveIndex, vertexIndex, vertexCount);
+                int v1 = GetIndex(nextCurveIndex, vertexIndex, vertexCount);
+                int v2 = GetIndex(nextCurveIndex, vertexIndex + 1, vertexCount);
+                int v3 = GetIndex(curveIndex, vertexIndex + 1, vertexCount);
                 //Debug.Log(v0 + " and " + v1 + " and " + v2 + " and " + v3);
                 // Add two triangles (quad):
                 meshBuilder.AddTriangle(v0, v1, v2);
@@ -98,6 +99,6 @@ public class LatheSpline : MeshCreator
         }
 
         // Generate mesh and apply it to the meshfilter component:
-        ReplaceMesh(meshBuilder.CreateMesh(), ModifySharedMesh);
+        ReplaceMesh(meshBuilder.CreateMesh(), modifySharedMesh);
     }
 }

@@ -6,31 +6,21 @@ using UnityEngine.InputSystem;
 
 public class ScrubSponge : PlayerAction
 {
-    [SerializeField] private float range = 15;
-
     [SerializeField] private Transform sponge;
-
     [SerializeField] private Transform origin;
-
-    
-    private Vector3 hitPoint;
-
-
-
     [SerializeField] private float scrubSpeed = 0.1f;
     [SerializeField] private float scrubIntensity = 0.4f;
     private float scrubTimer = 0;
     private Vector3 realDestination;
+    private Vector3 hitPoint;
 
     
     protected override void ButtonDown()
     {
         if (sponge == null) return;
-
-       
+        
         hitPoint = cam.transform.forward * 15;
-
-
+        
         scrubTimer += Time.deltaTime;
         if (scrubTimer > scrubSpeed)
         {
