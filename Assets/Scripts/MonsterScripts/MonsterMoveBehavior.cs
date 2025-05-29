@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Rigidbody))]
 public class MonsterMoveBehavior : MonoBehaviour
 {
     public float waitTime;

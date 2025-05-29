@@ -15,10 +15,10 @@ public class PlayerInstrument : MonoBehaviour
     [SerializeField] private GameObject gunObj;
     private int activeInstrument;
 
-    private ShootBubble shootBubble;
-    private ScrubSponge scrubSponge;
-    private SprayWater sprayWater;
-    private void Start()
+    [SerializeField] private ShootBubble shootBubble;
+    [SerializeField]private ScrubSponge scrubSponge;
+    [SerializeField]private SprayWater sprayWater;
+    private void Awake()
     {
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         SwitchWeapon(players.Length);
@@ -26,6 +26,7 @@ public class PlayerInstrument : MonoBehaviour
         scrubSponge = GetComponent<ScrubSponge>();
         sprayWater = GetComponent<SprayWater>();
         shootBubble = GetComponent<ShootBubble>();
+
         
         if (spongeObj == null)
             Debug.LogError("missing spongeObj");
