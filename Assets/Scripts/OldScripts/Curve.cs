@@ -6,9 +6,7 @@ using UnityEditor;
 public class Curve : MonoBehaviour
 {
     public List<Vector3> points;
-
-    public event Action OnApply;
-
+    
     public int NumPoints()
     {
         return points.Count;

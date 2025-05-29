@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+[RequireComponent(typeof(SpriteRenderer))]
 public class MonsterCleanness : MonoBehaviour
 {
 
@@ -61,19 +61,13 @@ public class MonsterCleanness : MonoBehaviour
 
     public void SetDone()
     {
-        if (status != null)
-        {
-            status.sprite = goodTexture;
-            done = true;
-        }
+        status.sprite = goodTexture;
+        done = true;
     }
 
     public void SetUndone()
     {
-        if (status != null)
-        {
-            status.sprite = badTexture;
-            done = false;
-        }
+        status.sprite = badTexture;
+        done = false;
     }
 }

@@ -7,34 +7,33 @@ using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(MonsterMoveBehavior))]
+[RequireComponent(typeof(MonsterCleanness))]
+[RequireComponent(typeof(AudioSource))]
 public class Monster : MonoBehaviour
 {
     public MonsterCleanness monsterCleanness;
 
-    private MonsterMoveBehavior moveBehavior;
     [HideInInspector] public bool isCaptured = false;
     [SerializeField] private ParticleSystem caughtParticles;
     [SerializeField] private ParticleSystem sprayParticles;
-    private AudioSource catchSound;
     [SerializeField] private List<AudioClip> catchSounds = new List<AudioClip>();
-
+    [SerializeField] private GameObject bubble;
+    private MonsterMoveBehavior moveBehavior;
+    private AudioSource catchSound;
     private float soapiness = 0;
 
-    [SerializeField] private GameObject bubble;
+
     private void Start()
     {
         monsterCleanness = GetComponent<MonsterCleanness>();
-        //in case we want multiple move behaviours
         moveBehavior = GetComponent<MonsterMoveBehavior>();
         if (caughtParticles == null)
             caughtParticles = GetComponentInChildren<ParticleSystem>();
-        if (catchSound == null)
+        
+        catchSound = GetComponent<AudioSource>();
+        if (catchSounds.Count > 0)
         {
-            catchSound = GetComponent<AudioSource>();
-            if (catchSounds.Count > 0)
-            {
-                catchSound.clip = catchSounds[UnityEngine.Random.Range(0, catchSounds.Count)];
-            }
+            catchSound.clip = catchSounds[UnityEngine.Random.Range(0, catchSounds.Count)];
         }
     }
 

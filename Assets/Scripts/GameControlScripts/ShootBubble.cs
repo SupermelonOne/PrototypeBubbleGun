@@ -3,38 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ShootBubble : MonoBehaviour
+public class ShootBubble : PlayerAction
 {
     [SerializeField] private Transform bubbleSpawnPosition;
-    private Vector3 raycastPosition;
     private float lastFireTime = -float.MaxValue;
     [SerializeField] private GameObject bullet;
-    [SerializeField] private Camera cam;
     [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private float hideDistance = Mathf.Infinity;
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private LayerMask layermask;
-    private void Start()
+
+
+    protected override void ButtonDown()
     {
-        if (audioSource == null)
+        if (bubbleSpawnPosition != null)
         {
-            audioSource = GetComponent<AudioSource>();
-        }
-        if (cam == null)
-        {
-            cam = Camera.main;
+            Quaternion targetRotation = Quaternion.LookRotation(cam.transform.forward);
+            bubbleSpawnPosition.rotation = Quaternion.Slerp(bubbleSpawnPosition.rotation, targetRotation, 15f * Time.deltaTime);
         }
     }
-    private void ShootFunction()
+
+    protected override void StartShooting()
     {
         if (Time.time >= lastFireTime + fireCooldown)
         {
             lastFireTime = Time.time;
-            if (audioSource != null)
-            {
-                audioSource.Play();
-                audioSource.pitch = Random.Range(0.8f, 1.2f);
-            }
+            
+            //audioSource cannot be null
+            audioSource.Play();
+            audioSource.pitch = Random.Range(0.8f, 1.2f);
+            
             GameObject spawnedBullet = Instantiate(bullet);
             if (bubbleSpawnPosition != null)
             {
@@ -50,45 +46,17 @@ public class ShootBubble : MonoBehaviour
             moveToTargetAndDestroy.targetPosition = raycastPosition;
         }
     }
-    public void OnFire(InputAction.CallbackContext button)
-    {
-        if (this.enabled)
-        {
-            ShootFunction();
-        }
-    }
 
-    private void Update()
+    protected override void OnMonsterCast(RaycastHit hit)
     {
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
-        RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layermask))
+        float distanceToHit = hit.distance;
+        if (distanceToHit < hideDistance)
         {
-            raycastPosition = hit.point;
-        }
-        else
-        {
-            // Default to a far point in the ray's direction if nothing is hit
-            raycastPosition = ray.origin + ray.direction * 15f;
-        }
-        if (hit.collider != null)
-        {
-            float distanceToHit = hit.distance;
-            if (distanceToHit < hideDistance)
+            if (hit.collider.CompareTag("Enemy"))
             {
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    hit.collider.GetComponent<MonsterMoveBehavior>().Hide();
-                    Debug.Log("raycasted on an enemy");
-                }
+                hit.collider.GetComponent<MonsterMoveBehavior>().Hide();
+                Debug.Log("raycasted on an enemy");
             }
-        }
-
-        if (bubbleSpawnPosition != null)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
-            bubbleSpawnPosition.rotation = Quaternion.Slerp(bubbleSpawnPosition.rotation, targetRotation, 15f * Time.deltaTime);
         }
     }
 }

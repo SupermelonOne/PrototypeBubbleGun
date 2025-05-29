@@ -1224,6 +1224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a483ab9502e8845ae927ea1ee0411e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
+  lookXLimit: 45
   respawnPosition: {fileID: 0}
   Horizontal: p1Hor
   Vertical: p1Ver
@@ -1232,11 +1234,8 @@ MonoBehaviour:
   sensitivity: 10
   jumpButton: p1Jump
   speedModifier: 8
-  playerCamera: {fileID: 8157560693681419678}
   gravity: 25
-  lookXLimit: 45
-  jumpforce: 11
-  playerInput: {fileID: 0}
+  jumpForce: 5
 --- !u!114 &8345090487047766309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,6 +1250,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spongeObj: {fileID: 1934632917249386941}
   gunObj: {fileID: 579124808045947101}
+  shootBubble: {fileID: 0}
+  scrubSponge: {fileID: 0}
+  sprayWater: {fileID: 0}
 --- !u!114 &5707016688936643234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1263,13 +1265,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17a1108c33f12942b3781fad24f5dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 15
+  audioSource: {fileID: 0}
+  cam: {fileID: 8157560693681419678}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastPosition: {x: 0, y: 0, z: 0}
   sponge: {fileID: 1589207347328273646}
   origin: {fileID: 8055015228600447540}
-  layersToSpray:
-    serializedVersion: 2
-    m_Bits: 211
-  cam: {fileID: 8157560693681419678}
   scrubSpeed: 0.1
   scrubIntensity: 0.4
 --- !u!114 &6809125369781339340
@@ -1284,9 +1287,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991090d4c6ba0414aacb1d8e2a4c33bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  cam: {fileID: 8157560693681419678}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastPosition: {x: 0, y: 0, z: 0}
   bubbleSpawnPosition: {fileID: 8055015228600447540}
   bullet: {fileID: 3568903257925425604, guid: f1d4d6245f2c2d14b820272d0a1f97ae, type: 3}
-  cam: {fileID: 8157560693681419678}
   fireCooldown: 0.5
   hideDistance: Infinity
   audioSource: {fileID: 2029484876596636403}
@@ -1305,12 +1313,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dac675f57e34ec4893b082f1d74bff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  cam: {fileID: 8157560693681419678}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastPosition: {x: 0, y: 0, z: 0}
   origin: {fileID: 8055015228600447540}
   streamObject: {fileID: 5652114630186641790, guid: cdf6036366c4b204692faf6d7d90c311, type: 3}
-  layersToSpray:
-    serializedVersion: 2
-    m_Bits: 243
-  cam: {fileID: 8157560693681419678}
 --- !u!23 &5773160383616814930
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1416,8 +1426,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netTransform: {fileID: 1296955568983481491}
   rotateModifier: 15
-  Vertical: p1Ver
-  Horizontal: p1Hor
 --- !u!114 &5435211697704405707
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WaterGunScript : MonoBehaviour
 {
@@ -9,10 +10,9 @@ public class WaterGunScript : MonoBehaviour
     private float lastFireTime = -float.MaxValue;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Camera cam;
-    [SerializeField] private float fireCooldown = 0.5f;
     [SerializeField] private float hideDistance = Mathf.Infinity;
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private LayerMask layermask;
+    [SerializeField] private LayerMask layerMask;
     private void Start()
     {
         if (audioSource == null)
@@ -30,7 +30,7 @@ public class WaterGunScript : MonoBehaviour
         Ray ray = (cam.ScreenPointToRay(UnityEngine.Input.mousePosition));
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layermask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             raycastPosition = hit.point;
         }
