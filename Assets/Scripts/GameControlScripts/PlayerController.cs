@@ -3,39 +3,51 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Transform respawnPosition;
 
-
-    [SerializeField] private string Horizontal = "Horizontal";
+    //pretty sure these are useless but im keepin em here just in case
+    /*[SerializeField] private string Horizontal = "Horizontal";
     [SerializeField] private string Vertical = "Vertical";
-
     [SerializeField] private string camHorizontal = "Mouse X";
     [SerializeField] private string camVertical = "Mouse Y";
+    [SerializeField] private string jumpButton = "p1Jump";*/
+
+    
+    [HideInInspector] public PlayerInput playerInput;
+    [SerializeField] public float lookXLimit = 45.0f;
+    
+    [SerializeField] private Transform respawnPosition;
+    [SerializeField] private Camera playerCamera;
+    
     [SerializeField] private float sensitivity = 2.0f;
+    [SerializeField] private float speedModifier = 2;
+    [SerializeField] private float gravity  = 20.0f;
+    [SerializeField] private float jumpForce = 5;
 
-    [SerializeField] private string jumpButton = "p1Jump";
-
-    private bool jumpInput = false;
 
     private Vector2 m_moveAmt = Vector2.zero;
     private Vector2 m_lookAmt = Vector2.zero;
-
     private Vector3 verticalMovement = Vector3.zero;
-
-    private CharacterController characterController;
-    [SerializeField] private float speedModifier = 2;
-    [SerializeField] Camera playerCamera;
-    [SerializeField] private float gravity  = 20.0f;
-    public float lookXLimit = 45.0f;
-    float rotationX = 0;
-    [SerializeField] private float jumpforce = 5;
-
-
     private PlayerInputActions mPlayerInput;
-    public PlayerInput playerInput;
+    private CharacterController characterController;
+    
+    private bool jumpInput;
+    private float rotationX;
+
+
+    private void Awake()
+    {
+        if (characterController == null)
+            characterController = GetComponent<CharacterController>();
+        
+        var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+        respawnPosition = respawnObj.transform;
+        
+        PlayerEventBus.Invoke(new PlayerJoin(playerCamera));
+    }
 
     private void OnEnable()
     {
@@ -92,18 +104,6 @@ public class PlayerController : MonoBehaviour
             jumpInput = false;
     }
 
-    private void Start()
-    {   
-        //TODO: make players spawn here when they first join, also lets not use GameObject.Find
-        if (characterController == null)
-            characterController = GetComponent<CharacterController>();
-        
-        GameObject respawnObj = GameObject.Find("SpawnPlace");
-        respawnPosition = respawnObj.transform;
-        
-        PlayerEventBus.Invoke(new PlayerJoin(playerCamera));
-    }
-
     void Update()
     {
         if (characterController == null) return;
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
 
         if (jumpInput && characterController.isGrounded)
-            verticalMovement.y = jumpforce;
+            verticalMovement.y = jumpForce;
         else if (!characterController.isGrounded)
             verticalMovement.y -= gravity * Time.deltaTime;
         else if (!jumpInput)
