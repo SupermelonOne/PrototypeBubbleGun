@@ -117,6 +117,7 @@ public class SecondStolenController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         m_moveAmt = ctx.ReadValue<Vector2>();
+        Debug.Log(m_moveAmt);
     }
     public void OnLook(InputAction.CallbackContext ctx)
     {
