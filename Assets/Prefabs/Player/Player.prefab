@@ -1511,7 +1511,7 @@ MonoBehaviour:
     m_ActionId: f695f807-9f0e-4725-b8eb-b2a2003c7571
     m_ActionName: GamePad/ReleaseMonster[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: KeyboardMouse
+  m_DefaultControlScheme: Controller
   m_DefaultActionMap: GamePad
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 8157560693681419678}

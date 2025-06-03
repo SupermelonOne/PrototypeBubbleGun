@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         respawnPosition = respawnObj.transform;
         
-        PlayerEventBus.Invoke(new PlayerJoin(playerCamera));
+        PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(playerCamera));
     }
 
     private void OnEnable()

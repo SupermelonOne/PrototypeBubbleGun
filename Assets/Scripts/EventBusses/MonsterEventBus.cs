@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterEventBus : MonoBehaviour
+public class MonsterEventBus : BaseEventBus<MonsterEventBus>
 {
-    // Start is called before the first frame update
-    void Start()
+    public class MonsterClean
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public MonsterClean(){}
     }
 }
