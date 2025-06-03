@@ -2,42 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerEventBus
+public class PlayerEventBus : BaseEventBus<PlayerEventBus>
 {
-    private static Dictionary<Type, Delegate> events = new();
-
-    public static void Subscribe<T>(Action<T> listener)
+    public class PlayerJoin
     {
-        var type = typeof(T);
-        if (!events.ContainsKey(type))
-            events[type] = null;
+        public Camera camera;
 
-        events[type] = (Action<T>)events[type] + listener;
+        public PlayerJoin(Camera camera)
+        {
+            this.camera = camera;
+        }
     }
-
-    public static void UnSubscribe<T>(Action<T> listener)
-    {
-        var type = typeof(T);
-        if (events.ContainsKey(type))
-            events[type] = (Action<T>)events[type] - listener;
-    }
-
-    public static void Invoke<T>(T evt)
-    {
-        var type = typeof(T);
-        if (events.TryGetValue(type, out var del))
-            ((Action<T>)del)?.Invoke(evt);
-    }
-
-
 }
 
-public class PlayerJoin
-{
-    public Camera camera;
 
-    public PlayerJoin(Camera camera)
-    {
-        this.camera = camera;
-    }
-}

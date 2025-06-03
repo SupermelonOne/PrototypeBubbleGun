@@ -12,12 +12,12 @@ public class FacePlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerEventBus.Subscribe<PlayerJoin>(OnPlayerJoined);
+        PlayerEventBus.Subscribe<PlayerEventBus.PlayerJoin>(OnPlayerJoined);
     }
 
     private void OnDisable()
     {
-        PlayerEventBus.UnSubscribe<PlayerJoin>(OnPlayerJoined);
+        PlayerEventBus.UnSubscribe<PlayerEventBus.PlayerJoin>(OnPlayerJoined);
     }
 
     private void Start()
@@ -32,7 +32,7 @@ public class FacePlayer : MonoBehaviour
 
     void Update()
     {
-
+        //TODO: Vezko istg if you dont fix this istg im red-carding you
         if (cameras.Count > 0)
         {
             float distanceToCam = Mathf.Infinity;
@@ -54,7 +54,7 @@ public class FacePlayer : MonoBehaviour
         }
     }
 
-    private void OnPlayerJoined(PlayerJoin playerJoin)
+    private void OnPlayerJoined(PlayerEventBus.PlayerJoin playerJoin)
     {
         cameras.Add(playerJoin.camera.transform);
     }
