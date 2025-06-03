@@ -79,7 +79,9 @@ public abstract class PlayerAction : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
         
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
             raycastPosition = hit.point;
+        }
         else
             raycastPosition = ray.origin + ray.direction * 15f;
         

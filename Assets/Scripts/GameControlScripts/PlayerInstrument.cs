@@ -60,11 +60,17 @@ public class PlayerInstrument : MonoBehaviour
 
     public void SwitchLeft(InputAction.CallbackContext button)
     {
-        SwitchWeapon(1);
+        if (button.started)
+        {
+            SwitchWeapon(1);
+        }
     }
     public void SwitchRight(InputAction.CallbackContext button)
     {
-        SwitchWeapon(-1);
+        if (button.started)
+        {
+            SwitchWeapon(-1);
+        }
     }
 
     private void SwitchWeapon(int direction)

@@ -25,7 +25,7 @@ public class SprayWater : PlayerAction
         
         waterStream.transform.position = origin.position;
 
-        sprayEndPoint = cam.transform.forward * 50;
+        sprayEndPoint = raycastPosition;
         
         waterStream.transform.forward = (sprayEndPoint - waterStream.transform.position).normalized;
         var distance = (sprayEndPoint - waterStream.transform.position).magnitude/2;

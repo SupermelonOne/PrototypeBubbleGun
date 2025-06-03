@@ -77,8 +77,6 @@ public class Monster : MonoBehaviour
     {
         if (caughtParticles != null)
         {
-            Debug.Log("shouldve player");
-
             caughtParticles.Play();
         }
         if (catchSound != null)
