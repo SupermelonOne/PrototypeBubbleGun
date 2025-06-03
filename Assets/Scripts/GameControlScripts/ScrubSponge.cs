@@ -18,9 +18,8 @@ public class ScrubSponge : PlayerAction
     protected override void ButtonDown()
     {
         if (sponge == null) return;
-        
-        hitPoint = cam.transform.forward * 15;
-        
+
+        hitPoint = raycastPosition; //cam.transform.forward * 15;
         scrubTimer += Time.deltaTime;
         if (scrubTimer > scrubSpeed)
         {
