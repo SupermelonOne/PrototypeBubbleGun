@@ -22,6 +22,7 @@ public class Monster : MonoBehaviour
     private AudioSource catchSound;
     private float soapiness = 0;
 
+    [SerializeField] private int pointsToGive = 10;
 
     private void Start()
     {
@@ -53,6 +54,8 @@ public class Monster : MonoBehaviour
         {
             if (soapiness > 0)
             {
+                MonsterEventBus.Invoke(new MonsterEventBus.MonsterClean(pointsToGive));
+                pointsToGive = 0;
                 soapiness -= Time.deltaTime;
                 if (sprayParticles != null)
                     sprayParticles.Play();

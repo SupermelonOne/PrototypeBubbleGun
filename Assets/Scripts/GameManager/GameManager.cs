@@ -14,10 +14,12 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         MonsterEventBus.Subscribe<MonsterEventBus.DirtClean>(OnDirtClean);
+        MonsterEventBus.Subscribe<MonsterEventBus.MonsterClean>(OnMonsterClean);
     }
     private void OnDisable()
     {
         MonsterEventBus.Subscribe<MonsterEventBus.DirtClean>(OnDirtClean);
+        MonsterEventBus.Subscribe<MonsterEventBus.MonsterClean>(OnMonsterClean);
     }
 
     private void Awake()
@@ -33,8 +35,11 @@ public class GameManager : MonoBehaviour
 
     private void OnDirtClean(MonsterEventBus.DirtClean dirtClean)
     {
-        Debug.Log("dirt cleaned");
         AddPoints(dirtClean.points);
+    }
+    private void OnMonsterClean(MonsterEventBus.MonsterClean monsterClean)
+    {
+        AddPoints(monsterClean.points);
     }
 
     public void AddPoints(int amount)
