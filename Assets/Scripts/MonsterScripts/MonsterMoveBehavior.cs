@@ -176,7 +176,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             placeToGo = hideSpot.position;
             distanceToPlace = distance;
         }
-        //Debug.Log("amount of hiding spots = " + hidingSpots.Count);
+        Debug.Log("amount of hiding spots = " + hidingSpots.Count);
         if (goToSecond || distanceToPlace < 3)
         {
             goToSecond = true; ;

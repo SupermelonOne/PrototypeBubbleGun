@@ -55,6 +55,7 @@ public class ShootBubble : PlayerAction
             if (hit.collider.CompareTag("Enemy"))
             {
                 hit.collider.GetComponent<MonsterMoveBehavior>().Hide();
+                Debug.Log("raycasted on an enemy");
             }
         }
     }
