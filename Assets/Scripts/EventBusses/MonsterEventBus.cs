@@ -6,6 +6,18 @@ public class MonsterEventBus : BaseEventBus<MonsterEventBus>
 {
     public class MonsterClean
     {
-        public MonsterClean(){}
+        public int points;
+        public MonsterClean(int points)
+        {
+            this.points = points;
+        }
+    }
+    public class DirtClean
+    {
+        public int points;
+        public DirtClean(int points)
+        {
+            this.points = points;
+        }
     }
 }

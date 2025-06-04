@@ -35,7 +35,6 @@ public class MonsterCleanness : MonoBehaviour
         }
         if (dirtSpots.Count <= 0)
         {
-            Debug.Log("awyeah clean");
             clean = true;
         }
     }

@@ -11,6 +11,15 @@ public class GameManager : MonoBehaviour
 
     public int Points { get; private set; }
 
+    private void OnEnable()
+    {
+        MonsterEventBus.Subscribe<MonsterEventBus.DirtClean>(OnDirtClean);
+    }
+    private void OnDisable()
+    {
+        MonsterEventBus.Subscribe<MonsterEventBus.DirtClean>(OnDirtClean);
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -22,14 +31,24 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnDirtClean(MonsterEventBus.DirtClean dirtClean)
+    {
+        Debug.Log("dirt cleaned");
+        AddPoints(dirtClean.points);
+    }
+
     public void AddPoints(int amount)
     {
         Points += amount;
+        Debug.Log(Points);
+        UIEventBus.Invoke(new UIEventBus.UpdateScore(Points));
     }
 
     public void ResetPoints()
     {
         Points = 0;
     }
+
+
 }
 

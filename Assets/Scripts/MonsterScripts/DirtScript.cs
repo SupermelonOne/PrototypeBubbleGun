@@ -10,6 +10,17 @@ public class DirtScript : MonoBehaviour
     ParticleSystem particleSystem;
     MonsterCleanness monsterCleanness;
 
+    [SerializeField] private int points = 5;
+
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
+
     [SerializeField] private Transform dirtVisual;
     private void Start()
     {
@@ -40,6 +51,7 @@ public class DirtScript : MonoBehaviour
     {
         if (health <= 0)
         {
+            OnClean(points, 1);
             Destroy(gameObject);
             if (monsterCleanness != null)
             {
@@ -55,5 +67,11 @@ public class DirtScript : MonoBehaviour
     public void GetDeSoaped()
     {
         canClean = false;
+    }
+
+    private void OnClean(int points, float amplifier)
+    {
+        int pointsGranted = (int)(points * amplifier);
+        MonsterEventBus.Invoke(new MonsterEventBus.DirtClean(pointsGranted));
     }
 }
