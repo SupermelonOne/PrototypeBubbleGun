@@ -14,7 +14,7 @@ public abstract class PlayerAction : MonoBehaviour
     
     [HideInInspector] public Vector3 raycastPosition;
 
-    private bool holding;
+    protected bool holding;
     private Coroutine sprayCoroutine;
 
 
@@ -44,6 +44,7 @@ public abstract class PlayerAction : MonoBehaviour
     protected abstract void OnMonsterCast(RaycastHit hit);
     protected virtual void StartShooting() { }
     protected virtual void StopShooting() { }
+    protected virtual void PassiveUpdate() { }
 
     private IEnumerator OnButtonDown()
     {
@@ -88,5 +89,7 @@ public abstract class PlayerAction : MonoBehaviour
         
         if (hit.collider != null)
             OnMonsterCast(hit);
+
+        PassiveUpdate();
     }
 }

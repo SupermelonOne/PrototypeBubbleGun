@@ -26,12 +26,16 @@ public class ScrubSponge : PlayerAction
             scrubTimer = 0;
             realDestination = GetRandomVector(hitPoint, scrubIntensity);
         }
-
         sponge.position = Vector3.Slerp(sponge.position, realDestination, Time.deltaTime * 10f);
     }
 
     protected override void StopShooting()
     {
+        //sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
+    }
+    protected override void PassiveUpdate()
+    {
+        if (!holding)
         sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
     }
 
@@ -39,11 +43,9 @@ public class ScrubSponge : PlayerAction
     {
         hitPoint = hit.point;
     }
- 
 
     private Vector3 GetRandomVector (Vector3 input, float distance)
     {
-
         Vector3 randomDirection = Random.insideUnitCircle.normalized;
         input += randomDirection * distance;
         return input;
