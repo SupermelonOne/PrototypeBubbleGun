@@ -47,7 +47,6 @@ public class OpenBridge : MonoBehaviour
         foreach (var player in players)
         {
             var dist = Vector3.Distance(transform.position, player.position);
-            Debug.Log($"Player {player.name} has distance {dist}, it needs to be smaller than {distance}");
             if (dist < distance && dist < nearestDistance)
             {
                 nearestDistance = dist;
