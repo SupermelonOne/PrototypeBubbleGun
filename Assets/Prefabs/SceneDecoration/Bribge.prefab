@@ -155,10 +155,8 @@ MonoBehaviour:
   bridgeStartObject: {fileID: 8736762200683010753}
   bridgeEndObject: {fileID: 2361113777839322796}
   plankPrefab: {fileID: 2580847554415744923, guid: 5341893f77b6efc4fb803e9232f886c4, type: 3}
+  FencePostPrefab: {fileID: 2580847554415744923, guid: 877867929bf7b1048be127124227dc61, type: 3}
   soundEffect: {fileID: 8300000, guid: f74ea7a38e799da4eabdd21fed641af1, type: 3}
-  emptySpace: 3
-  fallDist: 10
-  maxCurveHeight: 0
   plankMaterials:
   - {fileID: 2100000, guid: 37cc75ba80340b44caf79d5cd434cd3e, type: 2}
   - {fileID: 2100000, guid: 44632a464102399418c8cdabf07b74b5, type: 2}
@@ -167,6 +165,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6b089bbfe242e5743aad5d6c2e53f914, type: 2}
   - {fileID: 2100000, guid: a92abb6518e536e4abfc6d9922df411d, type: 2}
   - {fileID: 2100000, guid: 1c271a542775175449f7f5d2c78ad608, type: 2}
+  emptySpace: 3
+  fallDist: 10
+  maxCurveHeight: 0
 --- !u!82 &6145412975332623825
 AudioSource:
   m_ObjectHideFlags: 0
