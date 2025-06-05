@@ -28,6 +28,7 @@ public class BridgeEditor : Editor
 
         GUILayout.Label("Bridge looks", EditorStyles.boldLabel);
         bridge.plankPrefab = (GameObject)EditorGUILayout.ObjectField("Plank Prefab", bridge.plankPrefab, typeof(GameObject), false);
+        bridge.FencePostPrefab = (GameObject)EditorGUILayout.ObjectField("Fence Post Prefab", bridge.FencePostPrefab, typeof(GameObject), false);
         EditorGUILayout.PropertyField(plankMaterials, new GUIContent("Plank Materials"), true);
 
         GUILayout.Label("Bridge Sound Effects", EditorStyles.boldLabel);
