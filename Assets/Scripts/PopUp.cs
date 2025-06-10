@@ -3,17 +3,74 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.Events;
 
+#region SerializableShizzle
 [System.Serializable]
 public class PlayerEvent : UnityEvent<Player> { }
 
+[System.Serializable]
+
+public struct Cost
+{
+    public ItemType itemType;
+    public int cost;
+}
+
+[System.Serializable]
+public class TextProperties
+{
+    [Tooltip("The text dimensions in unity units.")]
+    public Vector2 textDimensions;
+    [Tooltip("The text color.")]
+    public Color textColor;
+    [Tooltip("The height the text hovers over the box.")]
+    public float textHoverHeight;
+}
+
+[System.Serializable]
+public class InteractionConditions
+{
+    [Tooltip("Minimum distance to the object for interaction.")]
+    public float minDistance = 0;
+    [Tooltip("Key to press to trigger interaction.")]
+    public KeyCode key = KeyCode.E;
+}
+[System.Serializable]
+public class InteractionEffects
+{
+    [Tooltip("Event invoked when the interaction button is pressed.")]
+    public PlayerEvent onButtonPressed;
+    [Tooltip("If true, this object will be destroyed after successful interaction.")]
+    public bool isDestroyedAfterPressed = false;
+}
+[System.Serializable]
+public class RequirementsAndFeedback
+{
+    [Tooltip("Cost associated with this interaction (e.g., currency, item).")]
+    public Cost cost;
+    [Tooltip("Time in seconds to display an error message if interaction fails.")]
+    public float errorMessageTime = 1.0f;
+}
+#endregion
+
+
 public class PopUp : MonoBehaviour
 {
-    [SerializeField] private float minDistance;
-    [SerializeField] private KeyCode key;
-    public PlayerEvent onButtonPressed;
+    [SerializeField] private TextProperties textProperties;
+    [SerializeField] private InteractionConditions conditions;
+    [SerializeField] private InteractionEffects effects;
+    [SerializeField] private RequirementsAndFeedback feedback;
+    
+    
+    private float minDistance;
+    private KeyCode key;
+
+    private PlayerEvent onButtonPressed; // Consider making this private if it's only invoked internally
+    private bool isDestroyedAfterPressed;
+    
+    private Cost cost;
+    private float errorMessageTime;
+    
     
     private List<Player> players = new List<Player>();
     private Dictionary<Player, Camera> playerCams = new Dictionary<Player, Camera>();
@@ -24,8 +81,25 @@ public class PopUp : MonoBehaviour
     {
         canvas = GetComponentInChildren<Canvas>();
         textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        
+        minDistance = conditions.minDistance;
+        key = conditions.key;
+        
+        onButtonPressed = effects.onButtonPressed;
+        isDestroyedAfterPressed = effects.isDestroyedAfterPressed;
+        
+        cost = feedback.cost;
+        errorMessageTime = feedback.errorMessageTime;
+        
+                
         textMesh.alpha = 0;
         textMesh.text = key.ToString();
+        textMesh.color = textProperties.textColor;
+        textMesh.rectTransform.anchorMin = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+        textMesh.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+        textMesh.rectTransform.pivot = new Vector2(0.5f, 0.5f);     // Center pivot
+        textMesh.rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
+        textMesh.rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, textMesh.rectTransform.sizeDelta.y);   
     }
 
     private void OnEnable()
@@ -73,6 +147,34 @@ public class PopUp : MonoBehaviour
         canvas.transform.Rotate(Vector3.up, 180f);
         textMesh.alpha = 1;
         if(Input.GetKeyDown(key))
+            IsPressed(closestPlayer);
+    }
+
+    private void IsPressed(Player closestPlayer)
+    {
+        var amount = closestPlayer.inventory.ItemAmount(cost.itemType);
+        if (amount > cost.cost || cost.cost <= 0)
+        {
             onButtonPressed?.Invoke(closestPlayer);
+            closestPlayer.inventory.BuyItem(cost.itemType, 1, cost.cost);
+            
+            //my job here is done
+            Destroy(gameObject);
+        }
+        else
+        {
+            StartCoroutine(ErrorMessage(errorMessageTime));
+        }
+    }
+
+    private IEnumerator ErrorMessage(float seconds)
+    {
+        var c = textMesh.color;
+        var t = textMesh.text;
+        textMesh.color = Color.red;
+        textMesh.text = $"you're broke, you need {cost.itemType}, and  {cost.cost} of em";
+        yield return new WaitForSeconds(seconds);
+        textMesh.color = c;
+        textMesh.text = t;
     }
 }

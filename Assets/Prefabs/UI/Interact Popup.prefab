@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3640086196088262661
 CanvasRenderer:
@@ -92,11 +92,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2
+  m_fontSize: 2.2
   m_fontSizeBase: 2
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -171,7 +171,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7919068584283591646
 Canvas:
@@ -281,8 +281,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c28b82de1b089418f1939a633d73f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 0
-  key: 0
-  onButtonPressed:
-    m_PersistentCalls:
-      m_Calls: []
+  textProperties:
+    textDimensions: {x: 5, y: 5}
+    textColor: {r: 1, g: 1, b: 1, a: 0}
+    textHoverHeight: 0
+  conditions:
+    minDistance: 5
+    key: 121
+  effects:
+    onButtonPressed:
+      m_PersistentCalls:
+        m_Calls: []
+    isDestroyedAfterPressed: 1
+  feedback:
+    cost:
+      itemType: 0
+      cost: 0
+    errorMessageTime: 1

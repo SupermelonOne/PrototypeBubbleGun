@@ -388,6 +388,10 @@ PrefabInstance:
       propertyPath: m_text
       value: A
       objectReference: {fileID: 0}
+    - target: {fileID: 3607497408676432447, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_fontSize
+      value: 4.45
+      objectReference: {fileID: 0}
     - target: {fileID: 7894430157481399877, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -437,7 +441,19 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: conditions.key
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: feedback.cost.cost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
@@ -457,11 +473,31 @@ PrefabInstance:
       value: OnPlayerClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2785248009937996987}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: ItemShop, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ItemShop, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9063158735673540828, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}

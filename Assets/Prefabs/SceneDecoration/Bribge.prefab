@@ -423,11 +423,35 @@ PrefabInstance:
       value: 121
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: cost.cost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: minDistance
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: cost.itemType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: feedback.cost.cost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: feedback.cost.itemType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: isDestroyedAfterPressed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
@@ -447,11 +471,35 @@ PrefabInstance:
       value: OnBuildBridgeWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3716553080900774858}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBuildBridgeWithDelay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: BridgeScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BridgeScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9063158735673540828, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
