@@ -724,6 +724,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6079765447676828992, guid: d63dcc6dcd307354b8bf70cd3f4c1bca, type: 3}
     - target: {fileID: 2785248009937996987, guid: a3b13b4e694c0434fb23bd417531d46d, type: 3}
+      propertyPath: itemModel
+      value: 
+      objectReference: {fileID: 6079765447676828992, guid: d63dcc6dcd307354b8bf70cd3f4c1bca, type: 3}
+    - target: {fileID: 2785248009937996987, guid: a3b13b4e694c0434fb23bd417531d46d, type: 3}
       propertyPath: maxHeight
       value: 10
       objectReference: {fileID: 0}

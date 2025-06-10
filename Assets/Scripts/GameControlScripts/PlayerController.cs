@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float lookXLimit = 45.0f;
     
     [SerializeField] private Transform respawnPosition;
-    [SerializeField] private Camera playerCamera;
+    [SerializeField] public Camera playerCamera;
     
     [SerializeField] private float sensitivity = 2.0f;
     [SerializeField] private float speedModifier = 2;
@@ -45,8 +45,6 @@ public class PlayerController : MonoBehaviour
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         respawnPosition = respawnObj.transform;
-        
-        PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(playerCamera, transform));
     }
 
     private void OnEnable()

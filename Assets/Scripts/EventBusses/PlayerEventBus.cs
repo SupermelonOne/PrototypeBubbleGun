@@ -7,12 +7,12 @@ public class PlayerEventBus : BaseEventBus<PlayerEventBus>
     public class PlayerJoin
     {
         public Camera camera;
-        public Transform transform;
+        public Player player;
 
-        public PlayerJoin(Camera camera, Transform transform)
+        public PlayerJoin(Camera camera, Player player)
         {
             this.camera = camera;
-            this.transform = transform;
+            this.player = player;
         }
     }
 }

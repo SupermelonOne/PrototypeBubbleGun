@@ -1,16 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
+using UnityEngine.Events;
 
-public class OpenBridge : MonoBehaviour
+[System.Serializable]
+public class PlayerEvent : UnityEvent<Player> { }
+
+public class PopUp : MonoBehaviour
 {
-    [SerializeField] private float distance;
-    [SerializeField] private BridgeScript bridgeScript;
-
-    private List<Transform> players = new List<Transform>();
-    private Dictionary<Transform, Camera> playerCams = new Dictionary<Transform, Camera>();
+    [SerializeField] private float minDistance;
+    [SerializeField] private KeyCode key;
+    public PlayerEvent onButtonPressed;
+    
+    private List<Player> players = new List<Player>();
+    private Dictionary<Player, Camera> playerCams = new Dictionary<Player, Camera>();
     private Canvas canvas;
     private TextMeshProUGUI textMesh;
 
@@ -19,6 +25,7 @@ public class OpenBridge : MonoBehaviour
         canvas = GetComponentInChildren<Canvas>();
         textMesh = GetComponentInChildren<TextMeshProUGUI>();
         textMesh.alpha = 0;
+        textMesh.text = key.ToString();
     }
 
     private void OnEnable()
@@ -33,21 +40,19 @@ public class OpenBridge : MonoBehaviour
 
     private void OnPlayerJoined(PlayerEventBus.PlayerJoin playerEvent)
     {
-        players.Add(playerEvent.transform);
-        playerCams.Add(playerEvent.transform, playerEvent.camera);
-        
-        Debug.Log("Player joined");
+        players.Add(playerEvent.player);
+        playerCams.Add(playerEvent.player, playerEvent.camera);
     }
 
     //i don't like update but this is just vector math so it should be fineeee
     private void Update()
     {
-        Transform nearestPlayer = null;
+        Player nearestPlayer = null;
         var nearestDistance = Mathf.Infinity;
         foreach (var player in players)
         {
-            var dist = Vector3.Distance(transform.position, player.position);
-            if (dist < distance && dist < nearestDistance)
+            var dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist < minDistance && dist < nearestDistance)
             {
                 nearestDistance = dist;
                 nearestPlayer = player;
@@ -61,14 +66,13 @@ public class OpenBridge : MonoBehaviour
     }
 
 
-    private void OnPlayerClose(Transform closestPlayer)
+    private void OnPlayerClose(Player closestPlayer)
     {
-        Debug.Log($"eyo the player is close and this is getting called {closestPlayer}");
         canvas.worldCamera = playerCams[closestPlayer];
-        canvas.transform.LookAt(closestPlayer.position);
+        canvas.transform.LookAt(closestPlayer.transform.position);
         canvas.transform.Rotate(Vector3.up, 180f);
         textMesh.alpha = 1;
-        if(Input.GetKeyDown(KeyCode.Y))
-            bridgeScript.OnBuildBridgeWithDelay();
+        if(Input.GetKeyDown(key))
+            onButtonPressed?.Invoke(closestPlayer);
     }
 }
