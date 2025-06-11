@@ -390,7 +390,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3607497408676432447, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_fontSize
-      value: 4.45
+      value: 2.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880292637094536107, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880292637094536107, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160019237313588722, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160019237313588722, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7894430157481399877, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -499,6 +515,14 @@ PrefabInstance:
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693912820217770010, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693912820217770010, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9063158735673540828, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_Name

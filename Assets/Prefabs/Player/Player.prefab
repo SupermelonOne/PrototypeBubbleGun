@@ -1456,7 +1456,7 @@ MonoBehaviour:
     m_ActionName: GamePad/Shoot
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1320014131553269091}
         m_TargetAssemblyTypeName: PlayerInstrument, Assembly-CSharp
         m_MethodName: SwitchLeft
         m_Mode: 0
@@ -1472,7 +1472,7 @@ MonoBehaviour:
     m_ActionName: GamePad/SwapLeft[/XInputControllerWindows/leftTrigger,/XInputControllerWindows1/leftTrigger]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1320014131553269091}
         m_TargetAssemblyTypeName: PlayerInstrument, Assembly-CSharp
         m_MethodName: SwitchRight
         m_Mode: 0

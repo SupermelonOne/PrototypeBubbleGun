@@ -484,7 +484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnBuildBridgeWithDelay
+      value: OnBuildBridge
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

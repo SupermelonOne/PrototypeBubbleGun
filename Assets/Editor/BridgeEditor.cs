@@ -40,8 +40,7 @@ public class BridgeEditor : Editor
         if (GUILayout.Button("Build Bridge"))
             bridge.OnBuildBridge();
 
-        if (GUILayout.Button("Build Bridge with delay"))
-            bridge.OnBuildBridgeWithDelay();
+
 
         if (GUILayout.Button("Clear Bridge"))
             bridge.ClearBridge();

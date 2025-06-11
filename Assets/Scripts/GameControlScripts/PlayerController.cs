@@ -60,11 +60,18 @@ public class PlayerController : MonoBehaviour
             mPlayerInput.GamePad.Jump.started += OnJump;
             mPlayerInput.GamePad.Jump.canceled += OnJump;
 
-            foreach (var action in GetComponents<PlayerAction>())
+            foreach (var action in GetComponentsInChildren<PlayerAction>())
             {
                 mPlayerInput.GamePad.Shoot.performed += action.OnFire;
                 mPlayerInput.GamePad.Shoot.started += action.OnFire;
                 mPlayerInput.GamePad.Shoot.canceled += action.OnFire;
+            }
+            
+            PlayerInstrument playerInstrument = GetComponentInChildren<PlayerInstrument>();
+            if (playerInstrument != null)
+            {
+                mPlayerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
+                mPlayerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
             }
         }
     }
@@ -81,6 +88,13 @@ public class PlayerController : MonoBehaviour
                 mPlayerInput.GamePad.Shoot.performed -= action.OnFire;
                 mPlayerInput.GamePad.Shoot.started -= action.OnFire;
                 mPlayerInput.GamePad.Shoot.canceled -= action.OnFire;
+            }
+            
+            PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
+            if (playerInstrument != null)
+            {
+                mPlayerInput.GamePad.SwapLeft.started -= playerInstrument.SwitchLeft;
+                mPlayerInput.GamePad.SwapRight.started -= playerInstrument.SwitchRight;
             }
         }
     }

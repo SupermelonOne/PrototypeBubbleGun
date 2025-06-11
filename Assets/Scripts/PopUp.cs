@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 #region SerializableShizzle
+
 [System.Serializable]
 public class PlayerEvent : UnityEvent<Player> { }
 
@@ -32,9 +33,12 @@ public class InteractionConditions
 {
     [Tooltip("Minimum distance to the object for interaction.")]
     public float minDistance = 0;
+    [Tooltip("the width of the viewcast in degrees.")]
+    public float viewWidth = 5f;
     [Tooltip("Key to press to trigger interaction.")]
     public KeyCode key = KeyCode.E;
 }
+
 [System.Serializable]
 public class InteractionEffects
 {
@@ -43,6 +47,7 @@ public class InteractionEffects
     [Tooltip("If true, this object will be destroyed after successful interaction.")]
     public bool isDestroyedAfterPressed = false;
 }
+
 [System.Serializable]
 public class RequirementsAndFeedback
 {
@@ -51,6 +56,7 @@ public class RequirementsAndFeedback
     [Tooltip("Time in seconds to display an error message if interaction fails.")]
     public float errorMessageTime = 1.0f;
 }
+
 #endregion
 
 
@@ -141,6 +147,45 @@ public class PopUp : MonoBehaviour
 
 
     private void OnPlayerClose(Player closestPlayer)
+    {
+        var coneWidth = conditions.viewWidth;
+        var halfWidth = coneWidth / 2f;
+        var coneLength = Mathf.Sqrt((halfWidth * halfWidth) + minDistance * minDistance);
+        var sinAngle = halfWidth / coneLength;
+        var coneAngleRadians = Mathf.Asin(sinAngle);
+        var coneAngleDegrees = coneAngleRadians * Mathf.Rad2Deg;
+
+        
+        
+        
+        var rayCount = 10;
+        
+        var isHitting  = false;
+        
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angleStep = (coneAngleDegrees * 2f) / (rayCount - 1);
+            float angleH = -coneAngleDegrees + (i * angleStep);
+
+            Vector3 direction = Quaternion.Euler(0f, angleH, 0f) * closestPlayer.transform.forward;
+            Color c = Color.red;
+            if (Physics.Raycast(closestPlayer.transform.position, direction, out RaycastHit hit, minDistance))
+            {
+                if (hit.collider == textMesh.gameObject.GetComponent<BoxCollider>())
+                {
+                    c = Color.green;
+                    OnPlayerLook(closestPlayer);
+                    isHitting = true;
+                }
+            }
+
+            Debug.DrawLine(closestPlayer.transform.position, hit.point, c);
+        }
+        if (!isHitting)
+            textMesh.alpha = 0;
+    }
+
+    private void OnPlayerLook(Player closestPlayer)
     {
         canvas.worldCamera = playerCams[closestPlayer];
         canvas.transform.LookAt(closestPlayer.transform.position);

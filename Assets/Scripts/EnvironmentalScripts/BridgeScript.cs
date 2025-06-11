@@ -34,8 +34,52 @@ public class BridgeScript : MonoBehaviour
         bridgeStart = bridgeStartObject.transform.position;
         bridgeEnd = bridgeEndObject.transform.position;
     }
-    
-    
+
+
+    public void OnDrawGizmos()
+    {
+        bridgeStart = bridgeStartObject.transform.position;
+        bridgeEnd = bridgeEndObject.transform.position;
+        
+        var renderer = plankPrefab.GetComponent<Renderer>();
+        if (renderer == null)
+        {
+            Debug.LogWarning("No renderer");
+            return;
+        }
+
+        float plankLength = renderer.bounds.extents.z * 2f + emptySpace;
+        int amount = GetPlankAmount(bridgeStart, bridgeEnd, plankLength);
+        
+
+        Vector3 totalDirection = bridgeEnd - bridgeStart;
+        Vector3 distPerStep = totalDirection / amount;
+
+        float width = renderer.bounds.extents.x * 2f;
+        float height = renderer.bounds.extents.y * 2f;
+        float length = renderer.bounds.extents.z * 2f;
+
+        for (int i = 0; i < amount; i++)
+        {
+            float t = (float)i / (amount - 1);
+            float heightOffset = -4f * maxCurveHeight * (t - 0.5f) * (t - 0.5f) + maxCurveHeight;
+            Vector3 heightVector = new Vector3(0, heightOffset, 0);
+
+            Vector3 position = bridgeStart + distPerStep * i + heightVector;
+            
+            var direction = (bridgeEnd - position).normalized;
+            direction.y = 0; 
+            var r = Quaternion.LookRotation(direction, Vector3.up);
+            Gizmos.color = Color.green;
+            Matrix4x4 matrix = Matrix4x4.TRS(position, r, Vector3.one);
+            Gizmos.matrix = matrix;
+            Gizmos.DrawWireCube(Vector3.zero, new Vector3(width, height, length));
+        }
+    }
+
+
+
+
 
     public void OnBuildBridge()
     {
@@ -44,32 +88,10 @@ public class BridgeScript : MonoBehaviour
             return;
         var plankSize = renderer.bounds.extents.z + emptySpace;
         var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankSize);
-        BuildBridge(amount, plankSize);
+        StartCoroutine(BuildBridge(amount, .01f));
     }
     
-    private void BuildBridge(int amount, float size)
-    {
-        var distToMove = bridgeEnd - bridgeStart;
-        var distPerStep = distToMove / amount;
-        for (int i = 0; i < amount; i++)
-        {
-            var pos = bridgeStart + distPerStep * i;
-            var plank = Instantiate(plankPrefab, pos, Quaternion.identity);
-            plank.transform.parent = transform;
-        }
-    }
-    
-    public void OnBuildBridgeWithDelay()
-    {
-        var renderer = plankPrefab.GetComponent<Renderer>();
-        if (renderer == null)
-            return;
-        var plankSize = renderer.bounds.extents.z + emptySpace;
-        var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankSize);
-        StartCoroutine(BuildBridgeWithDelay(amount, .01f));
-    }
-    
-    private IEnumerator BuildBridgeWithDelay(int amount, float delay)
+    private IEnumerator BuildBridge(int amount, float delay)
     {
         var minPitch = 0.6f;
         var maxPitch = 2f;
