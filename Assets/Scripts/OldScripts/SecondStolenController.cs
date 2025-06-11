@@ -141,7 +141,7 @@ public class SecondStolenController : MonoBehaviour
             characterController = GetComponent<CharacterController>();
         GameObject respawnObj = GameObject.Find("SpawnPlace");
         respawnPosition = respawnObj.transform;
-        PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(playerCamera, transform));
+        //PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(playerCamera, transform));
     }
 
     void Update()

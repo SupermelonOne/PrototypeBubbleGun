@@ -49,7 +49,8 @@ public class MonsterSpawner : MonoBehaviour
             var posZ = Random.Range(areaCenter.z - areaSize.z / 2, areaCenter.z + areaSize.z / 2);
             var pos = new Vector3(posX, transform.position.y, posZ);
             monsterPrefab.GetComponentInChildren<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
-            Instantiate(monsterPrefab, pos, Quaternion.identity);
+            var m = Instantiate(monsterPrefab, pos, Quaternion.identity);
+            m.transform.parent = transform;
         }
     }
 }
