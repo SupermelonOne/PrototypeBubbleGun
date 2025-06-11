@@ -140,4 +140,16 @@ public class PlayerController : MonoBehaviour
             transform.position = respawnPosition.position;
         }
     }
+
+    // BACKUP FOR REAL CAM CONTROLS
+/*    private Vector2 lookInput = Vector2.zero;
+
+[SerializeField] private Transform camPivX;
+[SerializeField] private Transform camPivY;
+
+public void OnLook(InputAction.CallbackContext ctx)
+{
+    lookInput = ctx.ReadValue<Vector2>();
+}
+*/
 }

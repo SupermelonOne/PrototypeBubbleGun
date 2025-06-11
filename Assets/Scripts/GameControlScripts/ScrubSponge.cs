@@ -26,7 +26,7 @@ public class ScrubSponge : PlayerAction
             scrubTimer = 0;
             realDestination = GetRandomVector(hitPoint, scrubIntensity);
         }
-        sponge.position = Vector3.Slerp(sponge.position, realDestination, Time.deltaTime * 10f);
+        sponge.position = Vector3.Lerp(sponge.position, realDestination, Time.deltaTime * 10f);
     }
 
     protected override void StopShooting()
@@ -36,7 +36,7 @@ public class ScrubSponge : PlayerAction
     protected override void PassiveUpdate()
     {
         if (!holding)
-        sponge.position = Vector3.Slerp(sponge.position, origin.position, Time.deltaTime * 10f);
+        sponge.position = Vector3.Lerp(sponge.position, origin.position, Time.deltaTime * 10f);
     }
 
     protected override void OnMonsterCast(RaycastHit hit)

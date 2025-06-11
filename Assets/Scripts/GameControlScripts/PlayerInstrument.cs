@@ -12,21 +12,26 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerInstrument : MonoBehaviour
 {
     [SerializeField] private GameObject spongeObj;
+    [SerializeField] private GameObject gloveObj;
     [SerializeField] private GameObject gunObj;
     private int activeInstrument;
 
     [SerializeField] private ShootBubble shootBubble;
     [SerializeField]private ScrubSponge scrubSponge;
+    [SerializeField]private GrabBone grabBone;
     [SerializeField]private SprayWater sprayWater;
     private void Start()
     {
         scrubSponge = GetComponent<ScrubSponge>();
+        grabBone = GetComponent<GrabBone>();
         sprayWater = GetComponent<SprayWater>();
         shootBubble = GetComponent<ShootBubble>();
 
-        
+
         if (spongeObj == null)
             Debug.LogError("missing spongeObj");
+        if (gloveObj == null)
+            Debug.LogError("missing gloveObj");
         if (gunObj == null)
             Debug.LogError("missing gunObj");
         
@@ -49,6 +54,10 @@ public class PlayerInstrument : MonoBehaviour
             case 3:
                 scrubSponge.enabled = true;
                 spongeObj.SetActive(true); 
+                break;
+            case 4:
+                grabBone.enabled = true;
+                gloveObj.SetActive(true);
                 break;
             default:
                 Debug.LogError("invalid index");
@@ -76,13 +85,13 @@ public class PlayerInstrument : MonoBehaviour
     private void SwitchWeapon(int direction)
     {
         activeInstrument += direction;
-        if (activeInstrument > 3)
+        if (activeInstrument > 4)
         {
             activeInstrument = 1;
         }
         if (activeInstrument < 1)
         {
-            activeInstrument = 3;
+            activeInstrument = 4;
         }
 
         DisableAll();
@@ -92,10 +101,17 @@ public class PlayerInstrument : MonoBehaviour
     private void DisableAll()
     {
         //no null checks because they cant be null
-        spongeObj.SetActive(false);
         gunObj.SetActive(false);
         shootBubble.enabled = false;
+
+
         sprayWater.enabled = false;
+
+        spongeObj.SetActive(false);
         scrubSponge.enabled = false;
+
+        gloveObj.SetActive(false);
+        grabBone.enabled = false;
+
     }
 }
