@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-#region SerializableShizzle
+#region SerializableShiz
 
 [System.Serializable]
 public class PlayerEvent : UnityEvent<Player> { }
@@ -167,9 +167,9 @@ public class PopUp : MonoBehaviour
             float angleStep = (coneAngleDegrees * 2f) / (rayCount - 1);
             float angleH = -coneAngleDegrees + (i * angleStep);
 
-            Vector3 direction = Quaternion.Euler(0f, angleH, 0f) * closestPlayer.transform.forward;
+            Vector3 direction = Quaternion.Euler(0f, angleH, 0f) * closestPlayer.GetComponentInChildren<Camera>().transform.forward;
             Color c = Color.red;
-            if (Physics.Raycast(closestPlayer.transform.position, direction, out RaycastHit hit, minDistance))
+            if (Physics.Raycast(closestPlayer.controller.playerCamera.transform.position, direction, out RaycastHit hit, minDistance))
             {
                 if (hit.collider == textMesh.gameObject.GetComponent<BoxCollider>())
                 {
@@ -179,7 +179,7 @@ public class PopUp : MonoBehaviour
                 }
             }
 
-            Debug.DrawLine(closestPlayer.transform.position, hit.point, c);
+            Debug.DrawLine(closestPlayer.controller.playerCamera.transform.position, closestPlayer.controller.playerCamera.transform.position + direction, c);
         }
         if (!isHitting)
             textMesh.alpha = 0;

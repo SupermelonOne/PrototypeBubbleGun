@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2593382295677933680}
   - component: {fileID: 7028676905764611463}
   - component: {fileID: 5692234314246166852}
-  m_Layer: 0
+  - component: {fileID: 7623920275460645889}
+  m_Layer: 2
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,6 +106,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7623920275460645889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361113777839322796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0.5, y: 0.5, z: 0}
+  m_EndPoint: {x: -0.5, y: -0.5, z: 0}
+  m_Width: 2.5
+  m_CostModifier: 0
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &5838015364125293167
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +137,7 @@ GameObject:
   - component: {fileID: 4270022902335682899}
   - component: {fileID: 3716553080900774858}
   - component: {fileID: 6145412975332623825}
+  - component: {fileID: 3143045865901098207}
   m_Layer: 0
   m_Name: Bribge
   m_TagString: Untagged
@@ -264,6 +286,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3143045865901098207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5838015364125293167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1372625422
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 1
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 0}
+  m_BuildHeightMesh: 0
 --- !u!1 &5903786303242327623
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +329,7 @@ GameObject:
   - component: {fileID: 7587365345523596949}
   - component: {fileID: 2636234035331442687}
   - component: {fileID: 8080043673196343854}
+  - component: {fileID: 8174926149110587368}
   m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
@@ -364,12 +418,32 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8174926149110587368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5903786303242327623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 0.5, y: 0.5, z: 0}
+  m_EndPoint: {x: -0.5, y: -0.5, z: 0}
+  m_Width: 2.5
+  m_CostModifier: 0
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1001 &1420036324801254153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -378,6 +452,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7608995751124107065}
     m_Modifications:
+    - target: {fileID: 5406156691305518680, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606218303832506433, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7894430157481399877, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -505,6 +587,10 @@ PrefabInstance:
     - target: {fileID: 9063158735673540828, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: m_Name
       value: Interact Popup
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063158735673540828, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
