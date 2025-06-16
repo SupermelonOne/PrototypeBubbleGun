@@ -1242,10 +1242,16 @@ MonoBehaviour:
   spongeObj: {fileID: 1934632917249386941}
   gloveObj: {fileID: 7559484267324418532}
   gunObj: {fileID: 579124808045947101}
-  shootBubble: {fileID: 0}
-  scrubSponge: {fileID: 0}
-  grabBone: {fileID: 0}
-  sprayWater: {fileID: 0}
+  instruments:
+  - {fileID: 8579127135312752420}
+  - {fileID: 6809125369781339340}
+  - {fileID: 5707016688936643234}
+  - {fileID: 8616139669888739732}
+  instrumentObjects:
+  - {fileID: 1326934723683048841}
+  - {fileID: 1326934723683048841}
+  - {fileID: 1934632917249386941}
+  - {fileID: 7559484267324418532}
 --- !u!114 &8616139669888739732
 MonoBehaviour:
   m_ObjectHideFlags: 0
