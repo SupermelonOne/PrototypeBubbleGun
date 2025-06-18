@@ -1,11 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshSurface))]
+[RequireComponent(typeof(RectMeshBuilder))]
+[RequireComponent(typeof(AudioSource))]
 
 public class BridgeScript : MonoBehaviour
 {
@@ -21,6 +26,8 @@ public class BridgeScript : MonoBehaviour
     [SerializeField] public float fallDist;
     [SerializeField] public float maxCurveHeight;
     
+    [SerializeField] private float monsterHoverHeight = .1f;
+    
     private Vector3 bridgeStart;
     private Vector3 bridgeEnd;
     
@@ -32,32 +39,30 @@ public class BridgeScript : MonoBehaviour
     private AudioSource audioSource;
     
     private NavMeshSurface surface;
+    
+    private RectMeshBuilder rectMeshBuilder;
+    
+    private GameObject groundStart, groundEnd;
 
     private void Start()
     {
+        InitializeComponents();
+        
+        bridgeStart = bridgeStartObject.transform.position;
+        bridgeEnd = bridgeEndObject.transform.position;
+        
         planksObject = new GameObject();
         planksObject.name = "Planks";
         planksObject.transform.SetParent(transform);
     
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource != null) audioSource.clip = soundEffect;
-    
-        bridgeStart = bridgeStartObject.transform.position;
-        bridgeEnd = bridgeEndObject.transform.position;
-    
+        audioSource.clip = soundEffect;
+        
         var startToEnd = (bridgeEnd - bridgeStart).normalized;
         startToEnd.y = 0; 
         bridgeEndObject.transform.rotation = Quaternion.LookRotation(startToEnd, Vector3.up);
         bridgeStartObject.transform.rotation = Quaternion.LookRotation(-startToEnd, Vector3.up);
-    
-        surface = GetComponent<NavMeshSurface>();
-    
-        LayerMask includedLayers = LayerMask.GetMask("Surface");
-
-        startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
-        endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
         
-
+        LayerMask includedLayers = LayerMask.GetMask("Surface");
 
         if (startLink == null || endLink == null) return; // Exit if links are missing
 
@@ -68,23 +73,35 @@ public class BridgeScript : MonoBehaviour
         int plankAmount = GetPlankAmount(bridgeStart, bridgeEnd, plankTotalSize);
 
         Vector3 groundStartLocal, groundEndLocal;
+        
     
-        if (TryGetHighestOverlapY(bridgeStartObject, includedLayers, out groundStartLocal))
+        if (TryGetHighestOverlapY(bridgeStartObject, includedLayers, out groundStartLocal, out groundStart))
         {
+            Debug.Log(groundStart);
             startLink.startPoint = groundStartLocal;
-            startLink.endPoint = bridgeStartObject.transform.InverseTransformPoint(GetPlankPosition(0));
+            startLink.endPoint = bridgeStartObject.transform.InverseTransformPoint(GetPlankPosition(1));
         }
 
-        if (TryGetHighestOverlapY(bridgeEndObject, includedLayers, out groundEndLocal))
+        if (TryGetHighestOverlapY(bridgeEndObject, includedLayers, out groundEndLocal, out groundEnd))
         {
-            endLink.startPoint = bridgeEndObject.transform.InverseTransformPoint(GetPlankPosition(plankAmount));
+            Debug.Log(groundEnd);
+            endLink.startPoint = bridgeEndObject.transform.InverseTransformPoint(GetPlankPosition(plankAmount-1));
             endLink.endPoint = groundEndLocal;
         }
         
         
         startLink.enabled = false;
         endLink.enabled = false;
+    }
 
+    private void InitializeComponents()
+    {
+        //no need for null checks because these components are all required
+        rectMeshBuilder = GetComponent<RectMeshBuilder>();
+        surface = GetComponent<NavMeshSurface>();
+        audioSource = GetComponent<AudioSource>();
+        startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
+        endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
     }
 
 
@@ -110,6 +127,8 @@ public class BridgeScript : MonoBehaviour
         float width = renderer.bounds.extents.x * 2f;
         float height = renderer.bounds.extents.y * 2f;
         float length = renderer.bounds.extents.z * 2f;
+        
+        List<Vector3> points = new List<Vector3>();
 
         for (int i = 0; i < amount; i++)
         {
@@ -126,13 +145,25 @@ public class BridgeScript : MonoBehaviour
             Matrix4x4 matrix = Matrix4x4.TRS(position, r, Vector3.one);
             Gizmos.matrix = matrix;
             Gizmos.DrawWireCube(Vector3.zero, new Vector3(width, height, length));
+
+            if (i % 3 == 0 || i >= amount-1 || i <= 1)
+            {
+                Vector3 localOffset1 = r * new Vector3(-width / 2f, height, 0); // left bottom corner
+                Vector3 localOffset2 = r * new Vector3(width / 2f, height, 0);   // right top corner
+
+                points.Add(position + localOffset1);
+                points.Add(position + localOffset2);
+            }
+        }
+
+        for (int i = 2; i < points.Count; i++)
+        {
+            Gizmos.matrix = Matrix4x4.identity;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(points[i], points[i - 2]);
         }
     }
-
-
-
-
-
+    
     public void OnBuildBridge()
     {
         var renderer = plankPrefab.GetComponent<Renderer>();
@@ -145,6 +176,15 @@ public class BridgeScript : MonoBehaviour
     
     private IEnumerator BuildBridge(int amount, float delay)
     {
+        var points = new List<Vector3>();
+        
+        var renderer = plankPrefab.GetComponent<Renderer>();
+        if (renderer == null)
+        {
+            Debug.LogWarning("No renderer");
+            yield return null;
+        }
+        
         var fallTime = 0.3f;
         var minPitch = 0.6f;
         var maxPitch = 2f;
@@ -152,46 +192,89 @@ public class BridgeScript : MonoBehaviour
         
         var distToMove = bridgeEnd - bridgeStart;
         var distPerStep = distToMove / amount;
-        int material = 0;
-        for (int i = 0; i < amount; i++)
+        var material = 0;
+        
+        float width = renderer.bounds.extents.x * 2f;
+        float height = renderer.bounds.extents.y * 2f;
+        
+        for (var i = 0; i < amount; i++)
         {
             if (material + 1 < plankMaterials.Length)
                 material++;
             else material = 0;
 
-            
+            float t = (float)i / (amount - 1);
 
 
-            var startIndex = 0f;
-            var endIndex = amount;
-            var maxHeight = maxCurveHeight;
-
-            var heightFactor = -4 * maxHeight;
-            var indexRangeSquared = (endIndex - startIndex) * (endIndex - startIndex);
-            var distanceFromEnds = (i - startIndex) * (i - endIndex);
-            var heightOffset = heightFactor / indexRangeSquared * distanceFromEnds;
+            float heightOffset = -4f * maxCurveHeight * (t - 0.5f) * (t - 0.5f) + maxCurveHeight;
             var heightVector = new Vector3(0, heightOffset, 0);
             
             var fall = new Vector3(0,fallDist,0);
-            var pos = bridgeStart + heightVector + distPerStep * i + fall;
-            
-            var plank = PlacePlank(pos, material);
+            var pos = bridgeStart + distPerStep * i + heightVector;
+
+            var plank = PlacePlank(pos + fall, material);
             
             if (i % 2 == 0)
                 PlaceFencePost(plank, material);
+            
+            var direction = (bridgeEnd - pos).normalized;
+            direction.y = 0; 
+            var r = Quaternion.LookRotation(direction, Vector3.up);
+            
+            if (i % 3 == 0 || i >= amount-1 || i <= 1)
+            {
+                Vector3 localOffset1 = r * new Vector3(-width / 2f, height, 0); // left bottom corner
+                Vector3 localOffset2 = r * new Vector3(width / 2f, height, 0);   // right top corner
+
+                points.Add(pos + localOffset1);
+                points.Add(pos + localOffset2);
+
+            }
             
             var pitch = minPitch + pitchInterval * i;
             StartCoroutine(MovePlankDown(plank, fallDist, pitch, fallTime));
             yield return new WaitForSeconds(delay); 
         }
         yield return new WaitForSeconds(fallTime);
-        surface.BuildNavMesh();
+        
+        rectMeshBuilder.SetMesh(points);
         startLink.enabled = true;
         endLink.enabled = true;
+        
+        startLink.width = width;
+        endLink.width = width;
         
         startLink.UpdateLink();
         endLink.UpdateLink();
         
+        Debug.Log(groundEnd.name);
+        Debug.Log(groundStart.name);
+        
+        NavMeshSurface startSurface = groundStart.GetComponentInParent<NavMeshSurface>();
+        NavMeshSurface endSurface = groundEnd.GetComponentInParent<NavMeshSurface>();
+        
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        FreezeEnemies(enemies);
+        
+        startSurface.BuildNavMesh();
+        endSurface.BuildNavMesh();
+        
+        surface.BuildNavMesh();
+
+        try
+        {
+            if (surface.isActiveAndEnabled)
+                StartCoroutine(UnFreezeEnemies(enemies));
+            else
+                Debug.LogError("PANIC AND FEAR BECAUSE THE SURFACE ISNT HERE");
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+
+
+        rectMeshBuilder.RemoveMesh();
     }
 
     private Vector3 GetPlankPosition(int index)
@@ -249,6 +332,9 @@ public class BridgeScript : MonoBehaviour
         post1.GetComponent<Renderer>().material = plankMaterials[matIndex];
         post2.GetComponent<Renderer>().material = plankMaterials[matIndex];
         
+        post1.transform.SetParent(transform);
+        post2.transform.SetParent(transform);
+        
         
         StartCoroutine(MovePlankDown(post1, fallDist, 0));
         StartCoroutine(MovePlankDown(post2, fallDist, 0));
@@ -290,9 +376,42 @@ public class BridgeScript : MonoBehaviour
         var distance = Vector3.Distance(startPos, endPos);
         return Mathf.FloorToInt(distance / plankSize);
     }
-
-    public static bool TryGetHighestOverlapY(GameObject obj, LayerMask additionalExcludedLayers, out Vector3 localContactPoint)
+    
+    void FreezeEnemies(List<GameObject> enemies)
     {
+        foreach (var enemy in enemies)
+        {
+            var agent = enemy.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.isStopped = true;
+                agent.enabled = false;
+            }
+        }
+    }
+    
+    IEnumerator UnFreezeEnemies(List<GameObject> enemies)
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (var enemy in enemies)
+        {
+            var agent = enemy.GetComponent<NavMeshAgent>();
+            if (agent != null)
+            {
+                agent.enabled = true;
+                enemy.GetComponent<MonsterMoveBehavior>().TryReconnectAgentToNavMesh();
+                
+                
+                agent.isStopped = false;
+            }
+        }
+    }
+
+
+    public static bool TryGetHighestOverlapY(GameObject obj, LayerMask additionalExcludedLayers, out Vector3 localContactPoint, out GameObject otherSurface)
+    {
+        otherSurface = null;
+
         localContactPoint = Vector3.zero;
         var objTransform = obj.transform;
         var objCollider = obj.GetComponent<Collider>();
@@ -304,6 +423,7 @@ public class BridgeScript : MonoBehaviour
 
         Vector3 highestContactPoint = Vector3.negativeInfinity;
         bool hitFound = false;
+
 
         Vector3 center = objCollider.bounds.center;
         Vector3 extents = objCollider.bounds.extents;
@@ -328,6 +448,8 @@ public class BridgeScript : MonoBehaviour
             {
                 if (hit.point.y > highestContactPoint.y)
                 {
+                    otherSurface = hit.collider.gameObject;
+                    Debug.Log(otherSurface.name);
                     highestContactPoint = hit.point;
                     hitFound = true;
                 }
@@ -346,6 +468,8 @@ public class BridgeScript : MonoBehaviour
             {
                 if (hit.point.y > highestContactPoint.y)
                 {
+                    otherSurface = hit.collider.gameObject;
+                    Debug.Log(otherSurface.name);
                     highestContactPoint = hit.point;
                     hitFound = true;
                 }

@@ -15,6 +15,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] private Sprite[] sprites;
     private Vector3 areaCenter;
     private Vector3 areaSize;
+    
 
     private void Start()
     {

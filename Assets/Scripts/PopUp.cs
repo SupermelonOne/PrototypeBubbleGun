@@ -168,18 +168,16 @@ public class PopUp : MonoBehaviour
             float angleH = -coneAngleDegrees + (i * angleStep);
 
             Vector3 direction = Quaternion.Euler(0f, angleH, 0f) * closestPlayer.GetComponentInChildren<Camera>().transform.forward;
-            Color c = Color.red;
             if (Physics.Raycast(closestPlayer.controller.playerCamera.transform.position, direction, out RaycastHit hit, minDistance))
             {
                 if (hit.collider == textMesh.gameObject.GetComponent<BoxCollider>())
                 {
-                    c = Color.green;
                     OnPlayerLook(closestPlayer);
                     isHitting = true;
+                    break;
                 }
             }
 
-            Debug.DrawLine(closestPlayer.controller.playerCamera.transform.position, closestPlayer.controller.playerCamera.transform.position + direction, c);
         }
         if (!isHitting)
             textMesh.alpha = 0;
