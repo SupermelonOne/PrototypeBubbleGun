@@ -41,10 +41,11 @@ public class BridgeEditor : Editor
             bridge.OnBuildBridge();
 
 
-
         if (GUILayout.Button("Clear Bridge"))
             bridge.ClearBridge();
         
+        if(GUILayout.Button("Set Bridge Nav Mesh, THIS ALSO SAVES THE SCENE"))
+            bridge.SetNavMesh();
         serializedObject.ApplyModifiedProperties();
     }
 }

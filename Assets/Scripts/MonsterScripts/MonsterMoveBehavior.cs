@@ -25,6 +25,7 @@ public class MonsterMoveBehavior : MonoBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
     private List<Transform> hidingSpots = new List<Transform>();
+    private bool hasLanded = false;
 
 
     private void Start()
@@ -33,7 +34,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
 
-        /*
+        //TODO: this
         GameObject target = GameObject.Find("HidingSpots");
         if (target != null)
         {
@@ -47,7 +48,32 @@ public class MonsterMoveBehavior : MonoBehaviour
         else
         {
             Debug.Log("Error: HidingSpots not found");
-        }*/
+        }
+
+
+        agent.enabled = true; // Make sure it's enabled first
+        
+        //Attempt to snap the agent to the nearest NavMesh point
+        bool snappedSuccessfully = TryReconnectAgentToNavMesh();
+
+        // /only set destination if the agent is successfully placed on the NavMesh
+        if (snappedSuccessfully && hidingSpots.Count > 0)
+        {
+            Debug.Log($"agent is acive: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
+            agent.SetDestination(GetNearestHidingspot());
+        }
+        else if (snappedSuccessfully)
+        {
+            Debug.Log("Monster snapped to NavMesh but no hiding spots found. Starting wander behavior.", this);
+            // If no hiding spots, directly initiate wandering
+            walkWaitTimer = walkWaitTime; // Make it pick a random point immediately
+        }
+        else
+        {
+            Debug.LogError("Monster could not be placed on NavMesh in Start(). It will not move.", this);
+            agent.enabled = false; // Keep agent disabled if it can't find a mesh
+        }
+        
     }
 
     public void EnterStation()
@@ -62,7 +88,15 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
-        goToSecond = !agent.isStopped;
+        if (agent.isOnNavMesh)
+        {
+            hasLanded = true;
+            goToSecond = !agent.isStopped;
+        }
+        else if (hasLanded)
+            TryReconnectAgentToNavMesh();
+        else
+            return;
 
         if (isCaught)
         {
@@ -83,7 +117,6 @@ public class MonsterMoveBehavior : MonoBehaviour
             agent.enabled = true;   
         }
         
-        agent.isStopped = false;
         //pretty sure this isnt how Time.deltaTime works, if this function doesnt work this is prolly the reason
         walkWaitTimer += Time.deltaTime;
         
@@ -92,6 +125,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             walkWaitTimer = 0;
             if (GetRandomPointOnNavmesh(transform.position, walkRange, out var randomPoint))
             {
+                Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
                 agent.SetDestination(randomPoint);
             }
         }
@@ -176,7 +210,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             placeToGo = hideSpot.position;
             distanceToPlace = distance;
         }
-        Debug.Log("amount of hiding spots = " + hidingSpots.Count);
+//        Debug.Log("amount of hiding spots = " + hidingSpots.Count);
         if (goToSecond || distanceToPlace < 3)
         {
             goToSecond = true; ;
@@ -202,5 +236,39 @@ public class MonsterMoveBehavior : MonoBehaviour
     {
         isCaught = false;
         netPosition = null;
+    }
+    
+    
+    public bool TryReconnectAgentToNavMesh(float searchRadius = 1000f)
+    {
+        if (agent == null)
+        {
+            Debug.LogError("NavMeshAgent is missing.", this);
+            return false;
+        }
+
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, searchRadius, NavMesh.AllAreas))
+        {
+            agent.enabled = false;
+            transform.position = hit.position;
+            agent.enabled = true;
+            agent.Warp(hit.position); // Optional but safer
+
+
+            // Only call Warp after agent is on the mesh
+            if (agent.isOnNavMesh)
+            {
+                Debug.Log("Agent successfully reconnected and warped.");
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
+                return false;
+            }
+        }
+
+        Debug.LogWarning("Could not find a valid NavMesh point nearby.");
+        return false;
     }
 }
