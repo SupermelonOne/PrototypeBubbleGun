@@ -59,15 +59,17 @@ public class RectMeshBuilder : MonoBehaviour
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
+        MeshCollider meshCollider = GetComponent<MeshCollider>();
+        if (meshCollider == null)
+            meshCollider = gameObject.AddComponent<MeshCollider>();
         
-        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
         meshCollider.sharedMesh = mesh;
         meshCollider.convex = false; // If needed
     }
 
     public void RemoveMesh()
     {
-        //GetComponent<MeshFilter>().mesh = null;
+        GetComponent<MeshFilter>().mesh = null;
         
     }
 }

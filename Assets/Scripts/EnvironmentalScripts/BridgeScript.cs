@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -44,12 +47,11 @@ public class BridgeScript : MonoBehaviour
     
     private GameObject groundStart, groundEnd;
 
-    private void Start()
+    private Renderer plankRenderer;
+
+    private void Awake()
     {
         InitializeComponents();
-        
-        bridgeStart = bridgeStartObject.transform.position;
-        bridgeEnd = bridgeEndObject.transform.position;
         
         planksObject = new GameObject();
         planksObject.name = "Planks";
@@ -61,13 +63,28 @@ public class BridgeScript : MonoBehaviour
         startToEnd.y = 0; 
         bridgeEndObject.transform.rotation = Quaternion.LookRotation(startToEnd, Vector3.up);
         bridgeStartObject.transform.rotation = Quaternion.LookRotation(-startToEnd, Vector3.up);
+    }
+
+    private void InitializeComponents()
+    {
+        //no need for null checks because these components are all required
+        bridgeStart = bridgeStartObject.transform.position;
+        bridgeEnd = bridgeEndObject.transform.position;
         
+        rectMeshBuilder = GetComponent<RectMeshBuilder>();
+        surface = GetComponent<NavMeshSurface>();
+        audioSource = GetComponent<AudioSource>();
+        startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
+        endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
+        plankRenderer = plankPrefab.GetComponent<Renderer>();
+    }
+
+    private void SetCollisionPoints()
+    {
         LayerMask includedLayers = LayerMask.GetMask("Surface");
 
         if (startLink == null || endLink == null) return; // Exit if links are missing
 
-        var plankRenderer = plankPrefab.GetComponent<Renderer>();
-        if (plankRenderer == null) return; // Exit if plank prefab renderer is missing
 
         float plankTotalSize = plankRenderer.bounds.extents.z * 2f + emptySpace;
         int plankAmount = GetPlankAmount(bridgeStart, bridgeEnd, plankTotalSize);
@@ -79,29 +96,19 @@ public class BridgeScript : MonoBehaviour
         {
             Debug.Log(groundStart);
             startLink.startPoint = groundStartLocal;
-            startLink.endPoint = bridgeStartObject.transform.InverseTransformPoint(GetPlankPosition(1));
+            startLink.endPoint = bridgeStartObject.transform.InverseTransformPoint(GetPlankPosition(1) + new Vector3(0,plankRenderer.bounds.extents.y * 2,0));
         }
 
         if (TryGetHighestOverlapY(bridgeEndObject, includedLayers, out groundEndLocal, out groundEnd))
         {
             Debug.Log(groundEnd);
-            endLink.startPoint = bridgeEndObject.transform.InverseTransformPoint(GetPlankPosition(plankAmount-1));
+            endLink.startPoint = bridgeEndObject.transform.InverseTransformPoint(GetPlankPosition(plankAmount-1) +  new Vector3(0,plankRenderer.bounds.extents.y * 2,0));
             endLink.endPoint = groundEndLocal;
         }
         
         
         startLink.enabled = false;
         endLink.enabled = false;
-    }
-
-    private void InitializeComponents()
-    {
-        //no need for null checks because these components are all required
-        rectMeshBuilder = GetComponent<RectMeshBuilder>();
-        surface = GetComponent<NavMeshSurface>();
-        audioSource = GetComponent<AudioSource>();
-        startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
-        endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
     }
 
 
@@ -176,15 +183,6 @@ public class BridgeScript : MonoBehaviour
     
     private IEnumerator BuildBridge(int amount, float delay)
     {
-        var points = new List<Vector3>();
-        
-        var renderer = plankPrefab.GetComponent<Renderer>();
-        if (renderer == null)
-        {
-            Debug.LogWarning("No renderer");
-            yield return null;
-        }
-        
         var fallTime = 0.3f;
         var minPitch = 0.6f;
         var maxPitch = 2f;
@@ -194,8 +192,7 @@ public class BridgeScript : MonoBehaviour
         var distPerStep = distToMove / amount;
         var material = 0;
         
-        float width = renderer.bounds.extents.x * 2f;
-        float height = renderer.bounds.extents.y * 2f;
+        
         
         for (var i = 0; i < amount; i++)
         {
@@ -203,33 +200,14 @@ public class BridgeScript : MonoBehaviour
                 material++;
             else material = 0;
 
-            float t = (float)i / (amount - 1);
-
-
-            float heightOffset = -4f * maxCurveHeight * (t - 0.5f) * (t - 0.5f) + maxCurveHeight;
-            var heightVector = new Vector3(0, heightOffset, 0);
             
             var fall = new Vector3(0,fallDist,0);
-            var pos = bridgeStart + distPerStep * i + heightVector;
+            var pos = GetPlankPosition(i);
 
             var plank = PlacePlank(pos + fall, material);
             
             if (i % 2 == 0)
                 PlaceFencePost(plank, material);
-            
-            var direction = (bridgeEnd - pos).normalized;
-            direction.y = 0; 
-            var r = Quaternion.LookRotation(direction, Vector3.up);
-            
-            if (i % 3 == 0 || i >= amount-1 || i <= 1)
-            {
-                Vector3 localOffset1 = r * new Vector3(-width / 2f, height, 0); // left bottom corner
-                Vector3 localOffset2 = r * new Vector3(width / 2f, height, 0);   // right top corner
-
-                points.Add(pos + localOffset1);
-                points.Add(pos + localOffset2);
-
-            }
             
             var pitch = minPitch + pitchInterval * i;
             StartCoroutine(MovePlankDown(plank, fallDist, pitch, fallTime));
@@ -237,53 +215,104 @@ public class BridgeScript : MonoBehaviour
         }
         yield return new WaitForSeconds(fallTime);
         
+        
+    }
+
+    public void SetNavMesh()
+    {
+        InitializeComponents();
+        SetCollisionPoints();
+        var plankTotalSize = plankRenderer.bounds.extents.z * 2f + emptySpace;
+        var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankTotalSize);
+    
+        var points = new List<Vector3>();
+        var width = plankRenderer.bounds.extents.x * 2f;
+        var height = plankRenderer.bounds.extents.y * 2f;
+        
+        var startPos = bridgeStart;
+        var endPos = bridgeEnd;
+        
+        var bothDirection = (bridgeEnd - startPos).normalized;
+        bothDirection.y = 0; 
+        var rr = Quaternion.LookRotation(bothDirection, Vector3.up);
+                
+        Vector3 localOffset1r = rr * new Vector3(-width / 2f, height, 0); // left bottom corner
+        Vector3 localOffset2r = rr * new Vector3(width / 2f, height, 0);   // right top corner
+        
+        
+        points.Add(GetPlankPosition(1) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
+        points.Add(GetPlankPosition(1) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
+        
+        for (int i = 0; i < amount; i++)
+        {
+            if (i % 3 == 0 || i >= amount-1 || i <= 1)
+            {
+                Debug.Log("shiiiii, testing number: " + i);
+                var pos = GetPlankPosition(i);
+                
+                var direction = (bridgeEnd - pos).normalized;
+                direction.y = 0; 
+                var r = Quaternion.LookRotation(direction, Vector3.up);
+                
+                Vector3 localOffset1 = r * new Vector3(-width / 2f, height, 0); // left bottom corner
+                Vector3 localOffset2 = r * new Vector3(width / 2f, height, 0);   // right top corner
+
+                points.Add(pos + localOffset1);
+                points.Add(pos + localOffset2);
+
+            }
+        }
+
+
+        points.Add(GetPlankPosition(amount-1) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
+        points.Add(GetPlankPosition(amount-1) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
+
+        
+        
         rectMeshBuilder.SetMesh(points);
         startLink.enabled = true;
         endLink.enabled = true;
-        
+    
         startLink.width = width;
         endLink.width = width;
         
+
+    
         startLink.UpdateLink();
         endLink.UpdateLink();
-        
-        Debug.Log(groundEnd.name);
-        Debug.Log(groundStart.name);
-        
+    
         NavMeshSurface startSurface = groundStart.GetComponentInParent<NavMeshSurface>();
         NavMeshSurface endSurface = groundEnd.GetComponentInParent<NavMeshSurface>();
-        
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-        FreezeEnemies(enemies);
-        
-        startSurface.BuildNavMesh();
-        endSurface.BuildNavMesh();
-        
-        surface.BuildNavMesh();
+    
+        if (startSurface != null)
+            startSurface.BuildNavMesh();
+    
+        if (endSurface != null)
+            endSurface.BuildNavMesh();
 
-        try
+        if (surface != null)
         {
-            if (surface.isActiveAndEnabled)
-                StartCoroutine(UnFreezeEnemies(enemies));
-            else
-                Debug.LogError("PANIC AND FEAR BECAUSE THE SURFACE ISNT HERE");
-        }
-        catch (Exception e)
-        {
-            Debug.LogException(e);
+            surface.collectObjects = CollectObjects.Children; // or Children, etc.
+            surface.BuildNavMesh();
         }
 
-
+        #if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(surface);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(surface.gameObject.scene);
+        UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+        #endif
         rectMeshBuilder.RemoveMesh();
+
     }
+    private void SetNavObstacles(){}
+    private void RemoveNavObstacles(){}
 
     private Vector3 GetPlankPosition(int index)
     {
-        var renderer = plankPrefab.GetComponent<Renderer>();
-        if (renderer == null) return Vector3.zero;
+        var rend = plankPrefab.GetComponent<Renderer>();
+        if (rend == null) return Vector3.zero;
 
-        float plankHeight = renderer.bounds.extents.y * 2f;
-        float plankDepth = renderer.bounds.extents.z * 2f;
+        var plankDepth = rend.bounds.extents.z * 2f;
 
         var plankSize = plankDepth + emptySpace;
         var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankSize);
@@ -298,7 +327,7 @@ public class BridgeScript : MonoBehaviour
         Vector3 basePlankCenterPosition = bridgeStart + new Vector3(0, heightOffset, 0) + distPerStep * index;
 
         // Return the position at the top center of the plank
-        return basePlankCenterPosition + new Vector3(0, plankHeight / 2f, 0);
+        return basePlankCenterPosition;
     }
 
 
