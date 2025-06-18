@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DirtScript : MonoBehaviour
 {
+    private bool visible;
+    [SerializeField] private GrabableBone hiddenUnder;
+    [SerializeField] private float requiredAngle = 100;
     bool canClean = false;
     [SerializeField] private float maxHealth = 1; //time needs to be cleaned
     private float health;
@@ -13,6 +17,10 @@ public class DirtScript : MonoBehaviour
     [SerializeField] private Transform dirtVisual;
     private void Start()
     {
+        if (hiddenUnder == null)
+        {
+            visible = true;
+        }
         particleSystem = GetComponentInChildren<ParticleSystem>();
         health = maxHealth;
         monsterCleanness = GetComponentInParent<MonsterCleanness>();
@@ -21,7 +29,7 @@ public class DirtScript : MonoBehaviour
     {
         if (canClean)
         {
-            if (other.CompareTag("Cleaner"))
+            if (other.CompareTag("Cleaner") && visible)
             {
                 health -= Time.deltaTime;
                 if (dirtVisual != null)
@@ -47,6 +55,25 @@ public class DirtScript : MonoBehaviour
                 monsterCleanness.CheckDirt();
             }
         }
+        if (hiddenUnder == null) return;
+        Vector3 limbDirection = hiddenUnder.transform.up;
+
+        float angleFromUp = Vector3.Angle(limbDirection, Vector3.up);
+
+        bool visible = angleFromUp <= requiredAngle;
+
+    }
+    private float recalculateAngle(float input)
+    {
+        if (input > 180)
+        {
+            input -= 360;
+        }
+        if (input < -180)
+        {
+            input += 360;
+        }
+        return input;
     }
     public void GetSoaped()
     {
