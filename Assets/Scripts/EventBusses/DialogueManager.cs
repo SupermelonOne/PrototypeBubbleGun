@@ -36,11 +36,9 @@ public class DialogueManager : MonoBehaviour
                 Assign(child, currentDepth + 1);
             }
         }
-
+        
         foreach (var dialogue in dialogues)
-        {
-            Assign(dialogue, 0);
-        }
+            Assign(dialogue, 0);        
     }
 
     private void UpdateDictionaries(List<DialogueOption> dialogues)
@@ -58,9 +56,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         foreach (var dialogue in dialogues)
-        {
             Assign(dialogue, 0);
-        }
+        
     }
 
     public string GetDialogue(int ID)

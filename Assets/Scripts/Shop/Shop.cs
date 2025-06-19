@@ -38,12 +38,36 @@ public class Shop : MonoBehaviour
     private void OnShop(ShopEventBus.OnShopActivated shopEvent)
     {
         shopEvent.player.controller.ToggleShopUI(true);
-        shopUI.ActivateShopUI();
-        shopUI.SetPanel(0, true);
+        shopUI.ActivateShopUI(shopEvent.player);
     }
+    
 
     private void NavigateUI(ShopEventBus.OnNavigateUI shopEvent)
     {
-        Debug.Log(shopEvent.inputType);
+        switch (shopEvent.inputType)
+        {
+            case InputTypes.Up:
+                shopUI.OnMoveCursorUp();
+                break;
+            case InputTypes.Down:
+                shopUI.OnMoveCursorDown();
+                break;
+            case InputTypes.Select:
+                shopUI.OnSelectDialogueOption();
+                break;
+            case InputTypes.Back:
+                shopUI.OnBack();
+                break;
+        }
+    }
+
+    public void Purchase(ItemType itemType, int amount, int cost)
+    {
+        //TODO: add dialogue if not enough money
+        if (shopUI.player.inventory.ItemAmount(ItemType.Munny) >= cost)
+        {
+            shopUI.player.inventory.BuyItem(itemType, amount, cost);
+            Debug.Log("Purchased Item: " + itemType + " with amount: " + amount + " to " + cost);
+        }
     }
 }

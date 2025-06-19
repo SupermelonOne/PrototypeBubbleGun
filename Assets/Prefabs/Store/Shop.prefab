@@ -789,6 +789,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
+      propertyPath: effects.isDestroyedAfterPressed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527976835921480411, guid: 40d87d5a06800a04fa6d72a7b9e602e5, type: 3}
       propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -991,6 +995,10 @@ PrefabInstance:
     - target: {fileID: 5095403918062162569, guid: 15e6d83dbaecdb745a14c1b654e2db0a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300277087864262573, guid: 15e6d83dbaecdb745a14c1b654e2db0a, type: 3}
+      propertyPath: initialText
+      value: Don't hate me cuz im beautiful n-
       objectReference: {fileID: 0}
     - target: {fileID: 7916164569986316291, guid: 15e6d83dbaecdb745a14c1b654e2db0a, type: 3}
       propertyPath: m_Name

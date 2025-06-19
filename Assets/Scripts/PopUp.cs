@@ -200,8 +200,8 @@ public class PopUp : MonoBehaviour
         {
             onButtonPressed?.Invoke(closestPlayer);
             
-            //my job here is done
-            Destroy(gameObject);
+            if (isDestroyedAfterPressed)
+                Destroy(gameObject);
         }
         else
         {

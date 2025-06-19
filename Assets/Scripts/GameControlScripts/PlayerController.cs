@@ -74,10 +74,10 @@ public class PlayerController : MonoBehaviour
                 mPlayerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
             }
 
-            mPlayerInput.UIMap.Back.performed += OnUIMoveBack;
-            mPlayerInput.UIMap.Select.performed += OnUIMoveSelect;
-            mPlayerInput.UIMap.NavigateUp.performed += OnUIMoveUp;
-            mPlayerInput.UIMap.NavigateDown.performed += OnUIMoveDown;
+            mPlayerInput.UIMap.Back.started += OnUIMoveBack;
+            mPlayerInput.UIMap.Select.started += OnUIMoveSelect;
+            mPlayerInput.UIMap.NavigateUp.started += OnUIMoveUp;
+            mPlayerInput.UIMap.NavigateDown.started += OnUIMoveDown;
         }
     }
     private void OnDisable()
@@ -102,10 +102,10 @@ public class PlayerController : MonoBehaviour
                 mPlayerInput.GamePad.SwapRight.started -= playerInstrument.SwitchRight;
             }
             
-            mPlayerInput.UIMap.Back.performed -= OnUIMoveBack;
-            mPlayerInput.UIMap.Select.performed -= OnUIMoveSelect;
-            mPlayerInput.UIMap.NavigateUp.performed -= OnUIMoveUp;
-            mPlayerInput.UIMap.NavigateDown.performed -= OnUIMoveDown;
+            mPlayerInput.UIMap.Back.started -= OnUIMoveBack;
+            mPlayerInput.UIMap.Select.started -= OnUIMoveSelect;
+            mPlayerInput.UIMap.NavigateUp.started -= OnUIMoveUp;
+            mPlayerInput.UIMap.NavigateDown.started -= OnUIMoveDown;
         }
     }
     
