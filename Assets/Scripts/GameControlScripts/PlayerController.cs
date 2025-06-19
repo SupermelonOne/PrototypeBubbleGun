@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity  = 20.0f;
     [SerializeField] private float jumpForce = 5;
 
-
+    private bool shopOpen = false;
     private Vector2 m_moveAmt = Vector2.zero;
     private Vector2 m_lookAmt = Vector2.zero;
     private Vector3 verticalMovement = Vector3.zero;
@@ -73,6 +73,11 @@ public class PlayerController : MonoBehaviour
                 mPlayerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
                 mPlayerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
             }
+
+            mPlayerInput.UIMap.Back.performed += OnUIMoveBack;
+            mPlayerInput.UIMap.Select.performed += OnUIMoveSelect;
+            mPlayerInput.UIMap.NavigateUp.performed += OnUIMoveUp;
+            mPlayerInput.UIMap.NavigateDown.performed += OnUIMoveDown;
         }
     }
     private void OnDisable()
@@ -96,8 +101,48 @@ public class PlayerController : MonoBehaviour
                 mPlayerInput.GamePad.SwapLeft.started -= playerInstrument.SwitchLeft;
                 mPlayerInput.GamePad.SwapRight.started -= playerInstrument.SwitchRight;
             }
+            
+            mPlayerInput.UIMap.Back.performed -= OnUIMoveBack;
+            mPlayerInput.UIMap.Select.performed -= OnUIMoveSelect;
+            mPlayerInput.UIMap.NavigateUp.performed -= OnUIMoveUp;
+            mPlayerInput.UIMap.NavigateDown.performed -= OnUIMoveDown;
         }
     }
+    
+
+    public void ToggleShopUI(bool isOpen)
+    {
+        shopOpen = isOpen;
+
+        if (isOpen)
+        {
+            mPlayerInput.GamePad.Disable(); // Disable gameplay input
+            mPlayerInput.UIMap.Enable();  // Enable shop UI input
+        }
+        else
+        {
+            mPlayerInput.UIMap.Disable();
+            mPlayerInput.GamePad.Enable();
+        }
+    }
+
+    private void OnUIMoveDown(InputAction.CallbackContext context)
+    {
+        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Down));
+    }
+    private void OnUIMoveUp(InputAction.CallbackContext context)
+    {
+        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Up));
+    }
+    private void OnUIMoveSelect(InputAction.CallbackContext context)
+    {
+        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Select));
+    }
+    private void OnUIMoveBack(InputAction.CallbackContext context)
+    {
+        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Back));
+    }
+
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
