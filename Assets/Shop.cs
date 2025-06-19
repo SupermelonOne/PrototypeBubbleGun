@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(DialogueManager))]
-[RequireComponent(typeof(ShopUI))]
 public class Shop : MonoBehaviour
 {
     private DialogueManager manager;
@@ -12,16 +11,22 @@ public class Shop : MonoBehaviour
     {
         ShopEventBus.Subscribe<ShopEventBus.OnShopActivated>(OnShop);
         manager = GetComponent<DialogueManager>();
-        shopUI = GetComponent<ShopUI>();
+        shopUI = GetComponentInChildren<ShopUI>();
+        
+        if(shopUI == null) Debug.LogError("ShopUI is null");
+
+        shopUI.GenerateShopUI(manager.GetDialogueOptions());
+        
     }
 
-    public void OnShopInvoke()
+    public void OnShopInvoke(Player p)
     {
         ShopEventBus.Invoke(new ShopEventBus.OnShopActivated());
     }
     
     private void OnShop(ShopEventBus.OnShopActivated shopEvent)
     {
-        shopUI.GenerateShopUI(manager.GetDialogueOptions());
+        shopUI.ActivateShopUI();
+        shopUI.SetPanel(0, true);
     }
 }

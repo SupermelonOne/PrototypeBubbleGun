@@ -9,9 +9,10 @@ public class DialogueManager : MonoBehaviour
     private Dictionary<string, string> dialogueByName = new();
     private Dictionary<int, string> dialogueByID = new();
     
-    void Start()
+    void Awake()
     {
         AssignIDs(dialogueOptions);
+        UpdateDictionaries(dialogueOptions);
     }
 
     public static void AssignIDs(List<DialogueOption> dialogues)

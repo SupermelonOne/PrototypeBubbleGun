@@ -199,7 +199,6 @@ public class PopUp : MonoBehaviour
         if (amount > cost.cost || cost.cost <= 0)
         {
             onButtonPressed?.Invoke(closestPlayer);
-          //  closestPlayer.inventory.BuyItem(cost.itemType, 1, cost.cost);
             
             //my job here is done
             Destroy(gameObject);

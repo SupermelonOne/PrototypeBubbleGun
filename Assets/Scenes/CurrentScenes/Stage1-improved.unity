@@ -1522,6 +1522,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5213833706421181442, guid: cd9a7c02eba61a14c979ab4e031aa30f, type: 3}
   m_PrefabInstance: {fileID: 539379300}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &326059185 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2093041154009135836, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+  m_PrefabInstance: {fileID: 1555098398}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58483ffb42d8a46468b1aabee0bbac52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &343174435 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1771925600353120335, guid: b5e7308fe5f36744aaa521618a70081e, type: 3}
@@ -6304,11 +6315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: dialogueOptions.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: dialogueOptions.Array.data[0]
-      value: 2877695028833288201
+      value: 2877695046827638785
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: dialogueOptions.Array.data[1]
@@ -6327,6 +6338,14 @@ PrefabInstance:
       value: Assembly-CSharp DialogueOption
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784]
+      value: Assembly-CSharp DialogueOption
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785]
+      value: Assembly-CSharp DialogueOption
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].ID
       value: 0
       objectReference: {fileID: 0}
@@ -6336,6 +6355,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288202].ID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].ID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].ID
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
@@ -6351,6 +6378,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].dialogue
       value: 
       objectReference: {fileID: 0}
@@ -6361,6 +6396,15 @@ PrefabInstance:
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288202].dialogue
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].dialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].dialogue
+      value: Lamp oil? bombs? rope? you want it? its yours my fiend, as long as you
+        have enough rupees!
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].dialogueName
@@ -6375,6 +6419,14 @@ PrefabInstance:
       value: New Root Dialogue
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].dialogueName
+      value: New Root Dialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].dialogueName
+      value: Intro
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].options.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -6384,6 +6436,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288202].options.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].options.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].ID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].ID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].ID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].dialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].dialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].dialogue
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].dialogueName
+      value: Lamp Oil
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].dialogueName
+      value: Bombs
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].dialogueName
+      value: Rope
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].options.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].options.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].options.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
@@ -6398,6 +6518,38 @@ PrefabInstance:
       propertyPath: managedReferences[2877695028833288202].onSelected.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638784].onSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].onSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[0].onSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[1].onSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695046827638785].options.Array.data[2].onSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2832380714404511319, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157479620871344650, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157479620871344650, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 326059185}
     - target: {fileID: 7381573917729208795, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: m_Name
       value: Shop
