@@ -19,21 +19,25 @@ public class DialogueManager : MonoBehaviour
     {
         int idCounter = 0;
 
-        void Assign(DialogueOption option, int currentDepth)
+        void Assign(Option option, int currentDepth)
         {
             if (currentDepth > 10)
             {
-                Debug.LogError($"Dialogue '{option.dialogueName}' exceeds max depth of 10.");
+                Debug.LogError($"Dialogue '{option.name}' exceeds max depth of 10.");
                 return;
             }
             
             
-            option.ID = idCounter++;
+            option.id = idCounter++;
             option.layer = currentDepth;
 
-            foreach (var child in option.options)
+            if (option is DialogueOption)
             {
-                Assign(child, currentDepth + 1);
+                var op = (DialogueOption)option;
+                foreach (var child in op.options)
+                {
+                    Assign(child, currentDepth + 1);
+                }
             }
         }
         
@@ -43,15 +47,19 @@ public class DialogueManager : MonoBehaviour
 //the dialogue is lacking -Elin
     private void UpdateDictionaries(List<DialogueOption> dialogues)
     { 
-        void Assign(DialogueOption option, int currentDepth)
+        void Assign(Option option, int currentDepth)
         {
-            dialogueByName[option.dialogueName] = option.dialogue;
-            dialogueByID[option.ID] = option.dialogue;
+            dialogueByName[option.name] = option.description;
+            dialogueByID[option.id] = option.description;
             option.layer = currentDepth;
 
-            foreach (var child in option.options)
+            if (option is DialogueOption)
             {
-                Assign(child, currentDepth + 1);
+                var op = (DialogueOption)option;
+                foreach (var child in op.options)
+                {
+                    Assign(child, currentDepth + 1);
+                }
             }
         }
 
@@ -74,6 +82,11 @@ public class DialogueManager : MonoBehaviour
             return dialogueByName[dialogueName];
 
         return "You broke the game genius...";
+    }
+
+    public void HandleBuyOption(BuyOption option)
+    {
+        Debug.Log($"Buying {option.amount}x {option.item} for {option.price} Rupees.");
     }
     
     public List<DialogueOption> GetDialogueOptions() => dialogueOptions;

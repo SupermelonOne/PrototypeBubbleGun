@@ -16,7 +16,8 @@ public class ShopUI : MonoBehaviour
     private Stack<DialogueOption> dialogueHistory = new Stack<DialogueOption>();
     private int currentDialogueOptionIndex = 0;
     private List<TextMeshProUGUI> dialogueBoxList = new List<TextMeshProUGUI>();
-    private Dictionary<DialogueOption, TextMeshProUGUI> dialogueBoxDict = new Dictionary<DialogueOption, TextMeshProUGUI>();
+    private Dictionary<Option, TextMeshProUGUI> dialogueBoxDict = new Dictionary<Option, TextMeshProUGUI>();
+    private DialogueManager dialogueManager;
 
     //TODO: fix it so 2 players can use it yknow
     public Player player;
@@ -32,13 +33,14 @@ public class ShopUI : MonoBehaviour
         canvas.enabled = true;
         player = p;
     }
-    public void GenerateShopUI(List<DialogueOption> dialogueOptions)
+    public void GenerateShopUI(List<DialogueOption> dialogueOptions, DialogueManager m)
     {
+        dialogueManager = m;
         panel = Instantiate(panelPrefab, canvas.transform);
         panel.name = "Panel";
         
         DialogueOption option = new DialogueOption();
-        option.dialogue = initialText;
+        option.description = initialText;
         foreach (var dialogueOption in dialogueOptions)
         {
             option.options.Add(dialogueOption);
@@ -49,9 +51,6 @@ public class ShopUI : MonoBehaviour
     void GeneratePanel(DialogueOption dialogueOption)
     {
         currentDialogueOption = dialogueOption;
-
-        var dialogueText = dialogueBox.GetComponent<TextMeshProUGUI>();
-        dialogueText.text = dialogueOption.dialogue;
         
         Transform choicesContainer = panel.transform;
         
@@ -63,7 +62,7 @@ public class ShopUI : MonoBehaviour
             var choiceText = Instantiate(textOptionPrefab, choicesContainer);
             dialogueBoxList.Add(choiceText);
             dialogueBoxDict.Add(choice, choiceText);
-            choiceText.text = choice.dialogueName; 
+            choiceText.text = choice.name; 
         }
 
         SetCursor();
@@ -90,7 +89,7 @@ public class ShopUI : MonoBehaviour
     {
         foreach (var kvp in dialogueBoxDict)
         {
-            kvp.Value.text = kvp.Key.dialogueName;
+            kvp.Value.text = kvp.Key.name;
         }
     }
 
@@ -99,7 +98,10 @@ public class ShopUI : MonoBehaviour
         ResetNames();
         var d = currentDialogueOption.options[currentDialogueOptionIndex];
         var dialogueText = dialogueBoxDict[d];
-        dialogueText.text = "> " + d.dialogueName;
+        dialogueText.text = "> " + d.name;
+        
+        var dText = dialogueBox.GetComponent<TextMeshProUGUI>();
+        dText.text = d.description;
     }
 
     public void OnSelectDialogueOption()
@@ -140,12 +142,19 @@ public class ShopUI : MonoBehaviour
         dialogueBoxDict.Clear();
     }
 
-    void OnOptionSelected(DialogueOption dialogueOption, DialogueOption from = null)
+    void OnOptionSelected(Option dialogueOption, DialogueOption from = null)
     {
-        if (from != null)
-            dialogueHistory.Push(from);
-        DestroyPanel();
-        GeneratePanel(dialogueOption);
+        if (dialogueOption is DialogueOption)
+        {
+            if (from != null)
+                dialogueHistory.Push(from);
+            DestroyPanel();
+            GeneratePanel((DialogueOption)dialogueOption);
+        }
+        else if (dialogueOption is BuyOption option)
+        {
+            option.InvokeSelection(dialogueManager);
+        }
     }
 //Destroying the panel is a bit too violent -Elin
 }

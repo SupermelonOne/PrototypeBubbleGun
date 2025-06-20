@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ public class DialogueManagerEditor : Editor
             SerializedProperty element = dialoguesProp.GetArrayElementAtIndex(i);
             if (element.managedReferenceValue == null)
             {
-                element.managedReferenceValue = new DialogueOption { dialogueName = "New Root Dialogue" };
+                element.managedReferenceValue = new DialogueOption { name = "New Root Dialogue" };
             }
         }
         
@@ -59,7 +60,7 @@ public class DialogueManagerEditor : Editor
         if (GUILayout.Button("Add Root Dialogue"))
         {
             Undo.RecordObject(manager, "Add Root Dialogue");
-            manager.dialogueOptions.Add(new DialogueOption { dialogueName = "New Root Dialogue" });
+            manager.dialogueOptions.Add(new DialogueOption { name = "New Root Dialogue" });
             EditorUtility.SetDirty(manager);
         }
 
@@ -78,7 +79,7 @@ public class DialogueManagerEditor : Editor
         EditorGUILayout.BeginVertical("box");
 
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField($"ID: {option.ID} | Depth: {depth}", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField($"ID: {option.id} | Depth: {depth}", EditorStyles.boldLabel);
         
         if (depth == 0)
         {
@@ -93,13 +94,12 @@ public class DialogueManagerEditor : Editor
         }
         EditorGUILayout.EndHorizontal();
         
-        option.dialogueName = EditorGUILayout.TextField("Name", option.dialogueName);
+        option.name = EditorGUILayout.TextField("Name", option.name);
         
         EditorGUILayout.LabelField("Dialogue Text");
-        option.dialogue = EditorGUILayout.TextArea(option.dialogue, GUILayout.MinHeight(60));
+        option.description = EditorGUILayout.TextArea(option.description, GUILayout.MinHeight(60));
         
         
-        EditorGUILayout.PropertyField(optionProp.FindPropertyRelative("onSelected"));
 
         EditorGUILayout.LabelField("Responses / Next Dialogues", EditorStyles.boldLabel);
 
@@ -111,9 +111,25 @@ public class DialogueManagerEditor : Editor
         {
             EditorGUILayout.BeginVertical("box");
 
-            // Pass the child's property and object to the recursive call
-            DrawDialogueOption(childrenProp.GetArrayElementAtIndex(i), option.options[i], depth + 1, i);
-            
+            try
+            {
+                switch (option.options[i])
+                {
+                    case DialogueOption childDialogue:
+                        DrawDialogueOption(childrenProp.GetArrayElementAtIndex(i), childDialogue, depth + 1, i);
+                        break;
+                    case BuyOption buyOption:
+                        DrawBuyOption(childrenProp.GetArrayElementAtIndex(i), buyOption, depth + 1, i);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+
+
+
             GUI.backgroundColor = new Color(1, 0.8f, 0.8f);
             if (GUILayout.Button("Remove This Response"))
             {
@@ -128,18 +144,95 @@ public class DialogueManagerEditor : Editor
         if (toRemove >= 0)
         {
             Undo.RecordObject(manager, "Remove Dialogue Response");
-            option.options.RemoveAt(toRemove);
+            childrenProp.DeleteArrayElementAtIndex(toRemove);
         }
 
         if (GUILayout.Button("Add Response"))
         {
             Undo.RecordObject(manager, "Add Dialogue Response");
-            option.options.Add(new DialogueOption() { dialogueName = "New Response" });
+
+            childrenProp.InsertArrayElementAtIndex(childrenProp.arraySize);
+            SerializedProperty newElement = childrenProp.GetArrayElementAtIndex(childrenProp.arraySize - 1);
+
+            // Reset the reference to ensure it's valid
+            newElement.managedReferenceValue = null;
+
+            // Assign a new instance explicitly of the correct type
+            newElement.managedReferenceValue = new DialogueOption() { name = "New Response" };
+
+            EditorUtility.SetDirty(manager);
         }
+        
+        if (GUILayout.Button("Add Buyinng option"))
+        {
+            Undo.RecordObject(manager, "Add Buying Option");
+
+            childrenProp.InsertArrayElementAtIndex(childrenProp.arraySize);
+            SerializedProperty newElement = childrenProp.GetArrayElementAtIndex(childrenProp.arraySize - 1);
+
+            // Reset the reference to ensure it's valid
+            newElement.managedReferenceValue = null;
+
+            // Assign a new instance explicitly of the correct type
+            newElement.managedReferenceValue = new BuyOption() { name = "New Response", managerReference = manager};
+
+            EditorUtility.SetDirty(manager);
+        }
+
 
         EditorGUILayout.EndVertical();
         EditorGUILayout.Space(5);
     }
+
+
+
+    void DrawBuyOption(SerializedProperty optionProp, BuyOption option, int depth, int listIndex)
+    {
+        if (depth > MAX_DEPTH)
+        {
+            EditorGUILayout.HelpBox("Maximum dialogue depth reached.", MessageType.Warning);
+            return;
+        }
+
+        EditorGUILayout.BeginVertical("box");
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField($"ID: {option.id} | Depth: {depth}", EditorStyles.boldLabel);
+
+        if (depth == 0)
+        {
+            GUI.backgroundColor = new Color(1, 0.6f, 0.6f);
+            if (GUILayout.Button("Delete Root", GUILayout.Width(100)))
+            {
+                Undo.RecordObject(manager, "Delete Root Dialogue");
+                manager.dialogueOptions.RemoveAt(listIndex);
+                GUIUtility.ExitGUI();
+            }
+            GUI.backgroundColor = Color.white;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        option.name = EditorGUILayout.TextField("Name", option.name);
+
+        EditorGUILayout.LabelField("Dialogue Text");
+        option.description = EditorGUILayout.TextArea(option.description, GUILayout.MinHeight(60));
+
+        EditorGUILayout.Space(5);
+
+        // Draw new fields
+        SerializedProperty priceProp = optionProp.FindPropertyRelative("price");
+        SerializedProperty quantityProp = optionProp.FindPropertyRelative("amount");
+        SerializedProperty itemTypeProp = optionProp.FindPropertyRelative("item");
+
+        EditorGUILayout.PropertyField(priceProp, new GUIContent("Price"));
+        EditorGUILayout.PropertyField(quantityProp, new GUIContent("Quantity"));
+        EditorGUILayout.PropertyField(itemTypeProp, new GUIContent("Item Type"));
+
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.Space(5);
+    }
+
 }
 #endif
 

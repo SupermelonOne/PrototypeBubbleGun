@@ -27,7 +27,7 @@ public class Shop : MonoBehaviour
         
         if(shopUI == null) Debug.LogError("ShopUI is null");
 
-        shopUI.GenerateShopUI(manager.GetDialogueOptions());
+        shopUI.GenerateShopUI(manager.GetDialogueOptions(), manager);
     }
 
     public void OnShopInvoke(Player p)
