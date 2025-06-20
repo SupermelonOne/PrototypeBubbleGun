@@ -8821,13 +8821,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbbe646a045337f4eabde3f169444e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spongeObj: {fileID: 1934632917249386941}
-  gloveObj: {fileID: 7559484267324418532}
-  gunObj: {fileID: 579124808045947101}
-  shootBubble: {fileID: 654684477806545921}
-  scrubSponge: {fileID: 4331900551378959391}
-  grabBone: {fileID: 1468480969439525407}
-  sprayWater: {fileID: 6961914646050455212}
+  instruments:
+  - {fileID: 654684477806545921}
+  - {fileID: 4331900551378959391}
+  - {fileID: 1468480969439525407}
+  - {fileID: 6961914646050455212}
+  instrumentObjects:
+  - {fileID: 579124808045947101}
+  - {fileID: 1934632917249386941}
+  - {fileID: 7559484267324418532}
+  - {fileID: 579124808045947101}
 --- !u!1 &7445970393681805985
 GameObject:
   m_ObjectHideFlags: 0

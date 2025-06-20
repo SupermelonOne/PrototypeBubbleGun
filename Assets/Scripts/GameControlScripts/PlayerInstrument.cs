@@ -11,59 +11,29 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerInstrument : MonoBehaviour
 {
-    [SerializeField] private GameObject spongeObj;
-    [SerializeField] private GameObject gloveObj;
-    [SerializeField] private GameObject gunObj;
     private int activeInstrument;
 
-    [SerializeField] private ShootBubble shootBubble;
-    [SerializeField]private ScrubSponge scrubSponge;
-    [SerializeField]private GrabBone grabBone;
-    [SerializeField]private SprayWater sprayWater;
+    [SerializeField] private List<PlayerAction> instruments = new List<PlayerAction>();
+    [SerializeField] private List<GameObject> instrumentObjects = new List<GameObject>();
     private void Start()
     {
-        scrubSponge = GetComponent<ScrubSponge>();
-        grabBone = GetComponent<GrabBone>();
-        sprayWater = GetComponent<SprayWater>();
-        shootBubble = GetComponent<ShootBubble>();
+        if (instruments.Count <= 0)
+        {
+            instruments = GetComponentsInChildren<PlayerAction>().ToList();
+        }
 
 
-        if (spongeObj == null)
-            Debug.LogError("missing spongeObj");
-        if (gloveObj == null)
-            Debug.LogError("missing gloveObj");
-        if (gunObj == null)
-            Debug.LogError("missing gunObj");
-        
-        //TODO: fix this
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         SwitchWeapon(players.Length);
     }
 
     private void SelectWeapon(int index)
     {
-        switch (index)
-        {
-            case 1:
-                shootBubble.enabled = true;
-                gunObj.SetActive(true);
-                break;
-            case 2:
-                sprayWater.enabled = true;
-                gunObj.SetActive(true);
-                break;
-            case 3:
-                scrubSponge.enabled = true;
-                spongeObj.SetActive(true); 
-                break;
-            case 4:
-                grabBone.enabled = true;
-                gloveObj.SetActive(true);
-                break;
-            default:
-                Debug.LogError("invalid index");
-                break;
-        }
+        if (instruments.Count > index)
+            instruments[index].enabled = true;
+        if (instrumentObjects.Count > index)
+            instrumentObjects[index].SetActive(true);
+        //maybe set it up in such a way where every playerAction script has an attached gameObject, which u enable or disable here, either thru its own code and calling the function or doing it in here
     }
     
    
@@ -86,13 +56,13 @@ public class PlayerInstrument : MonoBehaviour
     private void SwitchWeapon(int direction)
     {
         activeInstrument += direction;
-        if (activeInstrument > 4)
+        if (activeInstrument >= instruments.Count)
         {
-            activeInstrument = 1;
+            activeInstrument = 0;
         }
-        if (activeInstrument < 1)
+        if (activeInstrument < 0)
         {
-            activeInstrument = 4;
+            activeInstrument = instruments.Count-1;
         }
         Debug.Log(activeInstrument);
 
@@ -102,18 +72,13 @@ public class PlayerInstrument : MonoBehaviour
 
     private void DisableAll()
     {
-        //no null checks because they cant be null
-        gunObj.SetActive(false);
-        shootBubble.enabled = false;
-
-
-        sprayWater.enabled = false;
-
-        spongeObj.SetActive(false);
-        scrubSponge.enabled = false;
-
-        gloveObj.SetActive(false);
-        grabBone.enabled = false;
-
+        foreach(PlayerAction instrument in instruments)
+        {
+            instrument.enabled = false;
+        }
+        foreach(GameObject instrumentObject in instrumentObjects)
+        {
+            instrumentObject.SetActive(false);
+        }
     }
 }
