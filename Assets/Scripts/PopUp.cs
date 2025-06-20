@@ -220,3 +220,6 @@ public class PopUp : MonoBehaviour
         textMesh.text = t;
     }
 }
+
+//You are coding outside of the lines, it is not unforgivable, but you should learn the basics first before
+//breaking the rules -Elin

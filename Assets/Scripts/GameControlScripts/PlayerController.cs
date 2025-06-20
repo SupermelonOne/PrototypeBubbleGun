@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private string camVertical = "Mouse Y";
     [SerializeField] private string jumpButton = "p1Jump";*/
 
-    
+    // I love the use of colour, keep it up -Elin
     [HideInInspector] public PlayerInput playerInput;
     [SerializeField] public float lookXLimit = 45.0f;
     

@@ -142,3 +142,5 @@ public class DialogueManagerEditor : Editor
     }
 }
 #endif
+
+//it's a lil bit cluttered, but overall it looks nice. The ending is a bit abrupt though. -Elin

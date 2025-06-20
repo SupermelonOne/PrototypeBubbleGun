@@ -71,3 +71,4 @@ public class Shop : MonoBehaviour
         }
     }
 }
+//Idk I just don't feel this one Elin

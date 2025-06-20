@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
         foreach (var dialogue in dialogues)
             Assign(dialogue, 0);        
     }
-
+//the dialogue is lacking -Elin
     private void UpdateDictionaries(List<DialogueOption> dialogues)
     { 
         void Assign(DialogueOption option, int currentDepth)
