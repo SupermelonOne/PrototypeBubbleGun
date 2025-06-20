@@ -6371,7 +6371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638788].ID
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].layer
@@ -6420,7 +6420,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638788].dialogue
-      value: jkgh
+      value: I dont wanna talk to you
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695028833288200].dialogueName
@@ -6504,15 +6504,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[0].dialogue
-      value: llkjhg
+      value: Why do you want this?
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[1].dialogue
-      value: jkhgkh
+      value: 5 Big booms
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[2].dialogue
-      value: 
+      value: climb climb
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[3].dialogue
@@ -6520,11 +6520,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[0].dialogueName
-      value: fdvlkjhsg
+      value: Lamp oil
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[1].dialogueName
-      value: New Response
+      value: Bombs
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695046827638785].options.Array.data[2].dialogueName
@@ -6602,6 +6602,10 @@ PrefabInstance:
       propertyPath: effects.onButtonPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 326059185}
+    - target: {fileID: 4227693294171066134, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: initialText
+      value: Sup homie
+      objectReference: {fileID: 0}
     - target: {fileID: 7381573917729208795, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: m_Name
       value: Shop

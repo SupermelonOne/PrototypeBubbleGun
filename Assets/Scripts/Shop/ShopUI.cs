@@ -147,5 +147,5 @@ public class ShopUI : MonoBehaviour
         DestroyPanel();
         GeneratePanel(dialogueOption);
     }
-
+//Destroying the panel is a bit too violent -Elin
 }

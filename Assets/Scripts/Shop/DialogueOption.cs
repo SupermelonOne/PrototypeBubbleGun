@@ -13,6 +13,7 @@ public class DialogueOption
     public string dialogue;
 
     [HideInInspector] public List<DialogueOption> options = new();
+    public UnityEvent onSelected;
 
 
     [HideInInspector] public int ID;
@@ -37,3 +38,5 @@ public class BuyOption
     [HideInInspector] public int ID;
     [HideInInspector] public int layer;
 }
+
+//The names aren't very imaginative, everything is called Serializable. That's confusing for the player -Elin
