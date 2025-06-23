@@ -142,7 +142,7 @@ public class PopUp : MonoBehaviour
         if (nearestPlayer != null)
             OnPlayerClose(nearestPlayer);
         else
-            SetActive(true, nearestPlayer);
+            SetActive(true);
     }
 
 
@@ -213,10 +213,11 @@ public class PopUp : MonoBehaviour
         }
     }
 
-    private void SetActive(bool active, Player closestPlayer)
+    private void SetActive(bool active, Player closestPlayer = null)
     {
         tMesh.alpha = active ? 1 : 0;
-        closestPlayer.gui.OnInteract(active);
+        if (closestPlayer != null)
+            closestPlayer.gui.OnInteract(active);
     }
 
     private IEnumerator ErrorMessage(float seconds)

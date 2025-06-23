@@ -18,6 +18,8 @@ public class BridgeEditor : Editor
         BridgeScript bridge = (BridgeScript)target;
 
         EditorGUI.BeginChangeCheck();
+        
+        bridge.ShowGizmos = EditorGUILayout.Toggle("Show Gizmos", bridge.ShowGizmos);
 
         GUILayout.Label("Bridge Location", EditorStyles.boldLabel);
         bridge.bridgeStartObject = (GameObject)EditorGUILayout.ObjectField("Bridge Start", bridge.bridgeStartObject, typeof(GameObject), true);
