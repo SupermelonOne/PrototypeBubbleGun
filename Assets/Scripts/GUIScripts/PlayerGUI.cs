@@ -43,6 +43,7 @@ public class PlayerGUI : MonoBehaviour
         canvas = GetComponent<Canvas>();
 
         canvas.worldCamera = player.controller.playerCamera;
+        canvas.planeDistance = 1f;
         interactIcon.enabled = false;
     }
 

@@ -31,6 +31,8 @@ public class BridgeScript : MonoBehaviour
     
     [SerializeField] private float monsterHoverHeight = .1f;
     
+    [SerializeField] public bool ShowGizmos = true;
+    
     private Vector3 bridgeStart;
     private Vector3 bridgeEnd;
     
@@ -114,6 +116,7 @@ public class BridgeScript : MonoBehaviour
 
     public void OnDrawGizmos()
     {
+        if (!ShowGizmos) return;
         bridgeStart = bridgeStartObject.transform.position;
         bridgeEnd = bridgeEndObject.transform.position;
         
@@ -176,7 +179,7 @@ public class BridgeScript : MonoBehaviour
         var renderer = plankPrefab.GetComponent<Renderer>();
         if (renderer == null)
             return;
-        var plankSize = renderer.bounds.extents.z + emptySpace;
+        var plankSize = renderer.bounds.extents.z * 2 + emptySpace;
         var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankSize);
         StartCoroutine(BuildBridge(amount, .01f));
     }
@@ -344,16 +347,18 @@ public class BridgeScript : MonoBehaviour
 
     private void PlaceFencePost(GameObject plank, int matIndex)
     {
-        var plankRenderer = plank.GetComponent<Renderer>();
         var postRenderer = FencePostPrefab.GetComponent<Renderer>();
+        var plankTransform = plank.transform;
+        var halfLength = plankTransform.localScale.x / 2;
         
-        var plankHeight = plankRenderer.bounds.max.y + postRenderer.bounds.extents.y;
-        var centerX = plank.transform.position.x;
-        var pos1z = plankRenderer.bounds.max.z - postRenderer.bounds.size.z;
-        var pos2z = plankRenderer.bounds.min.z + postRenderer.bounds.size.z;
+        var center = plankTransform.position;
+        var offset = plankTransform.right * halfLength;
         
-        var pos1 = new Vector3(centerX, plankHeight, pos1z);
-        var pos2 = new Vector3(centerX, plankHeight, pos2z);
+        float postHeight = postRenderer.bounds.extents.y;
+        Vector3 upOffset = Vector3.up * postHeight;
+        
+        Vector3 pos1 = center + offset + upOffset;
+        Vector3 pos2 = center - offset + upOffset;
         
         var post1 = Instantiate(FencePostPrefab, pos1, Quaternion.identity);
         var post2 = Instantiate(FencePostPrefab, pos2, Quaternion.identity);
@@ -361,8 +366,8 @@ public class BridgeScript : MonoBehaviour
         post1.GetComponent<Renderer>().material = plankMaterials[matIndex];
         post2.GetComponent<Renderer>().material = plankMaterials[matIndex];
         
-        post1.transform.SetParent(transform);
-        post2.transform.SetParent(transform);
+        post1.transform.SetParent(transform, true);
+        post2.transform.SetParent(transform, true);
         
         
         StartCoroutine(MovePlankDown(post1, fallDist, 0));
@@ -406,36 +411,6 @@ public class BridgeScript : MonoBehaviour
         return Mathf.FloorToInt(distance / plankSize);
     }
     
-    void FreezeEnemies(List<GameObject> enemies)
-    {
-        foreach (var enemy in enemies)
-        {
-            var agent = enemy.GetComponent<NavMeshAgent>();
-            if (agent != null)
-            {
-                agent.isStopped = true;
-                agent.enabled = false;
-            }
-        }
-    }
-    
-    IEnumerator UnFreezeEnemies(List<GameObject> enemies)
-    {
-        yield return new WaitForSeconds(0.1f);
-        foreach (var enemy in enemies)
-        {
-            var agent = enemy.GetComponent<NavMeshAgent>();
-            if (agent != null)
-            {
-                agent.enabled = true;
-                enemy.GetComponent<MonsterMoveBehavior>().TryReconnectAgentToNavMesh();
-                
-                
-                agent.isStopped = false;
-            }
-        }
-    }
-
 
     public static bool TryGetHighestOverlapY(GameObject obj, LayerMask additionalExcludedLayers, out Vector3 localContactPoint, out GameObject otherSurface)
     {
@@ -485,9 +460,6 @@ public class BridgeScript : MonoBehaviour
             }
         }
 
-        // Optional: SphereCast from corners for robustness (small radius for edge precision)
-        // If you strictly want *only* edges and the raycast from corners is sufficient, remove this part.
-        // However, for practical NavMeshLinks, a small sphere at corners can be more reliable.
         float sphereRadius = 0.05f; 
         foreach (Vector3 baseCornerPoint in cornerPoints)
         {
