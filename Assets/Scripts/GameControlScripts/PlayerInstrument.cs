@@ -94,7 +94,6 @@ public class PlayerInstrument : MonoBehaviour
         {
             activeInstrument = 4;
         }
-        Debug.Log(activeInstrument);
 
         DisableAll();
         SelectWeapon(activeInstrument);

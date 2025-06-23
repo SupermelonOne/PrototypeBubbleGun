@@ -7,10 +7,13 @@ public enum ItemType{
     Soap
 }
 
+public delegate void Change();
+
 public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private int munny;
     public Dictionary<ItemType, int> Items;
+    public event Change OnChange;
 
     private void Start()
     {
@@ -28,12 +31,20 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(ItemType item, int amount)
     {
-        Items[item] += amount;
+        var a = Items[item] + amount;
+        UpdateItems(item, a);
     }
 
     public void RemoveItem(ItemType item, int amount)
     {
-        Items[item] -= amount;
+        var a = Items[item] - amount;
+        UpdateItems(item, a);
+    }
+
+    private void UpdateItems(ItemType item, int amount)
+    {
+        Items[item] = amount;
+        OnChange?.Invoke();
     }
 
     public bool HasItem(ItemType item)
@@ -44,15 +55,5 @@ public class PlayerInventory : MonoBehaviour
     public int ItemAmount(ItemType item)
     {
         return Items[item];
-    }
-    
-    
-    private void DebugInventory()
-    {
-        Debug.Log("inventory");
-        foreach (KeyValuePair<ItemType, int> kvp in Items)
-        {
-            Debug.Log($"{kvp.Key}: {kvp.Value}");
-        }
     }
 }
