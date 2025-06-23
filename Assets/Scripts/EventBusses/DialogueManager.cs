@@ -9,8 +9,11 @@ public class DialogueManager : MonoBehaviour
     private Dictionary<string, string> dialogueByName = new();
     private Dictionary<int, string> dialogueByID = new();
     
+    [HideInInspector] public Shop shop;
+    
     void Awake()
     {
+        shop = GetComponent<Shop>();
         AssignIDs(dialogueOptions);
         UpdateDictionaries(dialogueOptions);
     }
@@ -44,7 +47,7 @@ public class DialogueManager : MonoBehaviour
         foreach (var dialogue in dialogues)
             Assign(dialogue, 0);        
     }
-//the dialogue is lacking -Elin
+    //the dialogue is lacking -Elin
     private void UpdateDictionaries(List<DialogueOption> dialogues)
     { 
         void Assign(Option option, int currentDepth)
@@ -68,25 +71,9 @@ public class DialogueManager : MonoBehaviour
         
     }
 
-    public string GetDialogue(int ID)
-    {
-        if (dialogueByID.ContainsKey(ID))
-            return dialogueByID[ID];
-
-        return "You broke the game genius...";
-    }
-    
-    public string GetDialogue(string dialogueName)
-    {
-        if (dialogueByName.ContainsKey(dialogueName))
-            return dialogueByName[dialogueName];
-
-        return "You broke the game genius...";
-    }
-
     public void HandleBuyOption(BuyOption option)
     {
-        Debug.Log($"Buying {option.amount}x {option.item} for {option.price} Rupees.");
+        shop.Purchase(option.item, option.amount, option.price);
     }
     
     public List<DialogueOption> GetDialogueOptions() => dialogueOptions;

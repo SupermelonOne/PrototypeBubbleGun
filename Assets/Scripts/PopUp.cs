@@ -81,12 +81,12 @@ public class PopUp : MonoBehaviour
     private List<Player> players = new List<Player>();
     private Dictionary<Player, Camera> playerCams = new Dictionary<Player, Camera>();
     private Canvas canvas;
-    private TextMeshProUGUI textMesh;
+    private TextMeshProUGUI tMesh;
 
     private void Start()
     {
         canvas = GetComponentInChildren<Canvas>();
-        textMesh = GetComponentInChildren<TextMeshProUGUI>();
+        tMesh = GetComponentInChildren<TextMeshProUGUI>();
         
         minDistance = conditions.minDistance;
         key = conditions.key;
@@ -98,14 +98,14 @@ public class PopUp : MonoBehaviour
         errorMessageTime = feedback.errorMessageTime;
         
                 
-        textMesh.alpha = 0;
-        textMesh.text = key.ToString();
-        textMesh.color = textProperties.textColor;
-        textMesh.rectTransform.anchorMin = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
-        textMesh.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
-        textMesh.rectTransform.pivot = new Vector2(0.5f, 0.5f);     // Center pivot
-        textMesh.rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
-        textMesh.rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, textMesh.rectTransform.sizeDelta.y);   
+        tMesh.alpha = 0;
+        tMesh.text = key.ToString();
+        tMesh.color = textProperties.textColor;
+        tMesh.rectTransform.anchorMin = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+        tMesh.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+        tMesh.rectTransform.pivot = new Vector2(0.5f, 0.5f);     // Center pivot
+        tMesh.rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
+        tMesh.rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, tMesh.rectTransform.sizeDelta.y);   
     }
 
     private void OnEnable()
@@ -142,7 +142,7 @@ public class PopUp : MonoBehaviour
         if (nearestPlayer != null)
             OnPlayerClose(nearestPlayer);
         else
-            textMesh.alpha = 0;
+            SetActive(true, nearestPlayer);
     }
 
 
@@ -167,10 +167,13 @@ public class PopUp : MonoBehaviour
             float angleStep = (coneAngleDegrees * 2f) / (rayCount - 1);
             float angleH = -coneAngleDegrees + (i * angleStep);
 
-            Vector3 direction = Quaternion.Euler(0f, angleH, 0f) * closestPlayer.GetComponentInChildren<Camera>().transform.forward;
-            if (Physics.Raycast(closestPlayer.controller.playerCamera.transform.position, direction, out RaycastHit hit, minDistance))
+            var forward = closestPlayer.GetComponentInChildren<Camera>().transform.forward;
+            var direction = Quaternion.Euler(0f, angleH, 0f) * forward;
+            
+            var playerPos = closestPlayer.controller.playerCamera.transform.position;
+            if (Physics.Raycast(playerPos, direction, out RaycastHit hit, minDistance))
             {
-                if (hit.collider == textMesh.gameObject.GetComponent<BoxCollider>())
+                if (hit.collider == tMesh.gameObject.GetComponent<BoxCollider>())
                 {
                     OnPlayerLook(closestPlayer);
                     isHitting = true;
@@ -180,7 +183,8 @@ public class PopUp : MonoBehaviour
 
         }
         if (!isHitting)
-            textMesh.alpha = 0;
+            SetActive(false, closestPlayer);
+
     }
 
     private void OnPlayerLook(Player closestPlayer)
@@ -188,7 +192,7 @@ public class PopUp : MonoBehaviour
         canvas.worldCamera = playerCams[closestPlayer];
         canvas.transform.LookAt(closestPlayer.transform.position);
         canvas.transform.Rotate(Vector3.up, 180f);
-        textMesh.alpha = 1;
+        SetActive(true, closestPlayer);
         if(Input.GetKeyDown(key))
             IsPressed(closestPlayer);
     }
@@ -209,17 +213,21 @@ public class PopUp : MonoBehaviour
         }
     }
 
+    private void SetActive(bool active, Player closestPlayer)
+    {
+        tMesh.alpha = active ? 1 : 0;
+        closestPlayer.gui.OnInteract(active);
+    }
+
     private IEnumerator ErrorMessage(float seconds)
     {
-        var c = textMesh.color;
-        var t = textMesh.text;
-        textMesh.color = Color.red;
-        textMesh.text = $"you're broke, you need {cost.itemType}, and  {cost.cost} of em";
+        var c = tMesh.color;
+        var t = tMesh.text;
+        tMesh.color = Color.red;
+        tMesh.text = $"you're broke, you need {cost.itemType}, and  {cost.cost} of em";
         yield return new WaitForSeconds(seconds);
-        textMesh.color = c;
-        textMesh.text = t;
+        tMesh.color = c;
+        tMesh.text = t;
     }
 }
 
-//You are coding outside of the lines, it is not unforgivable, but you should learn the basics first before
-//breaking the rules -Elin

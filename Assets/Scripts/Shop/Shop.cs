@@ -9,6 +9,8 @@ public class Shop : MonoBehaviour
     private DialogueManager manager;
     private ShopUI shopUI;
 
+    [HideInInspector] public Player player;
+
     private void OnEnable()
     {
         ShopEventBus.Subscribe<ShopEventBus.OnNavigateUI>(NavigateUI);
@@ -37,8 +39,9 @@ public class Shop : MonoBehaviour
     
     private void OnShop(ShopEventBus.OnShopActivated shopEvent)
     {
-        shopEvent.player.controller.ToggleShopUI(true);
-        shopUI.ActivateShopUI(shopEvent.player);
+        player = shopEvent.player;
+        player.controller.ToggleShopUI(true);
+        shopUI.ActivateShopUI(player);
     }
     
 
@@ -61,14 +64,16 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void Purchase(ItemType itemType, int amount, int cost)
+    public bool Purchase(ItemType itemType, int amount, int cost)
     {
         //TODO: add dialogue if not enough money
-        if (shopUI.player.inventory.ItemAmount(ItemType.Munny) >= cost)
+        if (player.inventory.ItemAmount(ItemType.Munny) >= cost)
         {
-            shopUI.player.inventory.BuyItem(itemType, amount, cost);
+            player.inventory.BuyItem(itemType, amount, cost);
             Debug.Log("Purchased Item: " + itemType + " with amount: " + amount + " to " + cost);
+            return true;
         }
+
+        return false;
     }
 }
-//Idk I just don't feel this one Elin

@@ -6579,7 +6579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821205].id
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821206].id
@@ -6591,7 +6591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821210].id
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821184].name
@@ -6835,7 +6835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821210].layer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695072281821210].price

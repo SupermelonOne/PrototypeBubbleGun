@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ShopUI : MonoBehaviour
 {
     [SerializeField] private string initialText = "";
+    [SerializeField] private string brokeText = "";
     [SerializeField] private GameObject panelPrefab; // Panel prefab with dialogue text + container for choices
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TextMeshProUGUI textOptionPrefab;
@@ -104,6 +105,12 @@ public class ShopUI : MonoBehaviour
         dText.text = d.description;
     }
 
+    public void BrokeError()
+    {
+        var dText = dialogueBox.GetComponent<TextMeshProUGUI>();
+        dText.text = brokeText;
+    }
+
     public void OnSelectDialogueOption()
     {
         OnOptionSelected(currentDialogueOption.options[currentDialogueOptionIndex], currentDialogueOption);
@@ -153,7 +160,8 @@ public class ShopUI : MonoBehaviour
         }
         else if (dialogueOption is BuyOption option)
         {
-            option.InvokeSelection(dialogueManager);
+            if (!dialogueManager.shop.Purchase(option.item, option.amount, option.price))
+                BrokeError();
         }
     }
 //Destroying the panel is a bit too violent -Elin
