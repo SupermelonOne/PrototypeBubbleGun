@@ -47,7 +47,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error: HidingSpots not found");
+            //Debug.Log("Error: HidingSpots not found");
         }
 
 
@@ -59,12 +59,12 @@ public class MonsterMoveBehavior : MonoBehaviour
         // /only set destination if the agent is successfully placed on the NavMesh
         if (snappedSuccessfully && hidingSpots.Count > 0)
         {
-            Debug.Log($"agent is acive: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
+            //Debug.Log($"agent is acive: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
             agent.SetDestination(GetNearestHidingspot());
         }
         else if (snappedSuccessfully)
         {
-            Debug.Log("Monster snapped to NavMesh but no hiding spots found. Starting wander behavior.", this);
+            //Debug.Log("Monster snapped to NavMesh but no hiding spots found. Starting wander behavior.", this);
             // If no hiding spots, directly initiate wandering
             walkWaitTimer = walkWaitTime; // Make it pick a random point immediately
         }
@@ -125,7 +125,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             walkWaitTimer = 0;
             if (GetRandomPointOnNavmesh(transform.position, walkRange, out var randomPoint))
             {
-                Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
+                //Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
                 agent.SetDestination(randomPoint);
             }
         }
@@ -258,17 +258,17 @@ public class MonsterMoveBehavior : MonoBehaviour
             // Only call Warp after agent is on the mesh
             if (agent.isOnNavMesh)
             {
-                Debug.Log("Agent successfully reconnected and warped.");
+                //Debug.Log("Agent successfully reconnected and warped.");
                 return true;
             }
             else
             {
-                Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
+                //Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
                 return false;
             }
         }
 
-        Debug.LogWarning("Could not find a valid NavMesh point nearby.");
+        //Debug.LogWarning("Could not find a valid NavMesh point nearby.");
         return false;
     }
 }
