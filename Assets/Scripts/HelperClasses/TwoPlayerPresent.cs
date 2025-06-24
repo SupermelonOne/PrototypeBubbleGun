@@ -35,10 +35,11 @@ public class TwoPlayerPresent : MonoBehaviour
             if (otherActivator == null) return;
             if (otherActivator.ready)
             {
-                Debug.Log("second player entered");
+                Debug.Log("second player entered, activated functions on: " + gameObject.name);
                 Activate();
                 otherActivator.Activate();
                 activateFunction.Invoke();
+                otherActivator.activateFunction.Invoke();
             }
             if (teleportPlayer == null)
                 return;

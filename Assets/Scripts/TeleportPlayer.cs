@@ -7,16 +7,29 @@ public class TeleportPlayer : MonoBehaviour
     [SerializeField] private Transform targetLocation;
     [HideInInspector] public Transform player;
 
-/*    public void MovePlayer(Transform player)
-    {
-        Vector3 distance = transform.position - targetLocation.position;
-        player.transform.position += distance;
-    }*/
-
     public void ActivateTeleportation()
     {
+        if (player == null || targetLocation == null)
+        {
+            Debug.LogWarning("Teleport failed: player or targetLocation is not set.");
+            return;
+        }
+
         Vector3 distance = transform.position - targetLocation.position;
-        player.transform.position += distance;
+
+        var controller = player.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = false; // disable to allow position change
+            player.position += distance;
+            controller.enabled = true;
+        }
+        else
+        {
+            player.position += distance;
+        }
+
+        Debug.Log("Teleported player by distance: " + distance);
     }
     public void SetPlayer(Transform newPlayer)
     {
