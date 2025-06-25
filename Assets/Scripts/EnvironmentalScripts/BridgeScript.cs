@@ -39,6 +39,8 @@ public class BridgeScript : MonoBehaviour
     private NavMeshLink startLink;
     private NavMeshLink endLink;
     
+    private NavMeshObstacle obstacle;
+    
     private GameObject planksObject;
     
     private AudioSource audioSource;
@@ -65,6 +67,8 @@ public class BridgeScript : MonoBehaviour
         startToEnd.y = 0; 
         bridgeEndObject.transform.rotation = Quaternion.LookRotation(startToEnd, Vector3.up);
         bridgeStartObject.transform.rotation = Quaternion.LookRotation(-startToEnd, Vector3.up);
+        
+        SetNavObstacles();
     }
 
     private void InitializeComponents()
@@ -76,8 +80,12 @@ public class BridgeScript : MonoBehaviour
         rectMeshBuilder = GetComponent<RectMeshBuilder>();
         surface = GetComponent<NavMeshSurface>();
         audioSource = GetComponent<AudioSource>();
+        
         startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
         endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
+        
+        obstacle = GetComponentInChildren<NavMeshObstacle>();
+        
         plankRenderer = plankPrefab.GetComponent<Renderer>();
     }
 
@@ -107,10 +115,7 @@ public class BridgeScript : MonoBehaviour
             endLink.startPoint = bridgeEndObject.transform.InverseTransformPoint(GetPlankPosition(plankAmount-1) +  new Vector3(0,plankRenderer.bounds.extents.y * 2,0));
             endLink.endPoint = groundEndLocal;
         }
-        
-        
-        startLink.enabled = false;
-        endLink.enabled = false;
+
     }
 
 
@@ -172,6 +177,8 @@ public class BridgeScript : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(points[i], points[i - 2]);
         }
+        
+
     }
     
     public void OnBuildBridge()
@@ -182,6 +189,7 @@ public class BridgeScript : MonoBehaviour
         var plankSize = renderer.bounds.extents.z * 2 + emptySpace;
         var amount = GetPlankAmount(bridgeStart, bridgeEnd, plankSize);
         StartCoroutine(BuildBridge(amount, .01f));
+        RemoveNavObstacles();
     }
     
     private IEnumerator BuildBridge(int amount, float delay)
@@ -232,10 +240,7 @@ public class BridgeScript : MonoBehaviour
         var width = plankRenderer.bounds.extents.x * 2f;
         var height = plankRenderer.bounds.extents.y * 2f;
         
-        var startPos = bridgeStart;
-        var endPos = bridgeEnd;
-        
-        var bothDirection = (bridgeEnd - startPos).normalized;
+        var bothDirection = (bridgeEnd - bridgeStart).normalized;
         bothDirection.y = 0; 
         var rr = Quaternion.LookRotation(bothDirection, Vector3.up);
                 
@@ -243,8 +248,8 @@ public class BridgeScript : MonoBehaviour
         Vector3 localOffset2r = rr * new Vector3(width / 2f, height, 0);   // right top corner
         
         
-        points.Add(GetPlankPosition(1) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
-        points.Add(GetPlankPosition(1) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
+        points.Add(GetPlankPosition(0) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
+        points.Add(GetPlankPosition(0) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
         
         for (int i = 0; i < amount; i++)
         {
@@ -267,14 +272,13 @@ public class BridgeScript : MonoBehaviour
         }
 
 
-        points.Add(GetPlankPosition(amount-1) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
-        points.Add(GetPlankPosition(amount-1) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
+        points.Add(GetPlankPosition(amount) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
+        points.Add(GetPlankPosition(amount) -  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
 
         
         
         rectMeshBuilder.SetMesh(points);
-        startLink.enabled = true;
-        endLink.enabled = true;
+
     
         startLink.width = width;
         endLink.width = width;
@@ -298,6 +302,25 @@ public class BridgeScript : MonoBehaviour
             surface.collectObjects = CollectObjects.Children; // or Children, etc.
             surface.BuildNavMesh();
         }
+        
+        Transform obstacleTransform = obstacle.transform;
+
+        // Center between start and end, in local space
+        Vector3 localStart = obstacleTransform.InverseTransformPoint(bridgeStart);
+        Vector3 localEnd = obstacleTransform.InverseTransformPoint(bridgeEnd);
+        obstacle.center = (localEnd + localStart) / 2;
+
+        // Size in local space: convert world-space vector to local direction
+        Vector3 worldDiff = bridgeEnd - bridgeStart;
+        Vector3 localDiff = obstacleTransform.InverseTransformVector(worldDiff);
+
+        obstacle.size = new Vector3(
+            width,
+            maxCurveHeight * 2 + 3,
+            Mathf.Abs(localDiff.magnitude)
+        );
+        
+        obstacle.transform.rotation = Quaternion.LookRotation(worldDiff.normalized,Vector3.up);
 
         #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(surface);
@@ -307,8 +330,22 @@ public class BridgeScript : MonoBehaviour
         rectMeshBuilder.RemoveMesh();
 
     }
-    private void SetNavObstacles(){}
-    private void RemoveNavObstacles(){}
+
+    private void SetNavObstacles()
+    {
+        startLink.enabled = false;
+        endLink.enabled = false;
+        
+        obstacle.enabled = true;
+    }
+
+    private void RemoveNavObstacles()
+    {
+        startLink.enabled = true;
+        endLink.enabled = true;
+        
+        obstacle.enabled = false;
+    }
 
     private Vector3 GetPlankPosition(int index)
     {

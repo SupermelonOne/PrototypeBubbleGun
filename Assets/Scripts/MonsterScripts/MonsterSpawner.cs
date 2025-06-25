@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class MonsterSpawner : MonoBehaviour
@@ -10,15 +11,27 @@ public class MonsterSpawner : MonoBehaviour
 
     [SerializeField] private float fireCooldown = 1f;
     [SerializeField] private GameObject monsterPrefab;
-    [SerializeField] private GameObject spawnAreaObject; // Assign the Plane or area GameObject here
 
     [SerializeField] private Sprite[] sprites;
+
+    [SerializeField] private int monsterCap = 10;
+    private List<GameObject> spwanedMonsters = new List<GameObject>();
     private Vector3 areaCenter;
     private Vector3 areaSize;
     
 
     private void Start()
     {
+        GameObject spawnAreaObject;
+        if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit))
+        {
+            spawnAreaObject = hit.collider.gameObject;
+        }
+        else
+        {
+            return;
+        }
+        
         // Try to get bounds from Renderer or Collider
         if (spawnAreaObject.TryGetComponent(out Renderer rend))
         {
@@ -39,19 +52,47 @@ public class MonsterSpawner : MonoBehaviour
     }
     private void Update()
     {
-        SpawnMonster();
+        if (spwanedMonsters.Count <= monsterCap)
+            SpawnMonster();
     }
+
 
     private void SpawnMonster()
     {
-        if (Time.time >= lastFireTime + fireCooldown){
-            lastFireTime = Time.time;
-            var posX = Random.Range(areaCenter.x - areaSize.x / 2, areaCenter.x + areaSize.x / 2);
-            var posZ = Random.Range(areaCenter.z - areaSize.z / 2, areaCenter.z + areaSize.z / 2);
-            var pos = new Vector3(posX, transform.position.y, posZ);
-            monsterPrefab.GetComponentInChildren<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
-            var m = Instantiate(monsterPrefab, pos, Quaternion.identity);
-            m.transform.parent = transform;
+        if (!(Time.time >= lastFireTime + fireCooldown)) return;
+        lastFireTime = Time.time;
+
+        float posX = Random.Range(areaCenter.x - areaSize.x / 2, areaCenter.x + areaSize.x / 2);
+        float posZ = Random.Range(areaCenter.z - areaSize.z / 2, areaCenter.z + areaSize.z / 2);
+        Vector3 randomPos = new Vector3(posX, transform.position.y + 10f, posZ);
+
+        if (Physics.Raycast(randomPos, Vector3.down, out RaycastHit hit, 50f))
+        {
+            Vector3 groundPos = hit.point;
+
+            // 🔍 Check for NavMesh position near groundPos
+            if (NavMesh.SamplePosition(groundPos, out NavMeshHit navHit, 1, NavMesh.AllAreas))
+            {
+                Vector3 spawnPos = navHit.position;
+
+                GameObject m = Instantiate(monsterPrefab, spawnPos, Quaternion.identity);
+                m.transform.parent = transform;
+
+                SpriteRenderer monsterRend = m.GetComponentInChildren<SpriteRenderer>();
+                monsterRend.sprite = sprites[Random.Range(0, sprites.Length)];
+
+                // Offset so it's visually above ground
+                float spriteHeight = monsterRend.bounds.size.y;
+                m.transform.position += new Vector3(0, spriteHeight / 2 + 0.01f, 0);
+
+                spwanedMonsters.Add(m);
+            }
+            else
+            {
+                Debug.LogWarning("No NavMesh found near spawn position. Skipping spawn.");
+            }
         }
     }
+
+
 }
