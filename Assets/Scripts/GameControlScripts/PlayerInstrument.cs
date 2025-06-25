@@ -119,5 +119,6 @@ public class PlayerInstrument : MonoBehaviour
     {
         enabledSlots.Clear();
         enabledSlots.AddRange(newEquipment);
+        SwitchWeapon(1);
     }
 }

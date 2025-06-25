@@ -38,8 +38,6 @@ public class TwoPlayerPresent : MonoBehaviour
                 Debug.Log("second player entered, activated functions on: " + gameObject.name);
                 Activate();
                 otherActivator.Activate();
-                activateFunction.Invoke();
-                otherActivator.activateFunction.Invoke();
             }
             if (teleportPlayer == null)
                 return;
@@ -63,9 +61,11 @@ public class TwoPlayerPresent : MonoBehaviour
                 ready = false;
                 player = null;
             }
-            if (teleportPlayer == null)
-                return;
-            teleportPlayer.SetPlayer(player.transform);
+            if (player == null)
+                teleportPlayer.ResetPlayer();
+            else
+                teleportPlayer.SetPlayer(player.transform);
+            
         }
     }
 
@@ -75,6 +75,7 @@ public class TwoPlayerPresent : MonoBehaviour
     }
     public void Activate()
     {
+        activateFunction.Invoke();
         bothReady = true;
     }
 

@@ -15,7 +15,7 @@ public class TeleportPlayer : MonoBehaviour
             return;
         }
 
-        Vector3 distance = transform.position - targetLocation.position;
+        Vector3 distance = targetLocation.position - transform.position;
 
         var controller = player.GetComponent<CharacterController>();
         if (controller != null)
