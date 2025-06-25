@@ -28,32 +28,18 @@ public class MonsterMoveBehavior : MonoBehaviour
     private bool hasLanded = false;
 
 
-    private void Start()
+    private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
 
-        //TODO: this
         GameObject target = GameObject.Find("HidingSpots");
         if (target != null)
         {
             hidingSpots = target.GetComponentsInChildren<Transform>().Where(t => t != target.transform).ToList();
-            foreach(Transform point in hidingSpots)
-            {
-             //   if (goToSecond)
-                //    Debug.Log("position is at: " + point.position);
-            }
-        }
-        else
-        {
-           // Debug.Log("Error: HidingSpots not found");
         }
 
-
-        agent.enabled = true; // Make sure it's enabled first
-        
-        //Attempt to snap the agent to the nearest NavMesh point
         bool snappedSuccessfully = TryReconnectAgentToNavMesh();
 
         // /only set destination if the agent is successfully placed on the NavMesh
@@ -239,31 +225,28 @@ public class MonsterMoveBehavior : MonoBehaviour
     }
     
     
-    public bool TryReconnectAgentToNavMesh(float searchRadius = 1000f)
+    public bool TryReconnectAgentToNavMesh(float searchRadius = 1)
     {
         if (agent == null)
         {
-            //Debug.LogError("NavMeshAgent is missing.", this);
+            Debug.LogError("NavMeshAgent is missing.", this);
             return false;
         }
 
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, searchRadius, NavMesh.AllAreas))
         {
             agent.enabled = false;
-            transform.position = hit.position;
-            agent.enabled = true;
             agent.Warp(hit.position); // Optional but safer
+            agent.enabled = true;
 
 
-            // Only call Warp after agent is on the mesh
+
             if (agent.isOnNavMesh)
             {
-                //Debug.Log("Agent successfully reconnected and warped.");
                 return true;
             }
             else
             {
-                //Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
                 return false;
             }
         }
