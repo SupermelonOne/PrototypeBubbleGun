@@ -131,6 +131,7 @@ public class PopUp : MonoBehaviour
         var nearestDistance = Mathf.Infinity;
         foreach (var player in players)
         {
+            
             var dist = Vector3.Distance(transform.position, player.transform.position);
             if (dist < minDistance && dist < nearestDistance)
             {
