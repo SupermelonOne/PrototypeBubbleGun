@@ -39,8 +39,7 @@ public class BridgeScript : MonoBehaviour
     private NavMeshLink startLink;
     private NavMeshLink endLink;
     
-    private NavMeshObstacle startObstacle;
-    private NavMeshObstacle endObstacle;
+    private NavMeshObstacle obstacle;
     
     private GameObject planksObject;
     
@@ -85,8 +84,7 @@ public class BridgeScript : MonoBehaviour
         startLink = bridgeStartObject.GetComponentInChildren<NavMeshLink>();
         endLink = bridgeEndObject.GetComponentInChildren<NavMeshLink>();
         
-        startObstacle = bridgeStartObject.GetComponentInChildren<NavMeshObstacle>();
-        endObstacle = bridgeEndObject.GetComponentInChildren<NavMeshObstacle>();
+        obstacle = GetComponentInChildren<NavMeshObstacle>();
         
         plankRenderer = plankPrefab.GetComponent<Renderer>();
     }
@@ -305,22 +303,24 @@ public class BridgeScript : MonoBehaviour
             surface.BuildNavMesh();
         }
         
-        Transform obstacleTransform = startObstacle.transform;
+        Transform obstacleTransform = obstacle.transform;
 
-// Center between start and end, in local space
+        // Center between start and end, in local space
         Vector3 localStart = obstacleTransform.InverseTransformPoint(bridgeStart);
         Vector3 localEnd = obstacleTransform.InverseTransformPoint(bridgeEnd);
-        startObstacle.center = (localStart + localEnd) / 2f;
+        obstacle.center = (localEnd + localStart) / 2;
 
-// Size in local space: convert world-space vector to local direction
+        // Size in local space: convert world-space vector to local direction
         Vector3 worldDiff = bridgeEnd - bridgeStart;
         Vector3 localDiff = obstacleTransform.InverseTransformVector(worldDiff);
 
-        startObstacle.size = new Vector3(
-            Mathf.Abs(localDiff.x),
+        obstacle.size = new Vector3(
+            width,
             maxCurveHeight * 2 + 3,
-            Mathf.Abs(localDiff.z)
+            Mathf.Abs(localDiff.magnitude)
         );
+        
+        obstacle.transform.rotation = Quaternion.LookRotation(worldDiff.normalized,Vector3.up);
 
         #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(surface);
@@ -336,8 +336,7 @@ public class BridgeScript : MonoBehaviour
         startLink.enabled = false;
         endLink.enabled = false;
         
-        startObstacle.enabled = true;
-        endObstacle.enabled = true;
+        obstacle.enabled = true;
     }
 
     private void RemoveNavObstacles()
@@ -345,8 +344,7 @@ public class BridgeScript : MonoBehaviour
         startLink.enabled = true;
         endLink.enabled = true;
         
-        startObstacle.enabled = false;
-        endObstacle.enabled = false;
+        obstacle.enabled = false;
     }
 
     private Vector3 GetPlankPosition(int index)
