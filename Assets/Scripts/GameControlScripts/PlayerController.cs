@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
             characterController = GetComponent<CharacterController>();
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-        if (respawnPosition !=null)
         respawnPosition = respawnObj.transform;
     }
 

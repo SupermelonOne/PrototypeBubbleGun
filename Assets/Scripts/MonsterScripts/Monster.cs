@@ -11,6 +11,8 @@ using Debug = UnityEngine.Debug;
 [RequireComponent(typeof(AudioSource))]
 public class Monster : MonoBehaviour
 {
+    [HideInInspector] public bool inStation = false;
+
     public MonsterCleanness monsterCleanness;
 
     [HideInInspector] public bool isCaptured = false;
@@ -75,23 +77,26 @@ public class Monster : MonoBehaviour
     }
     private void SoapMonster()
     {
-        if (caughtParticles != null)
+        if (inStation)
         {
-            caughtParticles.Play();
+            if (caughtParticles != null)
+            {
+                caughtParticles.Play();
+            }
+            if (catchSound != null)
+            {
+                catchSound.pitch = UnityEngine.Random.Range(0.85f, 1.2f);
+                catchSound.Play();
+            }
+            bubble.SetActive(true);
+            soapiness = 2;
+            if (monsterCleanness != null)
+            {
+                monsterCleanness.GetSoaped();
+            }
+
+            monsterCleanness.SetUndone();
         }
-        if (catchSound != null)
-        {
-            catchSound.pitch = UnityEngine.Random.Range(0.85f, 1.2f);
-            catchSound.Play();
-        }
-        bubble.SetActive(true);
-        soapiness = 2;
-        if (monsterCleanness != null)
-        {
-            monsterCleanness.GetSoaped();
-        }
-           
-        monsterCleanness.SetUndone();
         
     }
 
