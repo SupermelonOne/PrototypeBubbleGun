@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class FPSNetScript : MonoBehaviour
+public class FPSNetScript : PlayerAction
 {
     [SerializeField] private Transform netTransform;
     [SerializeField] private float rotateModifier = 15f;
@@ -17,6 +17,11 @@ public class FPSNetScript : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         m_moveAmt = ctx.ReadValue<Vector2>();
+    }
+
+    protected override void OnMonsterCast(RaycastHit hit)
+    {
+        throw new System.NotImplementedException();
     }
 
     private void Start()

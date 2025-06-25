@@ -804,7 +804,6 @@ Transform:
   - {fileID: 1589207347328273646}
   - {fileID: 8055015228600447540}
   - {fileID: 7773364431774072926}
-  - {fileID: 4068479339878869540}
   - {fileID: 352069900747459747}
   m_Father: {fileID: 4446469576580601726}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1027,6 +1026,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3259395009605644225}
+  - {fileID: 4068479339878869540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6200986088542332643
@@ -1077,6 +1077,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f376ac8d25e19347807da6dd652e0e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  cam: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastPosition: {x: 0, y: 0, z: 0}
   netTransform: {fileID: 1296955568983481491}
   rotateModifier: 15
 --- !u!114 &-6573479648116902956
@@ -7388,6 +7394,7 @@ GameObject:
   - component: {fileID: 6961914646050455212}
   - component: {fileID: 4331900551378959391}
   - component: {fileID: 1468480969439525407}
+  - component: {fileID: 7639554705582182275}
   - component: {fileID: 1320014131553269091}
   m_Layer: 0
   m_Name: Arms
@@ -7405,11 +7412,11 @@ Transform:
   m_GameObject: {fileID: 7360007885487338362}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.30226487, y: 0.051378965, z: 0.027917147}
+  m_LocalPosition: {x: 0.30226487, y: 0.55137897, z: 0.027917147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3259395009605644225}
+  m_Father: {fileID: 4446469576580601726}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &8343215180930891867
 AudioSource:
@@ -7592,6 +7599,26 @@ MonoBehaviour:
   glove: {fileID: 352069900747459747}
   origin: {fileID: 8055015228600447540}
   gloveScript: {fileID: 4249032159305277076}
+--- !u!114 &7639554705582182275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7360007885487338362}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f376ac8d25e19347807da6dd652e0e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  cam: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 475
+  raycastPosition: {x: 0, y: 0, z: 0}
+  netTransform: {fileID: 1296955568983481491}
+  rotateModifier: 15
 --- !u!114 &1320014131553269091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7609,11 +7636,13 @@ MonoBehaviour:
   - {fileID: 4331900551378959391}
   - {fileID: 1468480969439525407}
   - {fileID: 6961914646050455212}
+  - {fileID: 7639554705582182275}
   instrumentObjects:
   - {fileID: 579124808045947101}
   - {fileID: 1934632917249386941}
   - {fileID: 7559484267324418532}
   - {fileID: 579124808045947101}
+  - {fileID: 308779356392649183}
 --- !u!1 &7445970393681805985
 GameObject:
   m_ObjectHideFlags: 0
@@ -8453,7 +8482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   caughtMonsters: []
-  capacity: 1
+  capacity: 4
 --- !u!54 &7239434419671513675
 Rigidbody:
   m_ObjectHideFlags: 0

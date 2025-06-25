@@ -20,6 +20,9 @@ public class PlayerInstrument : MonoBehaviour
             {
                 enabledSlots.Add(0);
                 enabledSlots.Add(1);
+                enabledSlots.Add(2);
+                enabledSlots.Add(3);
+                enabledSlots.Add(4);
             }
             else
             {
@@ -74,7 +77,7 @@ public class PlayerInstrument : MonoBehaviour
     private void SwitchWeapon(int direction)
     {
         failSafe++;
-        if (failSafe > 100)
+        if (failSafe > instruments.Count)
         {
             return;
         }
