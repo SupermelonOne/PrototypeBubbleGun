@@ -134,4 +134,13 @@ public class Monster : MonoBehaviour
         bubble.SetActive(false);
         ReleaseMonster();
     }
+    
+    public void EnterStation()
+    {
+        inStation = true;
+    }
+    public void ExitStation()
+    {
+        inStation = false;
+    }
 }

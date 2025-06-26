@@ -5022,6 +5022,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3973640707145270794}
   - {fileID: 574573234857063361}
   m_Father: {fileID: 4387580683814131601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14913,7 +14914,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4387580683814131601}
-  - {fileID: 3973640707145270794}
   - {fileID: 7269562997239037628}
   - {fileID: 4799019492887487328}
   - {fileID: 589902093432916496}
@@ -15082,6 +15082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaae05623a26964f8f9e086d8e1cced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inStation: 0
   monsterCleanness: {fileID: 0}
   isCaptured: 0
   caughtParticles: {fileID: 4512701905727612846}
@@ -20127,12 +20128,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8393619361322879680}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.3333333, z: 1.6666667}
+  m_LocalScale: {x: 3.3333333, y: 3.3333333, z: 3.3333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5562567710547476344}
+  m_Father: {fileID: 7168648786646693157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7748134202536106875
 SpriteRenderer:
