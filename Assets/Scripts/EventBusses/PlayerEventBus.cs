@@ -15,6 +15,14 @@ public class PlayerEventBus : BaseEventBus<PlayerEventBus>
             this.player = player;
         }
     }
+    public class OpenInventory
+    {
+        public Player player;
+        public OpenInventory(Player player)
+        {
+            this.player = player;
+        }
+    }
 }
 
 

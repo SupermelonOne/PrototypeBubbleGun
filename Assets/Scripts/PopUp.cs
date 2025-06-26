@@ -194,7 +194,9 @@ public class PopUp : MonoBehaviour
         canvas.transform.LookAt(closestPlayer.transform.position);
         canvas.transform.Rotate(Vector3.up, 180f);
         SetActive(true, closestPlayer);
-        if(Input.GetKeyDown(key))
+        closestPlayer.controller.InteractionToggle(true);
+        
+        if(closestPlayer.controller.IsFirePressed())
             IsPressed(closestPlayer);
     }
 

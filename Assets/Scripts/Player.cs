@@ -14,12 +14,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        gui = GetComponentInChildren<PlayerGUI>();
+        gui = GetComponentInChildren<PlayerGUI>(true);
         inventory = GetComponent<PlayerInventory>();
         controller = GetComponent<PlayerController>();
         instrument = arms.GetComponent<PlayerInstrument>();
         PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(controller.playerCamera, this));
         
         gui.AssignPlayer(this);
+        gui.ToggleUI();
     }
 }

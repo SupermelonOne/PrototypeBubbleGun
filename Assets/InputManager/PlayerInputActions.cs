@@ -89,6 +89,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""c77f0de9-033e-4027-9972-b2b9adf144e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -322,6 +331,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ReleaseMonster"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63bac500-1133-4b4b-98d1-ab5e19ac6ea8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -497,6 +517,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_GamePad_SwapLeft = m_GamePad.FindAction("SwapLeft", throwIfNotFound: true);
         m_GamePad_SwapRight = m_GamePad.FindAction("SwapRight", throwIfNotFound: true);
         m_GamePad_ReleaseMonster = m_GamePad.FindAction("ReleaseMonster", throwIfNotFound: true);
+        m_GamePad_Inventory = m_GamePad.FindAction("Inventory", throwIfNotFound: true);
         // UIMap
         m_UIMap = asset.FindActionMap("UIMap", throwIfNotFound: true);
         m_UIMap_NavigateUp = m_UIMap.FindAction("NavigateUp", throwIfNotFound: true);
@@ -571,6 +592,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePad_SwapLeft;
     private readonly InputAction m_GamePad_SwapRight;
     private readonly InputAction m_GamePad_ReleaseMonster;
+    private readonly InputAction m_GamePad_Inventory;
     public struct GamePadActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -582,6 +604,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @SwapLeft => m_Wrapper.m_GamePad_SwapLeft;
         public InputAction @SwapRight => m_Wrapper.m_GamePad_SwapRight;
         public InputAction @ReleaseMonster => m_Wrapper.m_GamePad_ReleaseMonster;
+        public InputAction @Inventory => m_Wrapper.m_GamePad_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_GamePad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -612,6 +635,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ReleaseMonster.started += instance.OnReleaseMonster;
             @ReleaseMonster.performed += instance.OnReleaseMonster;
             @ReleaseMonster.canceled += instance.OnReleaseMonster;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IGamePadActions instance)
@@ -637,6 +663,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ReleaseMonster.started -= instance.OnReleaseMonster;
             @ReleaseMonster.performed -= instance.OnReleaseMonster;
             @ReleaseMonster.canceled -= instance.OnReleaseMonster;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IGamePadActions instance)
@@ -751,6 +780,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSwapLeft(InputAction.CallbackContext context);
         void OnSwapRight(InputAction.CallbackContext context);
         void OnReleaseMonster(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
     public interface IUIMapActions
     {

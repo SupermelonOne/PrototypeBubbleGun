@@ -9,8 +9,9 @@ public class PlayerGUI : MonoBehaviour
 {
     private Player player;
     private Canvas canvas;
+    private TextMeshProUGUI inventoryText;
     
-    [SerializeField] TextMeshProUGUI inventoryText;
+    [SerializeField] GameObject inventory;
     [SerializeField] RawImage interactIcon;
 
     public void AssignPlayer(Player p)
@@ -26,9 +27,9 @@ public class PlayerGUI : MonoBehaviour
             return;
         }
 
-        UpdateInventory();
         Initialize();
-        
+        UpdateInventory();
+
         player.inventory.OnChange += UpdateInventory;
     }
     
@@ -45,6 +46,8 @@ public class PlayerGUI : MonoBehaviour
         canvas.worldCamera = player.controller.playerCamera;
         canvas.planeDistance = 1f;
         interactIcon.enabled = false;
+        inventoryText = inventory.GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log(inventoryText);
     }
 
     private void UpdateInventory()
@@ -61,5 +64,10 @@ public class PlayerGUI : MonoBehaviour
     public void OnInteract(bool isOn)
     {
         interactIcon.enabled = isOn;
+    }
+
+    public void ToggleUI()
+    {
+        inventory.SetActive(!inventory.activeSelf);
     }
 }

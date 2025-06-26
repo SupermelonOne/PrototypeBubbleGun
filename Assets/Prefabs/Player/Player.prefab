@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   lookXLimit: 45
-  respawnPosition: {fileID: 0}
+  respawnPosition: {x: 0, y: 0, z: 0}
   playerCamera: {fileID: 8157560693681419678}
   sensitivity: 10
   speedModifier: 8
@@ -1341,7 +1341,23 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6d0df967-5c9a-4f74-93ed-8ca04ac7eae7
     m_ActionName: UIMap/Back[/Keyboard/shift]
-  m_NeverAutoSwitchControlSchemes: 0
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8623094622548370880}
+        m_TargetAssemblyTypeName: PlayerGUI, Assembly-CSharp
+        m_MethodName: ToggleUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c77f0de9-033e-4027-9972-b2b9adf144e3
+    m_ActionName: GamePad/Inventory[/Keyboard/e]
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: GamePad
   m_SplitScreenIndex: -1
@@ -10251,9 +10267,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3259395009605644225}
     m_Modifications:
+    - target: {fileID: 1361468411926817657, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2933049596508140355, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
       propertyPath: m_Name
       value: PlayerGUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2933049596508140355, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3499796905853055632, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
       propertyPath: m_Pivot.x
@@ -10345,3 +10369,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3499796905853055632, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
   m_PrefabInstance: {fileID: 7442727794178952923}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8623094622548370880 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1216679579446749979, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+  m_PrefabInstance: {fileID: 7442727794178952923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765ccdb92d5297f4f9d217aac1445a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7858395609290627428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 765ccdb92d5297f4f9d217aac1445a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  interactIcon: {fileID: 0}

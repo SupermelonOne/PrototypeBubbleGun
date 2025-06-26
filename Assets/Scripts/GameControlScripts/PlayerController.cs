@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [SerializeField] public float lookXLimit = 45.0f;
     
-    [SerializeField] private Transform respawnPosition;
+    [SerializeField] private Vector3 respawnPosition;
     [SerializeField] public Camera playerCamera;
     
     [SerializeField] private float sensitivity = 2.0f;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5;
 
     private bool shopOpen = false;
+    private bool interactPossible = false;
     private Vector2 m_moveAmt = Vector2.zero;
     private Vector2 m_lookAmt = Vector2.zero;
     private Vector3 verticalMovement = Vector3.zero;
@@ -44,8 +45,14 @@ public class PlayerController : MonoBehaviour
             characterController = GetComponent<CharacterController>();
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-        if (respawnPosition !=null)
-        respawnPosition = respawnObj.transform;
+        if (respawnPosition != null)
+        {
+            respawnPosition = respawnObj.transform.position;
+        }
+        else
+        {
+            respawnPosition = Vector3.zero;
+        }
     }
 
     private void OnEnable()
@@ -53,34 +60,33 @@ public class PlayerController : MonoBehaviour
         mPlayerInput = new PlayerInputActions();
         playerInput = GetComponent<PlayerInput>();
 
-        if (playerInput != null)
-        {
-            playerInput.actions = mPlayerInput.asset;
+        if (playerInput == null) return;
+        
+        playerInput.actions = mPlayerInput.asset;
 
-            mPlayerInput.GamePad.Jump.performed += OnJump;
-            mPlayerInput.GamePad.Jump.started += OnJump;
-            mPlayerInput.GamePad.Jump.canceled += OnJump;
+        mPlayerInput.GamePad.Jump.performed += OnJump;
+        mPlayerInput.GamePad.Jump.started += OnJump;
+        mPlayerInput.GamePad.Jump.canceled += OnJump;
 
-            foreach (var action in GetComponentsInChildren<PlayerAction>())
-            {
-                mPlayerInput.GamePad.Shoot.performed += action.OnFire;
-                mPlayerInput.GamePad.Shoot.started += action.OnFire;
-                mPlayerInput.GamePad.Shoot.canceled += action.OnFire;
-            }
+        mPlayerInput.GamePad.Shoot.started += OnFire;
+        mPlayerInput.GamePad.Shoot.performed += OnFire;
+        mPlayerInput.GamePad.Shoot.canceled += OnFire;
+  
             
-            PlayerInstrument playerInstrument = GetComponentInChildren<PlayerInstrument>();
-            if (playerInstrument != null)
-            {
-                mPlayerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
-                mPlayerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
-            }
-
-            mPlayerInput.UIMap.Back.started += OnUIMoveBack;
-            mPlayerInput.UIMap.Select.started += OnUIMoveSelect;
-            mPlayerInput.UIMap.NavigateUp.started += OnUIMoveUp;
-            mPlayerInput.UIMap.NavigateDown.started += OnUIMoveDown;
+        PlayerInstrument playerInstrument = GetComponentInChildren<PlayerInstrument>();
+        if (playerInstrument != null)
+        {
+            mPlayerInput.GamePad.SwapLeft.started += playerInstrument.SwitchLeft;
+            mPlayerInput.GamePad.SwapRight.started += playerInstrument.SwitchRight;
         }
+
+        mPlayerInput.UIMap.Back.started += OnUIMoveBack;
+        mPlayerInput.UIMap.Select.started += OnUIMoveSelect;
+        mPlayerInput.UIMap.NavigateUp.started += OnUIMoveUp;
+        mPlayerInput.UIMap.NavigateDown.started += OnUIMoveDown;
     }
+
+    
     private void OnDisable()
     {
         if (mPlayerInput != null)
@@ -89,12 +95,10 @@ public class PlayerController : MonoBehaviour
             mPlayerInput.GamePad.Jump.started -= OnJump;
             mPlayerInput.GamePad.Jump.canceled -= OnJump;
             
-            foreach (var action in GetComponents<PlayerAction>())
-            {
-                mPlayerInput.GamePad.Shoot.performed -= action.OnFire;
-                mPlayerInput.GamePad.Shoot.started -= action.OnFire;
-                mPlayerInput.GamePad.Shoot.canceled -= action.OnFire;
-            }
+            mPlayerInput.GamePad.Shoot.started -= OnFire;
+            mPlayerInput.GamePad.Shoot.performed -= OnFire;
+            mPlayerInput.GamePad.Shoot.canceled -= OnFire;
+
             
             PlayerInstrument playerInstrument = GetComponent<PlayerInstrument>();
             if (playerInstrument != null)
@@ -143,7 +147,25 @@ public class PlayerController : MonoBehaviour
     {
         ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Back));
     }
+    
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (interactPossible)
+        {
+            return;
+        }
 
+        var c = GetComponentsInChildren<PlayerAction>();
+        foreach (var action in c)
+        {
+            action.OnFire(context);
+        }
+    }
+
+    public void InteractionToggle(bool isOpen)
+    {
+        interactPossible = isOpen;
+    }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
@@ -156,10 +178,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        //TODO: vezko istg what is this
         if (context.started)
             jumpInput = true;
         if (context.canceled)
             jumpInput = false;
+    }
+    
+    // <summary>
+    /// Returns <c>true</c> for as long as the Shoot action is held down.
+    /// </summary>
+    public bool IsFirePressed()
+    {
+        return mPlayerInput != null && mPlayerInput.GamePad.Shoot.IsPressed();
     }
 
     void Update()
@@ -195,7 +226,7 @@ public class PlayerController : MonoBehaviour
 
         if (respawnPosition != null && transform.position.y < -90)
         {
-            transform.position = respawnPosition.position;
+            transform.position = respawnPosition;
         }
     }
 
