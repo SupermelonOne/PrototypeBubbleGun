@@ -5,6 +5,8 @@ using UnityEngine;
 public class StationScript : MonoBehaviour
 {
     private MonsterCleanness caughtMonster;
+    private List<MonsterCleanness> caughtMonsters;
+    private List<MonsterMoveBehavior> moveBehaviors;
     private MonsterMoveBehavior moveBehavior;
     //private MonsterCleanness caughtMonsterCleanness;
     private void OnTriggerEnter(Collider other)
@@ -17,9 +19,12 @@ public class StationScript : MonoBehaviour
             if (monster != null && monster.isCaught && caughtMonster == null)
             {
                 monster.EnterStation();
+                //the netPosition has to be replaced by the enemies just strolling around in the place
                 monster.netPosition = transform;
                 caughtMonster = monster.GetComponent<MonsterCleanness>();
+                caughtMonsters.Add(monster.GetComponent<MonsterCleanness>());
                 moveBehavior = monster;
+                moveBehaviors.Add(monster);
             }
         }
     }
@@ -32,7 +37,7 @@ public class StationScript : MonoBehaviour
         }
         if (caughtMonster != null)
         {
-            if (caughtMonster.done)
+/*            if (caughtMonster.done)
             {
                 caughtMonster = null;
                 if (moveBehavior != null)
@@ -40,7 +45,7 @@ public class StationScript : MonoBehaviour
                     moveBehavior.ExitStation();
                     moveBehavior.Release();
                 }
-            }
+            }*/
         }
     }
 }
