@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -10,6 +11,7 @@ public class PlayerGUI : MonoBehaviour
     private Player player;
     private Canvas canvas;
     private TextMeshProUGUI inventoryText;
+    private int currentUIIndex = 0;
     
     [SerializeField] GameObject inventory;
     [SerializeField] RawImage interactIcon;
@@ -26,10 +28,12 @@ public class PlayerGUI : MonoBehaviour
             Debug.LogError("Player is null");
             return;
         }
+        
 
         Initialize();
         UpdateInventory();
 
+        InventoryEventBus.Subscribe<InventoryEventBus.OnNavigateUI>(OnMoveCursor);
         player.inventory.OnChange += UpdateInventory;
     }
     
@@ -37,6 +41,8 @@ public class PlayerGUI : MonoBehaviour
     {
         if (player != null)
             player.inventory.OnChange -= UpdateInventory;
+        InventoryEventBus.UnSubscribe<InventoryEventBus.OnNavigateUI>(OnMoveCursor);
+
     }
 
     private void Initialize()
@@ -54,12 +60,35 @@ public class PlayerGUI : MonoBehaviour
     {
         var inventoryString = "";
 
-        foreach (var kvp in player.inventory.Items)
+        for (int i = 0; i < player.inventory.Items.Count; i++)
+        {
+            if (i == currentUIIndex)
+                inventoryString += ">";
+            var kvp = player.inventory.Items.ElementAt(i);
             inventoryString += $"{kvp.Key}: {kvp.Value} \n";
-        
-        
+        }
+
+
         inventoryText.text = inventoryString;
     }
+    
+    public void OnMoveCursor(InventoryEventBus.OnNavigateUI navigateUI)
+    {
+        
+        if (currentUIIndex - 1 >= 0 && navigateUI.inputType == InputTypes.Up)
+            currentUIIndex--;
+        
+        if (currentUIIndex + 1 < player.inventory.Items.Count && navigateUI.inputType == InputTypes.Down)
+            currentUIIndex++;
+        
+        UpdateInventory();
+    }
+
+
+
+
+
+
 
     public void OnInteract(bool isOn)
     {
@@ -69,5 +98,6 @@ public class PlayerGUI : MonoBehaviour
     public void ToggleUI()
     {
         inventory.SetActive(!inventory.activeSelf);
+        player.controller.SetInventory(!inventory.activeSelf);
     }
 }

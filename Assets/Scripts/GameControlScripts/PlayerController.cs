@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5;
 
     private bool shopOpen = false;
+    private bool inventoryOpen = false;
+    
     private bool interactPossible = false;
     private Vector2 m_moveAmt = Vector2.zero;
     private Vector2 m_lookAmt = Vector2.zero;
@@ -118,7 +120,17 @@ public class PlayerController : MonoBehaviour
     public void ToggleShopUI(bool isOpen)
     {
         shopOpen = isOpen;
+        OnUI(isOpen);
+    }
 
+    public void SetInventory(bool isOpen)
+    {
+        inventoryOpen = isOpen;
+        OnUI(isOpen);
+    }
+
+    private void OnUI(bool isOpen)
+    {
         if (isOpen)
         {
             mPlayerInput.GamePad.Disable(); // Disable gameplay input
@@ -130,24 +142,34 @@ public class PlayerController : MonoBehaviour
             mPlayerInput.GamePad.Enable();
         }
     }
+    
+    
 
     private void OnUIMoveDown(InputAction.CallbackContext context)
     {
-        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Down));
+        OnUIMove(InputTypes.Down);
     }
     private void OnUIMoveUp(InputAction.CallbackContext context)
     {
-        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Up));
+        OnUIMove(InputTypes.Up);    
     }
     private void OnUIMoveSelect(InputAction.CallbackContext context)
     {
-        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Select));
+        OnUIMove(InputTypes.Select);
     }
     private void OnUIMoveBack(InputAction.CallbackContext context)
     {
-        ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(InputTypes.Back));
+        OnUIMove(InputTypes.Back);
     }
-    
+
+    private void OnUIMove(InputTypes type)
+    {
+        if(shopOpen)
+            ShopEventBus.Invoke(new ShopEventBus.OnNavigateUI(type));
+        else 
+            InventoryEventBus.Invoke(new InventoryEventBus.OnNavigateUI(type));
+            
+    }
     public void OnFire(InputAction.CallbackContext context)
     {
         if (interactPossible)

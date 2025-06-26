@@ -1357,6 +1357,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c77f0de9-033e-4027-9972-b2b9adf144e3
     m_ActionName: GamePad/Inventory[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8623094622548370880}
+        m_TargetAssemblyTypeName: PlayerGUI, Assembly-CSharp
+        m_MethodName: ToggleUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 676caae6-ada9-46b5-9dc4-5d261cdcd0c9
+    m_ActionName: UIMap/Inventory[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: GamePad
