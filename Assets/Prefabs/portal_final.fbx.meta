@@ -3,7 +3,32 @@ guid: 20d75e3bb6f51b64d92e9b92178c0230
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: candles
+    second: {fileID: 2100000, guid: 938e9decc214a33468d054ecbc50b21b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: light_lamp
+    second: {fileID: 2100000, guid: fd89d4e1dc0c22843a7cf1be65134bc6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: low_poly_rock
+    second: {fileID: 2100000, guid: e590e89d8dcb54a498b37b3da450ee1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pole_rock_low_poly
+    second: {fileID: 2100000, guid: 9e67c4cf3ecdc41498b8907ee14a4da9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: top_part_material
+    second: {fileID: 2100000, guid: 47c28cb111010444390292da350f4917, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -44,8 +44,13 @@ public class PlayerController : MonoBehaviour
             characterController = GetComponent<CharacterController>();
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-        if (respawnPosition !=null)
-        respawnPosition = respawnObj.transform;
+        if (respawnObj == null)
+        {
+            Debug.LogError("Hey There is no Object tagged with PlayerSpawnPoint in scene pls add one");
+        }
+        
+        //if (respawnPosition != null)
+            respawnPosition = respawnObj.transform;
     }
 
     private void OnEnable()
