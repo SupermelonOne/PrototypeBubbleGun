@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StationScript : MonoBehaviour
 {
+    [SerializeField] private StationManager stationManager;
+
     private MonsterCleanness caughtMonster;
     private List<MonsterCleanness> caughtMonsters;
     private List<MonsterMoveBehavior> moveBehaviors;
@@ -46,6 +48,18 @@ public class StationScript : MonoBehaviour
                     moveBehavior.Release();
                 }
             }*/
+        }
+    }
+
+    public MonsterCleanness GetFirstInQueue()
+    {
+        if (caughtMonsters.Count > 0)
+        {
+            return caughtMonsters[0];
+        }
+        else
+        {
+            return null;
         }
     }
 }
