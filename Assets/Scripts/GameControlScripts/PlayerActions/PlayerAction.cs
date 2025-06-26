@@ -23,8 +23,11 @@ public abstract class PlayerAction : MonoBehaviour
         if (!enabled)
             return;
 
+        Debug.Log($"button: {button.phase}");
+
         if (button.started)
         {
+            Debug.Log("Fire");
             holding = true;
             StartShooting();
             sprayCoroutine = StartCoroutine(OnButtonDown());

@@ -12,6 +12,21 @@ public class CatchScript : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        foreach(MonsterMoveBehavior monster in caughtMonsters)
+        {
+            monster.gameObject.SetActive(true);
+        }
+    }
+    private void OnDisable()
+    {
+        foreach (MonsterMoveBehavior monster in caughtMonsters)
+        {
+            monster.gameObject.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (allowCatching && caughtMonsters.Count < capacity)

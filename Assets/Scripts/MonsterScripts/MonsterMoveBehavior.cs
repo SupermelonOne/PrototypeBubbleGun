@@ -39,13 +39,17 @@ public class MonsterMoveBehavior : MonoBehaviour
         {
             hidingSpots = target.GetComponentsInChildren<Transform>().Where(t => t != target.transform).ToList();
         }
+        else
+        {
+            //Debug.Log("Error: HidingSpots not found");
+        }
 
         bool snappedSuccessfully = TryReconnectAgentToNavMesh();
 
         // /only set destination if the agent is successfully placed on the NavMesh
         if (snappedSuccessfully && hidingSpots.Count > 0)
         {
-           // Debug.Log($"agent is acive: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
+            //Debug.Log($"agent is acive: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
             agent.SetDestination(GetNearestHidingspot());
         }
         else if (snappedSuccessfully)
@@ -111,7 +115,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             walkWaitTimer = 0;
             if (GetRandomPointOnNavmesh(transform.position, walkRange, out var randomPoint))
             {
-               // Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
+                //Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
                 agent.SetDestination(randomPoint);
             }
         }
@@ -243,10 +247,12 @@ public class MonsterMoveBehavior : MonoBehaviour
 
             if (agent.isOnNavMesh)
             {
+                //Debug.Log("Agent successfully reconnected and warped.");
                 return true;
             }
             else
             {
+                //Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
                 return false;
             }
         }

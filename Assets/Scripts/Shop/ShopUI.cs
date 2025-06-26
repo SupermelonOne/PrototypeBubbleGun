@@ -164,5 +164,5 @@ public class ShopUI : MonoBehaviour
                 BrokeError();
         }
     }
-//Destroying the panel is a bit too violent -Elin
+    //Destroying the panel is a bit too violent -Elin
 }
