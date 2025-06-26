@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [SerializeField] public float lookXLimit = 45.0f;
     
-    [SerializeField] private Transform respawnPosition;
+    [SerializeField] private Vector3 respawnPosition;
     [SerializeField] public Camera playerCamera;
     
     [SerializeField] private float sensitivity = 2.0f;
@@ -45,7 +45,11 @@ public class PlayerController : MonoBehaviour
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
         if (respawnPosition !=null)
-        respawnPosition = respawnObj.transform;
+        respawnPosition = respawnObj.transform.position;
+        else
+        {
+            respawnPosition = Vector3.zero;
+        }
     }
 
     private void OnEnable()
@@ -195,7 +199,7 @@ public class PlayerController : MonoBehaviour
 
         if (respawnPosition != null && transform.position.y < -90)
         {
-            transform.position = respawnPosition.position;
+            transform.position = respawnPosition;
         }
     }
 
