@@ -7662,17 +7662,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instruments:
+  - {fileID: 7639554705582182275}
   - {fileID: 654684477806545921}
   - {fileID: 4331900551378959391}
   - {fileID: 1468480969439525407}
   - {fileID: 6961914646050455212}
-  - {fileID: 7639554705582182275}
   instrumentObjects:
-  - {fileID: 579124808045947101}
+  - {fileID: 308779356392649183}
+  - {fileID: 1326934723683048841}
   - {fileID: 1934632917249386941}
   - {fileID: 7559484267324418532}
-  - {fileID: 579124808045947101}
-  - {fileID: 308779356392649183}
+  - {fileID: 1326934723683048841}
 --- !u!1 &7445970393681805985
 GameObject:
   m_ObjectHideFlags: 0
@@ -10008,6 +10008,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59fb0f787ab8c984f8096e56d8359049, type: 3}
+--- !u!1 &1326934723683048841 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1755644420931727927, guid: 59fb0f787ab8c984f8096e56d8359049, type: 3}
+  m_PrefabInstance: {fileID: 736186073118044094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7773364431774072926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7050381442467409888, guid: 59fb0f787ab8c984f8096e56d8359049, type: 3}
