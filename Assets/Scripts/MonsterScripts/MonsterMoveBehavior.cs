@@ -10,6 +10,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody))]
 public class MonsterMoveBehavior : MonoBehaviour
 {
+    Animator animator;
+
     public float waitTime;
     public bool isCaught;
     public Transform netPosition;
@@ -30,6 +32,8 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void OnEnable()
     {
+        animator = GetComponentInChildren<Animator>();
+
         rb = GetComponent<Rigidbody>();
         walkWaitTime = Random.Range(7, 12);
         agent = GetComponent<NavMeshAgent>();
@@ -78,6 +82,7 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void Update()
     {
+        UpdateAnimator();
         if (agent.isOnNavMesh)
         {
             hasLanded = true;
@@ -259,5 +264,15 @@ public class MonsterMoveBehavior : MonoBehaviour
 
         //Debug.LogWarning("Could not find a valid NavMesh point nearby.");
         return false;
+    }
+
+    private void UpdateAnimator()
+    {
+
+            animator.SetBool("caught", netPosition != null);
+
+        animator.SetBool("walking", !agent.pathPending &&
+               agent.remainingDistance > agent.stoppingDistance &&
+               agent.velocity.sqrMagnitude > 0f);
     }
 }
