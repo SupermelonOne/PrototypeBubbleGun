@@ -49,9 +49,12 @@ public class StationManager : MonoBehaviour
         sendOutMoveBehaviors.Add(pMonsterMoveBehavior);
         moveBehaviors.Remove(pMonsterMoveBehavior);
 
+        sendOutTransforms.Add(monsterPositions[0]);
+
+        monsterPositions.RemoveAt(0);
+
         monsters.Remove(pMonsterCleanness);
         //this is gonna bug out
-        sendOutTransforms.Add(monsterPositions[0]);
         gameObjects.RemoveAt(0);
         pMonsterCleanness.GetComponent<Monster>().ExitStation();
     }
@@ -86,6 +89,7 @@ public class StationManager : MonoBehaviour
             {
                 if (Vector3.Distance(monsterPositions[0].position, point2.position) > 0.2f)
                 {
+
                     monsterPositions[0].Translate((point2.position - monsterPositions[0].position).normalized * Time.deltaTime);
                 }
             }
@@ -94,11 +98,19 @@ public class StationManager : MonoBehaviour
         {
             if (Vector3.Distance(sendOutTransforms[0].position, exitPoint.position) > 0.2f)
             {
+                Debug.Log(Vector3.Distance(sendOutTransforms[0].position, exitPoint.position));
                 Debug.Log(sendOutTransforms[0].gameObject.name);
                 sendOutTransforms[0].Translate((exitPoint.position - sendOutTransforms[0].position).normalized * Time.deltaTime);
             }
+            else
+            {
+
+                    sendOutMoveBehaviors[0].ExitStation();
+                    sendOutMoveBehaviors[0].Release();
+                    sendOutMoveBehaviors.RemoveAt(0);
+                    sendOutTransforms.RemoveAt(0);
+
+            }
         }
     }
-
-
 }
