@@ -270,9 +270,11 @@ public class MonsterMoveBehavior : MonoBehaviour
     {
 
             animator.SetBool("caught", netPosition != null);
-
-        animator.SetBool("walking", !agent.pathPending &&
-               agent.remainingDistance > agent.stoppingDistance &&
-               agent.velocity.sqrMagnitude > 0f);
+        if (agent.isOnNavMesh)
+        {
+                animator.SetBool("walking", !agent.pathPending &&
+           agent.remainingDistance > agent.stoppingDistance &&
+           agent.velocity.sqrMagnitude > 0f);
+        }
     }
 }
