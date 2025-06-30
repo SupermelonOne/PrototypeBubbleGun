@@ -64,11 +64,11 @@ public class StationManager : MonoBehaviour
     {
         if (monsters.Count > 0)
         {
-            Debug.Log("monseter in it is: " + monsters[0].gameObject.name);
+            //Debug.Log("monseter in it is: " + monsters[0].gameObject.name);
         }
         foreach (MonsterCleanness mon in monsters)
         {
-            Debug.Log("monsters remaining");
+            //Debug.Log("monsters remaining");
             if (mon.done)
             {
                 SendOut(mon);
