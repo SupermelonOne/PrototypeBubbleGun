@@ -176,7 +176,10 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.started)
+        {
             jumpInput = true;
+            justRespawned = false;
+        }
         if (context.canceled)
             jumpInput = false;
     }
