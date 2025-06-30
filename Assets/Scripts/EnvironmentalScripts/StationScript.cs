@@ -36,7 +36,7 @@ public class StationScript : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("in storage" + caughtMonsters.Count);
+        //Debug.Log("in storage " + caughtMonsters.Count);
         if (caughtMonster == null)
         {
 
