@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 
 using UnityEngine;
@@ -29,6 +30,9 @@ public class MonsterMoveBehavior : MonoBehaviour
     private List<Transform> hidingSpots = new List<Transform>();
     private bool hasLanded = false;
 
+    //for getting random position on navmesh
+    private NavMeshSurface navMeshSurface;
+
 
     private void OnEnable()
     {
@@ -45,7 +49,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Error: HidingSpots not found");
+            Debug.Log("Error: HidingSpots not found");
         }
 
         bool snappedSuccessfully = TryReconnectAgentToNavMesh();
@@ -62,12 +66,7 @@ public class MonsterMoveBehavior : MonoBehaviour
             // If no hiding spots, directly initiate wandering
             walkWaitTimer = walkWaitTime; // Make it pick a random point immediately
         }
-        else
-        {
-           // Debug.LogError("Monster could not be placed on NavMesh in Start(). It will not move.", this);
-            agent.enabled = false; // Keep agent disabled if it can't find a mesh
-        }
-        
+
     }
 
     public void EnterStation()
@@ -83,15 +82,6 @@ public class MonsterMoveBehavior : MonoBehaviour
     private void Update()
     {
         UpdateAnimator();
-        if (agent.isOnNavMesh)
-        {
-            hasLanded = true;
-            goToSecond = !agent.isStopped;
-        }
-        else if (hasLanded)
-            TryReconnectAgentToNavMesh();
-        else
-            return;
 
         if (isCaught)
         {
@@ -102,14 +92,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         if (waitTime > 0)
         {
             waitTime -= Time.deltaTime;
-            transform.position += new Vector3(0, bubbleFloatSpeed * Time.deltaTime, 0);
             return;
-        }
-        
-        if (!rb.useGravity)
-        {
-            rb.useGravity = true;
-            agent.enabled = true;   
         }
         
         //pretty sure this isnt how Time.deltaTime works, if this function doesnt work this is prolly the reason
@@ -121,7 +104,8 @@ public class MonsterMoveBehavior : MonoBehaviour
             if (GetRandomPointOnNavmesh(transform.position, walkRange, out var randomPoint))
             {
                 //Debug.Log($"agent is active: {agent.isActiveAndEnabled}, and on the floor: {agent.isOnNavMesh}");
-                agent.SetDestination(randomPoint);
+                if (agent.isOnNavMesh) 
+                    agent.SetDestination(randomPoint);
             }
         }
         
@@ -178,7 +162,6 @@ public class MonsterMoveBehavior : MonoBehaviour
                 return true;
             }
         }
-
         result = Vector3.zero;
         return false;
     }
@@ -237,42 +220,19 @@ public class MonsterMoveBehavior : MonoBehaviour
     public bool TryReconnectAgentToNavMesh(float searchRadius = 1)
     {
         if (agent == null)
-        {
-            Debug.LogError("NavMeshAgent is missing.", this);
             return false;
-        }
-
-        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, searchRadius, NavMesh.AllAreas))
-        {
-            agent.enabled = false;
-            agent.Warp(hit.position); // Optional but safer
-            agent.enabled = true;
-
-
-
-            if (agent.isOnNavMesh)
-            {
-                //Debug.Log("Agent successfully reconnected and warped.");
-                return true;
-            }
-            else
-            {
-                //Debug.LogWarning("Agent re-enabled but still not on NavMesh.");
-                return false;
-            }
-        }
-
-        //Debug.LogWarning("Could not find a valid NavMesh point nearby.");
-        return false;
+        return agent.isOnNavMesh;
     }
 
     private void UpdateAnimator()
     {
 
             animator.SetBool("caught", netPosition != null);
-
-        animator.SetBool("walking", !agent.pathPending &&
-               agent.remainingDistance > agent.stoppingDistance &&
-               agent.velocity.sqrMagnitude > 0f);
+        if (agent.isOnNavMesh)
+        {
+                animator.SetBool("walking", !agent.pathPending &&
+           agent.remainingDistance > agent.stoppingDistance &&
+           agent.velocity.sqrMagnitude > 0f);
+        }
     }
 }

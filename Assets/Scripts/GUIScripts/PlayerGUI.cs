@@ -50,7 +50,8 @@ public class PlayerGUI : MonoBehaviour
     private void UpdateInventory()
     {
         var inventoryString = "";
-
+        if (player.inventory.Items == null)
+            return;
         foreach (var kvp in player.inventory.Items)
             inventoryString += $"{kvp.Key}: {kvp.Value} \n";
         

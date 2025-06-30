@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
         
@@ -227,7 +228,7 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = (respawnTransform.position - transform.position).normalized;
             float respawnSpeed = Vector3.Distance(respawnTransform.position, transform.position);
             characterController.Move((direction * respawnSpeed * Time.deltaTime) / respawnSeconds + 8 * direction * Time.deltaTime);
-            if (Vector3.Distance(respawnTransform.position, transform.position) < 0.5f)
+            if (Vector3.Distance(respawnTransform.position, transform.position) < 0.1f)
             {
                 respawning = false;
                 characterController.excludeLayers = enabledAfterRespawn;
