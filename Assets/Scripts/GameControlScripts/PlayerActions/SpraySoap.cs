@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class SprayWater : PlayerAction
+public class SpraySoap : PlayerAction
 {
     [SerializeField] private Transform origin;
     [SerializeField] private GameObject streamObject;
-    [SerializeField] private GameObject waterObject;
+    [SerializeField] private GameObject soapObj;
     private float waterLength;
     private Vector3 sprayEndPoint;
 
@@ -34,10 +33,10 @@ public class SprayWater : PlayerAction
     {
         sprayEndPoint = hit.point;
     }
-    
+
     protected override void ButtonDown()
     {
-        foreach(Transform t in sprayEndPointObjects)
+        foreach (Transform t in sprayEndPointObjects)
         {
             t.position = sprayEndPoint;
         }
@@ -45,16 +44,16 @@ public class SprayWater : PlayerAction
 
     protected override void StartShooting()
     {
-        waterObject.SetActive(true);
+        soapObj.SetActive(true);
         foreach (var particle in sprayParticles)
             particle.Play();
         waterLength = 0;
     }
-    
+
     protected override void StopShooting()
     {
         foreach (var particle in sprayParticles)
             particle.Stop();
-        waterObject.SetActive(false);
+        soapObj.SetActive(false);
     }
 }

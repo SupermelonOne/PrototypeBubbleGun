@@ -9,13 +9,20 @@ public class DirtScript : MonoBehaviour
     [SerializeField] private bool requireScrub = true;
     [SerializeField] private bool requireWater = false;
 
+    [SerializeField] private ParticleSystem bubbleParticles;
+    [SerializeField] private ParticleSystem dirtParticles;
+
+    private float soapValue = 0;
+    private float scrubValue = 0;
+    private float waterValue = 0;
+
     private bool visible;
     [SerializeField] private GrabableBone hiddenUnder;
     [SerializeField] private float requiredAngle = 100;
     bool canClean = false;
     [SerializeField] private float maxHealth = 1; //time needs to be cleaned
     private float health;
-    ParticleSystem particleSystem;
+    //ParticleSystem dirtParticles;
     MonsterCleanness monsterCleanness;
 
     [SerializeField] private Transform dirtVisual;
@@ -25,13 +32,12 @@ public class DirtScript : MonoBehaviour
         {
             visible = true;
         }
-        particleSystem = GetComponentInChildren<ParticleSystem>();
         health = maxHealth;
         monsterCleanness = GetComponentInParent<MonsterCleanness>();
     }
     private void OnTriggerStay(Collider other)
     {
-        if (canClean)
+/*        if (canClean)
         {
             if (other.CompareTag("Cleaner") && visible)
             {
@@ -41,16 +47,58 @@ public class DirtScript : MonoBehaviour
                     float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
                     dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
                 }
-                if (particleSystem != null)
+                if (dirtParticles != null)
                 {
-                    particleSystem.Play();
+                    dirtParticles.Play();
                 }
             }
+        }*/
+        if (other.CompareTag("Soap"))
+        {
+            if (soapValue < 1)
+            {
+                soapValue += Time.deltaTime;
+            }
+            else
+            {
+                soapValue = 1;
+            }
         }
+        if (other.CompareTag("WaterSpray"))
+        {
+            if (soapValue > 0)
+            {
+                soapValue -= Time.deltaTime;
+            }
+            if (waterValue < 1)
+            {
+                waterValue += Time.deltaTime;
+            }
+            else
+            {
+                waterValue = 1;
+            }
+        }
+        if (other.CompareTag("Cleaner"))
+        {
+            if (requireSoap)
+            {
+                if (soapValue > 0)
+                {
+                    scrubValue += Time.deltaTime;
+                }
+            }
+            else
+            {
+                scrubValue += Time.deltaTime;
+            }
+        }
+
+
     }
     private void Update()
     {
-        if (health <= 0)
+/*        if (health <= 0)
         {
             Destroy(gameObject);
             if (monsterCleanness != null)
@@ -64,7 +112,9 @@ public class DirtScript : MonoBehaviour
 
         float angleFromUp = Vector3.Angle(limbDirection, Vector3.up);
 
-        bool visible = angleFromUp <= requiredAngle;
+        bool visible = angleFromUp <= requiredAngle;*/
+
+
 
     }
     private float recalculateAngle(float input)

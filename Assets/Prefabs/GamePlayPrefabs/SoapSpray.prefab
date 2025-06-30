@@ -4835,8 +4835,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: fa1b1298f6ff1ff49b1533e3d155be77, type: 2}
+  - {fileID: 2100000, guid: ee0c9ba283963d948a36903a667ed164, type: 2}
+  - {fileID: 2100000, guid: ee0c9ba283963d948a36903a667ed164, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5176,7 +5176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6363832794039762486}
   m_Layer: 0
-  m_Name: WaterSpray
+  m_Name: SoapSpray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9979,8 +9979,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0c022518910df0d4c84673c66053dbbd, type: 2}
-  - {fileID: 2100000, guid: fa1b1298f6ff1ff49b1533e3d155be77, type: 2}
+  - {fileID: 2100000, guid: ee0c9ba283963d948a36903a667ed164, type: 2}
+  - {fileID: 2100000, guid: ee0c9ba283963d948a36903a667ed164, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11341,8 +11341,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.14509805, g: 0.36862746, b: 0.62352943, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 0.57169807, g: 0.70176643, b: 1, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -13967,7 +13967,7 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 1
+    enabled: 0
     mode: 0
     ratio: 1
     lifetime:
@@ -14810,8 +14810,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 50b1ce79fc0e9d844b96be1ecd169636, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14935,7 +14934,7 @@ PrefabInstance:
     - target: {fileID: 8743813690021804245, guid: beb7a541d9f3476408c409d0b05edb4c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fa1b1298f6ff1ff49b1533e3d155be77, type: 2}
+      objectReference: {fileID: 2100000, guid: ee0c9ba283963d948a36903a667ed164, type: 2}
     - target: {fileID: 8879528566716807029, guid: beb7a541d9f3476408c409d0b05edb4c, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
