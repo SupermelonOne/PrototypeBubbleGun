@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class DirtScript : MonoBehaviour
 {
+    [SerializeField] private bool requireSoap = true;
+    [SerializeField] private bool requireScrub = true;
+    [SerializeField] private bool requireWater = false;
+
     private bool visible;
     [SerializeField] private GrabableBone hiddenUnder;
     [SerializeField] private float requiredAngle = 100;
