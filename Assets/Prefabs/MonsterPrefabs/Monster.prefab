@@ -15067,7 +15067,7 @@ MonoBehaviour:
   isCaught: 0
   netPosition: {fileID: 0}
   inStation: 0
-  walkRange: 50
+  walkRange: 15
   walkWaitTimer: 8
   walkWaitTime: 8
   bubbleFloatSpeed: 3
