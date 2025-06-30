@@ -20,7 +20,6 @@ public class BlinkScript : MonoBehaviour
         {
             if (eyelidValue < 1)
             {
-                Debug.Log("bLINKINGGG" + eyelidValue);
                 eyelidValue += Time.deltaTime * blinkspeed;
                 if (eyelidValue > 1)
                     eyelidValue = 1;
