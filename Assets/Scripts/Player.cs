@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     {
         gui = GetComponentInChildren<PlayerGUI>();
         inventory = GetComponent<PlayerInventory>();
-        Debug.Log(inventory.name);
         controller = GetComponent<PlayerController>();
         instrument = arms.GetComponent<PlayerInstrument>();
         PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(controller.playerCamera, this));
