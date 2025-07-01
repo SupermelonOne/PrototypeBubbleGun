@@ -3,7 +3,17 @@ guid: fbe90a697122c0b4d9ce5cd086f4841f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: character_rigged_0013_lambert2
+    second: {fileID: 2100000, guid: 6517310faef7e0149a44bc050c2334db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface1
+    second: {fileID: 2100000, guid: c9078ee6256f23d43b232ff442396f90, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

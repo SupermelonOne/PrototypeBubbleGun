@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.9583, y: -115.3894}
-  m_SizeDelta: {x: 817.6339, y: 445.6758}
+  m_AnchoredPosition: {x: 36.335327, y: -158.96283}
+  m_SizeDelta: {x: 788.8798, y: 358.529}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8403447942199811423
 CanvasRenderer:
@@ -59,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2592452, g: 0.8118823, b: 0.86415094, a: 0.21176471}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: b44339f47a7454d4b8c7577e2813ad1c, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

@@ -17,11 +17,9 @@ public class TwoPlayerPresent : MonoBehaviour
     [HideInInspector] public bool bothReady = false;
     [SerializeField] private UnityEvent activateFunction;
 
-    TeleportPlayer teleportPlayer;
     private void Start()
     {
-        if (teleportPlayer == null)
-            teleportPlayer = GetComponent<TeleportPlayer>();
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -39,9 +37,6 @@ public class TwoPlayerPresent : MonoBehaviour
                 Activate();
                 otherActivator.Activate();
             }
-            if (teleportPlayer == null)
-                return;
-            teleportPlayer.SetPlayer(playerController.transform);
         }
         
     }
@@ -61,10 +56,6 @@ public class TwoPlayerPresent : MonoBehaviour
                 ready = false;
                 player = null;
             }
-            if (player == null)
-                teleportPlayer.ResetPlayer();
-            else
-                teleportPlayer.SetPlayer(player.transform);
             
         }
     }

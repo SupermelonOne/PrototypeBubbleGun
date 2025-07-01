@@ -111,13 +111,6 @@ public class PlayerInstrument : MonoBehaviour
         }
     }
 
-/*    public void ChangeWeapon(List<PlayerAction> actions, List<GameObject> objects)
-    {
-        instruments.Clear();
-        instrumentObjects.Clear();
-        instruments.AddRange(actions);
-        instrumentObjects.AddRange(objects);    
-    }*/
     public void SwapEquipment(List<int> newEquipment)
     {
         enabledSlots.Clear();

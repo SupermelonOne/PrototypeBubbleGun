@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity  = 20.0f;
     [SerializeField] private float jumpForce = 5;
 
+    [SerializeField] private float respawnSeconds = 1;
+
     private bool shopOpen = false;
     private bool interactPossible = false;
     private Vector2 m_moveAmt = Vector2.zero;
@@ -38,25 +40,36 @@ public class PlayerController : MonoBehaviour
     private bool jumpInput;
     private float rotationX;
 
+    private Transform respawnTransform;
+    private bool respawning = false;
+    [SerializeField] LayerMask disabledOnRespawn;
+    LayerMask enabledAfterRespawn = new LayerMask();
+    private BlinkScript blinkScript;
+
+    private bool justRespawned = false;
 
     private void Awake()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
         
         var respawnObj = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
-        if (respawnPosition != null)
-        {
-            respawnPosition = respawnObj.transform.position;
-        }
+        if (respawnPosition !=null)
+        respawnPosition = respawnObj.transform.position;
         else
         {
             respawnPosition = Vector3.zero;
         }
+        blinkScript = GetComponentInChildren<BlinkScript>();
     }
 
     private void OnEnable()
     {
+
+        GameObject newRespawnObj = new GameObject("playerRespawnObj");
+        respawnTransform = newRespawnObj.transform;
+
         mPlayerInput = new PlayerInputActions();
         playerInput = GetComponent<PlayerInput>();
 
@@ -170,6 +183,7 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         m_moveAmt = ctx.ReadValue<Vector2>();
+        justRespawned = false;
     }
     public void OnLook(InputAction.CallbackContext ctx)
     {
@@ -180,7 +194,10 @@ public class PlayerController : MonoBehaviour
     {
         //TODO: vezko istg what is this
         if (context.started)
+        {
             jumpInput = true;
+            justRespawned = false;
+        }
         if (context.canceled)
             jumpInput = false;
     }
@@ -196,49 +213,81 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (characterController == null) return;
-        
-        rotationX += -m_lookAmt.y * sensitivity;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
-
-        if (jumpInput && characterController.isGrounded)
-            verticalMovement.y = jumpForce;
-        else if (!characterController.isGrounded)
-            verticalMovement.y -= gravity * Time.deltaTime;
-        else if (!jumpInput)
-            verticalMovement.y = 0;
-        
-
-        var direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
-        
-        if (direction.magnitude > 1)
-            direction.Normalize();
-        
-        var camForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
-        var camRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
-        
-        var desiredDirection = (direction.z * camForward + direction.x * camRight) * speedModifier;
-
-        
-        desiredDirection += verticalMovement;
-        characterController.Move(desiredDirection * Time.deltaTime);
-
-        if (respawnPosition != null && transform.position.y < -90)
+        if (!respawning)
         {
-            transform.position = respawnPosition;
+            if (characterController.isGrounded)
+            {
+                respawnTransform.position = transform.position;
+            }
+
+            rotationX += -m_lookAmt.y * sensitivity;
+            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
+
+            if (jumpInput && characterController.isGrounded || jumpInput && justRespawned)
+                verticalMovement.y = jumpForce;
+            else if (!characterController.isGrounded && !justRespawned)
+                verticalMovement.y -= gravity * Time.deltaTime;
+            else if (!jumpInput)
+                verticalMovement.y = 0;
+
+
+            var direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
+
+            if (direction.magnitude > 1)
+                direction.Normalize();
+
+            var camForward = new Vector3(playerCamera.transform.forward.x, 0, playerCamera.transform.forward.z).normalized;
+            var camRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
+
+            var desiredDirection = (direction.z * camForward + direction.x * camRight) * speedModifier;
+
+
+            desiredDirection += verticalMovement;
+            characterController.Move(desiredDirection * Time.deltaTime);
+
+        }
+        else
+        {
+            Vector3 direction = (respawnTransform.position - transform.position).normalized;
+            float respawnSpeed = Vector3.Distance(respawnTransform.position, transform.position);
+            characterController.Move((direction * respawnSpeed * Time.deltaTime) / respawnSeconds + 8 * direction * Time.deltaTime);
+            if (Vector3.Distance(respawnTransform.position, transform.position) < 0.1f)
+            {
+                respawning = false;
+                characterController.excludeLayers = enabledAfterRespawn;
+                justRespawned = true;
+                if (blinkScript == null)
+                    return;
+                blinkScript.isBlinking = false;
+            }
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("RespawnZone"))
+        {
+            characterController.excludeLayers = disabledOnRespawn;
+            respawning = true;
+            if (blinkScript == null)
+                return;
+            verticalMovement.y = 0;
+            blinkScript.isBlinking = true;
         }
     }
 
     // BACKUP FOR REAL CAM CONTROLS
-/*    private Vector2 lookInput = Vector2.zero;
+    /*    private Vector2 lookInput = Vector2.zero;
 
-[SerializeField] private Transform camPivX;
-[SerializeField] private Transform camPivY;
+    [SerializeField] private Transform camPivX;
+    [SerializeField] private Transform camPivY;
 
-public void OnLook(InputAction.CallbackContext ctx)
-{
-    lookInput = ctx.ReadValue<Vector2>();
-}
-*/
+    public void OnLook(InputAction.CallbackContext ctx)
+    {
+        lookInput = ctx.ReadValue<Vector2>();
+    }
+    */
 }

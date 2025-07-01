@@ -309,6 +309,7 @@ MonoBehaviour:
     textHoverHeight: 0
   conditions:
     minDistance: 5
+    viewWidth: 5
     key: 121
   effects:
     onButtonPressed:

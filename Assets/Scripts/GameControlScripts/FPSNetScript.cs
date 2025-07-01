@@ -21,7 +21,7 @@ public class FPSNetScript : PlayerAction
 
     protected override void OnMonsterCast(RaycastHit hit)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     private void Start()
