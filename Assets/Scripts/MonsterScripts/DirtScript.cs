@@ -6,11 +6,18 @@ using UnityEngine;
 public class DirtScript : MonoBehaviour
 {
     [SerializeField] private bool requireSoap = true;
+    private bool CompletedSoap = false;
     [SerializeField] private bool requireScrub = true;
+    private bool CompletedScrub = false;
     [SerializeField] private bool requireWater = false;
+    private bool CompletedWater = false;
 
     [SerializeField] private ParticleSystem bubbleParticles;
     [SerializeField] private ParticleSystem dirtParticles;
+    [SerializeField] private ParticleSystem completeParticles;
+
+    
+
 
     private float soapValue = 0;
     private float scrubValue = 0;
@@ -37,22 +44,6 @@ public class DirtScript : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-/*        if (canClean)
-        {
-            if (other.CompareTag("Cleaner") && visible)
-            {
-                health -= Time.deltaTime;
-                if (dirtVisual != null)
-                {
-                    float modelSize = ((health / maxHealth) * 0.7f) + 0.3f;
-                    dirtVisual.localScale = new Vector3(modelSize, modelSize, modelSize);
-                }
-                if (dirtParticles != null)
-                {
-                    dirtParticles.Play();
-                }
-            }
-        }*/
         if (other.CompareTag("Soap"))
         {
             if (soapValue < 1)
@@ -66,26 +57,70 @@ public class DirtScript : MonoBehaviour
         }
         if (other.CompareTag("WaterSpray"))
         {
-            if (soapValue > 0)
+            if (soapValue > 0 && (!requireSoap || CompletedSoap))
             {
                 soapValue -= Time.deltaTime;
-            }
-            if (waterValue < 1)
-            {
-                waterValue += Time.deltaTime;
+                if (soapValue <= 0)
+                {
+                    if (requireScrub)
+                    {
+                        if (CompletedScrub)
+                        {
+                            ShowFinish();
+                            CompletedWater = true;
+                        }
+                    }
+                    else
+                    {
+                        CompletedWater = true;
+                        ShowFinish();
+                    }
+                }
+
             }
             else
             {
-                waterValue = 1;
+                soapValue = 0;
+                if (!requireSoap && !requireScrub|| scrubValue >= 1 || !requireScrub && requireSoap && soapValue > 0)
+                {
+                    waterValue += Time.deltaTime;
+                    if (waterValue < 1)
+                    {
+                        dirtParticles.Play();
+                    }
+                    else
+                    {
+                        waterValue = 1;
+                        if (!CompletedWater)
+                        {
+                            CompletedWater = true;
+                            ShowFinish();
+                        }
+                    }
+                }
             }
+
         }
         if (other.CompareTag("Cleaner"))
         {
-            if (requireSoap)
+            if (!requireSoap || soapValue > 0)
             {
-                if (soapValue > 0)
+                if (scrubValue < 1)
                 {
                     scrubValue += Time.deltaTime;
+                    if (scrubValue > 1)
+                    {
+                        scrubValue = 1;
+                        if (!CompletedScrub)
+                        {
+                            CompletedScrub = true;
+                            ShowFinish();
+                        }
+                    }
+                    else
+                    {
+                        dirtParticles.Play();
+                    }
                 }
             }
             else
@@ -96,27 +131,40 @@ public class DirtScript : MonoBehaviour
 
 
     }
+    private void ShowFinish()
+    {
+        completeParticles.Play();
+    }
     private void Update()
     {
-/*        if (health <= 0)
+        float soapSize;
+        if (soapValue > 0)
         {
-            Destroy(gameObject);
-            if (monsterCleanness != null)
-            {
-                monsterCleanness.RemoveDirt(this);
-                monsterCleanness.CheckDirt();
-            }
+            soapSize = 0.5f + soapValue;
         }
-        if (hiddenUnder == null) return;
-        Vector3 limbDirection = hiddenUnder.transform.up;
+        else
+        {
+            soapSize = 0;
+        }
 
-        float angleFromUp = Vector3.Angle(limbDirection, Vector3.up);
+        //Require soap, scrub, water
 
-        bool visible = angleFromUp <= requiredAngle;*/
+        if (requireScrub && requireSoap && requireWater)
+            SetDirtSize(Mathf.Abs(1 - waterValue));
+        else if (requireSoap && requireWater)
+            SetDirtSize(Mathf.Abs(1 - waterValue));
+        else if (requireSoap)
+            Debug.Log("impossible dirt detected");
 
 
+        bubbleParticles.transform.localScale = new Vector3(soapValue, soapValue, soapValue);
+    }
+
+    private void SetDirtSize(float value)
+    {
 
     }
+
     private float recalculateAngle(float input)
     {
         if (input > 180)
