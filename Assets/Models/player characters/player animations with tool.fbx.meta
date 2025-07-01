@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: aad4970691c516a44be475ee975ac94f
+guid: 7bb94864ed5d25147af754104eea5a79
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert2
-    second: {fileID: 2100000, guid: 482ca208a4791b84c9b679a6205d0cdb, type: 2}
+      name: Multitool_with_joint_lambert2
+    second: {fileID: 2100000, guid: b379f54e46efe3e44a22a2154affa08b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: character_rigged_0013_lambert2
+    second: {fileID: 2100000, guid: 4e3c727b54244ff4c876252b4e5e313a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: standardSurface1
-    second: {fileID: 2100000, guid: b20052156ddc5884cabbd608e0fccdce, type: 2}
+    second: {fileID: 2100000, guid: 8999cce0eb514e9459364c843679ef63, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -34,7 +39,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 0
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -46,15 +51,15 @@ ModelImporter:
       name: everything
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 1
-      lastFrame: 25
+      firstFrame: 0
+      lastFrame: 260
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -75,8 +80,8 @@ ModelImporter:
       name: walkcycle
       takeName: Take 001
       internalID: -998496362607748373
-      firstFrame: 1
-      lastFrame: 25
+      firstFrame: 0
+      lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -101,11 +106,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: captured
+      name: Idle
       takeName: Take 001
       internalID: 3060872287085348379
-      firstFrame: 35
-      lastFrame: 47
+      firstFrame: 50
+      lastFrame: 80
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: jump
+      takeName: Take 001
+      internalID: 6641085478485924818
+      firstFrame: 92
+      lastFrame: 145
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fall
+      takeName: Take 001
+      internalID: -5059006814000262888
+      firstFrame: 194
+      lastFrame: 248
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
