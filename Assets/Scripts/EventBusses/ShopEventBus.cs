@@ -8,6 +8,8 @@ public enum InputTypes
     None,
     Up,
     Down,
+    Left,
+    Right,
     Select,
     Back
 }

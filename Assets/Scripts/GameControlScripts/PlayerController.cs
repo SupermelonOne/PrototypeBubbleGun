@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
         mPlayerInput.UIMap.Select.started += OnUIMoveSelect;
         mPlayerInput.UIMap.NavigateUp.started += OnUIMoveUp;
         mPlayerInput.UIMap.NavigateDown.started += OnUIMoveDown;
+        mPlayerInput.UIMap.NavigateLeft.started += OnUIMoveLeft;
+        mPlayerInput.UIMap.NavigateRight.started += OnUIMoveRight;
     }
 
     
@@ -113,6 +115,8 @@ public class PlayerController : MonoBehaviour
             mPlayerInput.UIMap.Select.started -= OnUIMoveSelect;
             mPlayerInput.UIMap.NavigateUp.started -= OnUIMoveUp;
             mPlayerInput.UIMap.NavigateDown.started -= OnUIMoveDown;
+            mPlayerInput.UIMap.NavigateLeft.started -= OnUIMoveLeft;
+            mPlayerInput.UIMap.NavigateRight.started -= OnUIMoveRight;  
         }
     }
     
@@ -152,6 +156,16 @@ public class PlayerController : MonoBehaviour
     private void OnUIMoveUp(InputAction.CallbackContext context)
     {
         OnUIMove(InputTypes.Up);    
+    }
+
+    private void OnUIMoveLeft(InputAction.CallbackContext context)
+    {
+        OnUIMove(InputTypes.Left);
+    }
+
+    private void OnUIMoveRight(InputAction.CallbackContext context)
+    {
+        OnUIMove(InputTypes.Right);
     }
     private void OnUIMoveSelect(InputAction.CallbackContext context)
     {

@@ -98,10 +98,10 @@ public class PlayerGUI : MonoBehaviour
     public void OnMoveCursor(InventoryEventBus.OnNavigateUI navigateUI)
     {
         
-        if (currentUIIndex - 1 >= 0 && navigateUI.inputType == InputTypes.Up)
+        if (currentUIIndex - 1 >= 0 && navigateUI.inputType == InputTypes.Left)
             currentUIIndex--;
         
-        if (currentUIIndex + 1 < player.inventory.Items.Count && navigateUI.inputType == InputTypes.Down)
+        if (currentUIIndex + 1 < player.inventory.Items.Count && navigateUI.inputType == InputTypes.Right)
             currentUIIndex++;
         
         UpdateInventory();

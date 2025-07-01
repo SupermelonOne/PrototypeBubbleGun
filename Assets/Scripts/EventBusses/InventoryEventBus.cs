@@ -8,7 +8,6 @@ public class InventoryEventBus : BaseEventBus<ShopEventBus>
 
         public OnNavigateUI(InputTypes inputType)
         {
-            Debug.Log("nnnnaaaavigatin");
             this.inputType = inputType;
         }
     }
