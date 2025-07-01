@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         gui = GetComponentInChildren<PlayerGUI>(true);
-        inventory = GetComponent<PlayerInventory>();
+        inventory = PlayerInventory.Instance;
         controller = GetComponent<PlayerController>();
         instrument = arms.GetComponent<PlayerInstrument>();
         PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(controller.playerCamera, this));

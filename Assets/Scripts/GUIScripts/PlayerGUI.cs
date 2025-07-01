@@ -10,11 +10,14 @@ public class PlayerGUI : MonoBehaviour
 {
     private Player player;
     private Canvas canvas;
-    private TextMeshProUGUI inventoryText;
     private int currentUIIndex = 0;
     
-    [SerializeField] GameObject inventory;
-    [SerializeField] RawImage interactIcon;
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private GameObject inventoryText;
+    [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [SerializeField] private RawImage interactIcon;
+    [SerializeField] private GameObject itemTextPrefab;
+    [SerializeField] private GameObject crosshair;
 
     public void AssignPlayer(Player p)
     {
@@ -52,25 +55,45 @@ public class PlayerGUI : MonoBehaviour
         canvas.worldCamera = player.controller.playerCamera;
         canvas.planeDistance = 1f;
         interactIcon.enabled = false;
-        inventoryText = inventory.GetComponentInChildren<TextMeshProUGUI>();
-        Debug.Log(inventoryText);
     }
 
     private void UpdateInventory()
     {
-        var inventoryString = "";
-
-        for (int i = 0; i < player.inventory.Items.Count; i++)
+        // Clear old children
+        foreach (Transform child in inventoryText.transform)
         {
-            if (i == currentUIIndex)
-                inventoryString += ">";
-            var kvp = player.inventory.Items.ElementAt(i);
-            inventoryString += $"{kvp.Key}: {kvp.Value} \n";
+            Destroy(child.gameObject);
         }
 
+        var items = player.inventory.Items;
+        int index = 0;
 
-        inventoryText.text = inventoryString;
+        foreach (var kvp in items)
+        {
+            // Create new TextMeshProUGUI object
+            GameObject textObj = Instantiate(itemTextPrefab, inventoryText.transform);
+            textObj.name = "Item" + kvp.Key;
+            textObj.transform.localScale = Vector3.one;
+
+            var tmp = textObj.GetComponentInChildren<TextMeshProUGUI>();
+            tmp.fontSize = 34;
+            tmp.text = $"{kvp.Key}: {kvp.Value}";
+            tmp.color = Color.black;
+
+            // Highlight current selection
+            if (index == currentUIIndex)
+            {
+                tmp.text = $"> {kvp.Key}: {kvp.Value}";
+                tmp.color = Color.black;
+
+                if (player.inventory.itemDescriptionsDictionary.TryGetValue(kvp.Key, out var value))
+                    itemDescriptionText.text = value;
+            }
+
+            index++;
+        }
     }
+
     
     public void OnMoveCursor(InventoryEventBus.OnNavigateUI navigateUI)
     {
@@ -84,12 +107,6 @@ public class PlayerGUI : MonoBehaviour
         UpdateInventory();
     }
 
-
-
-
-
-
-
     public void OnInteract(bool isOn)
     {
         interactIcon.enabled = isOn;
@@ -97,6 +114,7 @@ public class PlayerGUI : MonoBehaviour
 
     public void ToggleUI()
     {
+        crosshair.SetActive(inventory.activeSelf);
         inventory.SetActive(!inventory.activeSelf);
         player.controller.SetInventory(!inventory.activeSelf);
     }
