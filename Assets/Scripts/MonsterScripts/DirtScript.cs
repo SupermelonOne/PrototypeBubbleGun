@@ -16,8 +16,9 @@ public class DirtScript : MonoBehaviour
     [SerializeField] private ParticleSystem dirtParticles;
     [SerializeField] private ParticleSystem completeParticles;
 
-    
 
+    [SerializeField] private float requiredWaterValue = 4;
+    [SerializeField] private float requiredScrubValue = 1.5f;
 
     private float soapValue = 0;
     private float scrubValue = 0;
@@ -84,13 +85,13 @@ public class DirtScript : MonoBehaviour
                 if (!requireSoap && !requireScrub|| scrubValue >= 1 || !requireScrub && requireSoap && soapValue > 0)
                 {
                     waterValue += Time.deltaTime;
-                    if (waterValue < 1)
+                    if (waterValue < requiredWaterValue)
                     {
                         dirtParticles.Play();
                     }
                     else
                     {
-                        waterValue = 1;
+                        waterValue = requiredWaterValue;
                         if (!CompletedWater)
                         {
                             CompletedWater = true;
@@ -105,12 +106,12 @@ public class DirtScript : MonoBehaviour
         {
             if (!requireSoap || soapValue > 0)
             {
-                if (scrubValue < 1)
+                if (scrubValue < requiredScrubValue)
                 {
                     scrubValue += Time.deltaTime;
-                    if (scrubValue > 1)
+                    if (scrubValue > requiredScrubValue)
                     {
-                        scrubValue = 1;
+                        scrubValue = requiredScrubValue;
                         if (!CompletedScrub)
                         {
                             CompletedScrub = true;
@@ -150,11 +151,11 @@ public class DirtScript : MonoBehaviour
         //Require soap, scrub, water
 
         if (requireScrub && requireSoap && requireWater)
-            SetDirtSize(Mathf.Abs(1 - waterValue));
+            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
         else if (requireSoap && requireWater)
-            SetDirtSize(Mathf.Abs(1 - waterValue));
-        else if (requireSoap)
-            Debug.Log("impossible dirt detected");
+            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
+        else if (requireScrub && requireWater)
+            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
 
 
         bubbleParticles.transform.localScale = new Vector3(soapValue, soapValue, soapValue);
@@ -162,7 +163,7 @@ public class DirtScript : MonoBehaviour
 
     private void SetDirtSize(float value)
     {
-
+        dirtVisual.localScale = new Vector3(value, value, value);   
     }
 
     private float recalculateAngle(float input)

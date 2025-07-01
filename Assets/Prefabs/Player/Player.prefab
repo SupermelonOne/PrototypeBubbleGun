@@ -7727,7 +7727,9 @@ MonoBehaviour:
   raycastPosition: {x: 0, y: 0, z: 0}
   origin: {fileID: 0}
   streamObject: {fileID: 8689315591117786631}
-  soapObj: {fileID: 6782965212953830489}
+  soapObj:
+  - {fileID: 6782965212953830489}
+  - {fileID: 8408035108184111281}
   sprayEndPointObjects:
   - {fileID: 7330461417796137567}
   - {fileID: 5944302647408473845}
@@ -7774,7 +7776,9 @@ MonoBehaviour:
   raycastPosition: {x: 0, y: 0, z: 0}
   origin: {fileID: 8055015228600447540}
   streamObject: {fileID: 560214469030207447}
-  waterObject: {fileID: 2409707855385163145}
+  waterObject:
+  - {fileID: 2409707855385163145}
+  - {fileID: 864613099889568097}
   sprayEndPointObjects:
   - {fileID: 1939901044120314767}
   - {fileID: 3255690943561508645}
@@ -10369,6 +10373,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6363832794039762486, guid: 05cbfcc74af1cf44dbc915cd228cbded, type: 3}
   m_PrefabInstance: {fileID: 3956128816208209785}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8408035108184111281 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4776535044046282696, guid: 05cbfcc74af1cf44dbc915cd228cbded, type: 3}
+  m_PrefabInstance: {fileID: 3956128816208209785}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8689315591117786631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5652114630186641790, guid: 05cbfcc74af1cf44dbc915cd228cbded, type: 3}
@@ -10521,6 +10530,11 @@ PrefabInstance:
 --- !u!1 &560214469030207447 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5652114630186641790, guid: cdf6036366c4b204692faf6d7d90c311, type: 3}
+  m_PrefabInstance: {fileID: 5311450781520787113}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &864613099889568097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4776535044046282696, guid: cdf6036366c4b204692faf6d7d90c311, type: 3}
   m_PrefabInstance: {fileID: 5311450781520787113}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1289982697321318559 stripped

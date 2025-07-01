@@ -8,7 +8,7 @@ public class SprayWater : PlayerAction
 {
     [SerializeField] private Transform origin;
     [SerializeField] private GameObject streamObject;
-    [SerializeField] private GameObject waterObject;
+    [SerializeField] private List<GameObject> waterObject = new List<GameObject>();
     private float waterLength;
     private Vector3 sprayEndPoint;
 
@@ -45,7 +45,10 @@ public class SprayWater : PlayerAction
 
     protected override void StartShooting()
     {
-        waterObject.SetActive(true);
+        foreach (GameObject obj in waterObject)
+        {
+            obj.SetActive(true);
+        }
         foreach (var particle in sprayParticles)
             particle.Play();
         waterLength = 0;
@@ -55,6 +58,9 @@ public class SprayWater : PlayerAction
     {
         foreach (var particle in sprayParticles)
             particle.Stop();
-        waterObject.SetActive(false);
+        foreach (GameObject obj in waterObject)
+        {
+            obj.SetActive(false);
+        }
     }
 }
