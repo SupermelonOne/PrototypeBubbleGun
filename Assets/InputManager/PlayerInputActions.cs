@@ -359,6 +359,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""NavigateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc0a88d7-09a3-4f12-9f64-bb74cae04240"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NavigateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""af8fae8e-07b3-4171-8f4b-9617115f7489"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""NavigateDown"",
                     ""type"": ""Button"",
                     ""id"": ""7a8a8a4b-6bed-4d00-9757-4597dd36dccb"",
@@ -380,6 +398,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Back"",
                     ""type"": ""Button"",
                     ""id"": ""6d0df967-5c9a-4f74-93ed-8ca04ac7eae7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""676caae6-ada9-46b5-9dc4-5d261cdcd0c9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -474,6 +501,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30b150c6-5868-4b74-b4fc-a32972325563"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b81b7f8-7e95-4da1-b872-85404e495dce"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""NavigateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cc2186b-196e-4cff-96e3-f4bb2e7a6dfb"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""NavigateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d93e11d-20de-4f89-8fa2-abe408f78f6d"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""NavigateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2f8bb48-1227-49fe-bcf4-649f468727d0"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""NavigateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -521,9 +603,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // UIMap
         m_UIMap = asset.FindActionMap("UIMap", throwIfNotFound: true);
         m_UIMap_NavigateUp = m_UIMap.FindAction("NavigateUp", throwIfNotFound: true);
+        m_UIMap_NavigateLeft = m_UIMap.FindAction("NavigateLeft", throwIfNotFound: true);
+        m_UIMap_NavigateRight = m_UIMap.FindAction("NavigateRight", throwIfNotFound: true);
         m_UIMap_NavigateDown = m_UIMap.FindAction("NavigateDown", throwIfNotFound: true);
         m_UIMap_Select = m_UIMap.FindAction("Select", throwIfNotFound: true);
         m_UIMap_Back = m_UIMap.FindAction("Back", throwIfNotFound: true);
+        m_UIMap_Inventory = m_UIMap.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -688,17 +773,23 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UIMap;
     private List<IUIMapActions> m_UIMapActionsCallbackInterfaces = new List<IUIMapActions>();
     private readonly InputAction m_UIMap_NavigateUp;
+    private readonly InputAction m_UIMap_NavigateLeft;
+    private readonly InputAction m_UIMap_NavigateRight;
     private readonly InputAction m_UIMap_NavigateDown;
     private readonly InputAction m_UIMap_Select;
     private readonly InputAction m_UIMap_Back;
+    private readonly InputAction m_UIMap_Inventory;
     public struct UIMapActions
     {
         private @PlayerInputActions m_Wrapper;
         public UIMapActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @NavigateUp => m_Wrapper.m_UIMap_NavigateUp;
+        public InputAction @NavigateLeft => m_Wrapper.m_UIMap_NavigateLeft;
+        public InputAction @NavigateRight => m_Wrapper.m_UIMap_NavigateRight;
         public InputAction @NavigateDown => m_Wrapper.m_UIMap_NavigateDown;
         public InputAction @Select => m_Wrapper.m_UIMap_Select;
         public InputAction @Back => m_Wrapper.m_UIMap_Back;
+        public InputAction @Inventory => m_Wrapper.m_UIMap_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_UIMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -711,6 +802,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @NavigateUp.started += instance.OnNavigateUp;
             @NavigateUp.performed += instance.OnNavigateUp;
             @NavigateUp.canceled += instance.OnNavigateUp;
+            @NavigateLeft.started += instance.OnNavigateLeft;
+            @NavigateLeft.performed += instance.OnNavigateLeft;
+            @NavigateLeft.canceled += instance.OnNavigateLeft;
+            @NavigateRight.started += instance.OnNavigateRight;
+            @NavigateRight.performed += instance.OnNavigateRight;
+            @NavigateRight.canceled += instance.OnNavigateRight;
             @NavigateDown.started += instance.OnNavigateDown;
             @NavigateDown.performed += instance.OnNavigateDown;
             @NavigateDown.canceled += instance.OnNavigateDown;
@@ -720,6 +817,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         private void UnregisterCallbacks(IUIMapActions instance)
@@ -727,6 +827,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @NavigateUp.started -= instance.OnNavigateUp;
             @NavigateUp.performed -= instance.OnNavigateUp;
             @NavigateUp.canceled -= instance.OnNavigateUp;
+            @NavigateLeft.started -= instance.OnNavigateLeft;
+            @NavigateLeft.performed -= instance.OnNavigateLeft;
+            @NavigateLeft.canceled -= instance.OnNavigateLeft;
+            @NavigateRight.started -= instance.OnNavigateRight;
+            @NavigateRight.performed -= instance.OnNavigateRight;
+            @NavigateRight.canceled -= instance.OnNavigateRight;
             @NavigateDown.started -= instance.OnNavigateDown;
             @NavigateDown.performed -= instance.OnNavigateDown;
             @NavigateDown.canceled -= instance.OnNavigateDown;
@@ -736,6 +842,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         public void RemoveCallbacks(IUIMapActions instance)
@@ -785,8 +894,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IUIMapActions
     {
         void OnNavigateUp(InputAction.CallbackContext context);
+        void OnNavigateLeft(InputAction.CallbackContext context);
+        void OnNavigateRight(InputAction.CallbackContext context);
         void OnNavigateDown(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

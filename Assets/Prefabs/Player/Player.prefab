@@ -999,7 +999,6 @@ GameObject:
   - component: {fileID: 6200986088542332643}
   - component: {fileID: 8535597845255342817}
   - component: {fileID: 2563046183756910013}
-  - component: {fileID: -6573479648116902956}
   - component: {fileID: 8579663926201596866}
   - component: {fileID: 5773160383616814930}
   - component: {fileID: 4904447660104135398}
@@ -1091,19 +1090,6 @@ MonoBehaviour:
   raycastPosition: {x: 0, y: 0, z: 0}
   netTransform: {fileID: 1296955568983481491}
   rotateModifier: 15
---- !u!114 &-6573479648116902956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896062762840238760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4e331b156e14804693c8dd240128a14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  munny: 100
 --- !u!33 &8579663926201596866
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1360,6 +1346,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c77f0de9-033e-4027-9972-b2b9adf144e3
     m_ActionName: GamePad/Inventory[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8623094622548370880}
+        m_TargetAssemblyTypeName: PlayerGUI, Assembly-CSharp
+        m_MethodName: ToggleUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 676caae6-ada9-46b5-9dc4-5d261cdcd0c9
+    m_ActionName: UIMap/Inventory[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: GamePad
@@ -10410,4 +10412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
+  inventoryText: {fileID: 0}
+  itemDescriptionText: {fileID: 0}
   interactIcon: {fileID: 0}
+  itemTextPrefab: {fileID: 0}

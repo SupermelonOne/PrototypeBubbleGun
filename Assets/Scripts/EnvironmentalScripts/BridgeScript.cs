@@ -71,6 +71,12 @@ public class BridgeScript : MonoBehaviour
         SetNavObstacles();
     }
 
+
+    private void OnEnable()
+    {
+        GameManager.Instance.AddBridge(this);
+    }
+
     private void InitializeComponents()
     {
         //no need for null checks because these components are all required
@@ -231,6 +237,35 @@ public class BridgeScript : MonoBehaviour
 
     public void SetNavMesh()
     {
+        Debug.Log("yeeee");
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            Debug.Log("In edit mode");
+            var gm = FindObjectOfType<GameManager>();
+            if (gm != null)
+            {
+                Debug.Log(gm.name);
+                gm.SetNavMesh();
+            }
+            else
+            {
+                Debug.LogWarning("No GameManager found in scene.");
+            }
+            return;
+        }
+#endif
+        Debug.Log(GameManager.Instance);
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetNavMesh();
+        else
+            Debug.LogWarning("GameManager.Instance is null.");
+    }
+
+
+
+    public void SetThisNav()
+    {
         InitializeComponents();
         SetCollisionPoints();
         var plankTotalSize = plankRenderer.bounds.extents.z * 2f + emptySpace;
@@ -288,20 +323,9 @@ public class BridgeScript : MonoBehaviour
         startLink.UpdateLink();
         endLink.UpdateLink();
     
-        NavMeshSurface startSurface = groundStart.GetComponentInParent<NavMeshSurface>();
-        NavMeshSurface endSurface = groundEnd.GetComponentInParent<NavMeshSurface>();
-    
-        if (startSurface != null)
-            startSurface.BuildNavMesh();
-    
-        if (endSurface != null)
-            endSurface.BuildNavMesh();
+        
 
-        if (surface != null)
-        {
-            surface.collectObjects = CollectObjects.Children; // or Children, etc.
-            surface.BuildNavMesh();
-        }
+
         
         Transform obstacleTransform = obstacle.transform;
 
@@ -327,8 +351,11 @@ public class BridgeScript : MonoBehaviour
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(surface.gameObject.scene);
         UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
         #endif
-        rectMeshBuilder.RemoveMesh();
+    }
 
+    public void RemoveMesh()
+    {
+        rectMeshBuilder.RemoveMesh();
     }
 
     private void SetNavObstacles()

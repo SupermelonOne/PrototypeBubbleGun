@@ -8,6 +8,8 @@ public enum InputTypes
     None,
     Up,
     Down,
+    Left,
+    Right,
     Select,
     Back
 }
@@ -34,5 +36,6 @@ public class ShopEventBus : BaseEventBus<ShopEventBus>
         }
     }
 }
+
 
 
