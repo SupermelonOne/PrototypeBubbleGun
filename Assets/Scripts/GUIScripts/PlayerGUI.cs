@@ -77,17 +77,20 @@ public class PlayerGUI : MonoBehaviour
 
             var tmp = textObj.GetComponentInChildren<TextMeshProUGUI>();
             tmp.fontSize = 34;
-            tmp.text = $"{kvp.Key}: {kvp.Value}";
+            tmp.text = $"{kvp.Key}: {kvp.Value.amount}";
             tmp.color = Color.black;
+            
+            var img = textObj.GetComponentInChildren<RawImage>();
+            img.texture = kvp.Value.icon;
 
             // Highlight current selection
             if (index == currentUIIndex)
             {
-                tmp.text = $"> {kvp.Key}: {kvp.Value}";
+                tmp.text = $"> {kvp.Key}: {kvp.Value.amount}";
                 tmp.color = Color.black;
 
-                if (player.inventory.itemDescriptionsDictionary.TryGetValue(kvp.Key, out var value))
-                    itemDescriptionText.text = value;
+                if (player.inventory.Items.TryGetValue(kvp.Key, out var value))
+                    itemDescriptionText.text = value.description;
             }
 
             index++;

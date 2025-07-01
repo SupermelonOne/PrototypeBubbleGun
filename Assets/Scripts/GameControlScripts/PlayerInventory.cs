@@ -13,7 +13,13 @@ public struct ItemStruct
 {
     public ItemType type;
     public string description;
-    public Sprite icon;
+    public Texture icon;
+    public int amount;
+
+    public void SetAmount(int setAmount)
+    {
+        amount = setAmount;
+    }
 }
 
 public delegate void Change();
@@ -25,8 +31,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int munny;
 
     [SerializeField] private List<ItemStruct> itemDescriptions;
-    public Dictionary<ItemType, string> itemDescriptionsDictionary = new Dictionary<ItemType, string>();
-    public Dictionary<ItemType, int> Items;
+    public Dictionary<ItemType, ItemStruct> Items = new Dictionary<ItemType, ItemStruct>();
     public event Change OnChange;
 
     private void Awake()
@@ -43,15 +48,9 @@ public class PlayerInventory : MonoBehaviour
     
     private void Start()
     {
-        Items = new Dictionary<ItemType, int>();
-        Items.Add(ItemType.Munny, munny);
-        Items.Add(ItemType.Key, 0);
-        Items.Add(ItemType.Soap, 0);
-
         foreach (ItemStruct item in itemDescriptions)
         {
-            if (!itemDescriptionsDictionary.ContainsKey(item.type))
-                itemDescriptionsDictionary.Add(item.type, item.description);
+            Items.TryAdd(item.type, item);
         }
     }
 
@@ -63,19 +62,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(ItemType item, int amount)
     {
-        var a = Items[item] + amount;
+        var a = Items[item].amount + amount;
         UpdateItems(item, a);
     }
 
     public void RemoveItem(ItemType item, int amount)
     {
-        var a = Items[item] - amount;
+        var a = Items[item].amount - amount;
         UpdateItems(item, a);
     }
 
     private void UpdateItems(ItemType item, int amount)
     {
-        Items[item] = amount;
+        Items[item].SetAmount(amount);
         OnChange?.Invoke();
     }
 
@@ -86,6 +85,6 @@ public class PlayerInventory : MonoBehaviour
 
     public int ItemAmount(ItemType item)
     {
-        return Items[item];
+        return Items[item].amount;
     }
 }
