@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 79f133843896c9d49a46ad280e786760
+guid: b995fdd19008589489d0b64555d350fe
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Multitool_with_joint_lambert2
+    second: {fileID: 2100000, guid: 4266131230378994e80614546472014b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: character_rigged_0013_lambert2
+    second: {fileID: 2100000, guid: ec7e3047102c42e4581fc6fb1071b1f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: standardSurface1
-    second: {fileID: 2100000, guid: 6673a3bfd5f67934aa601e5c3ec7bd80, type: 2}
+    second: {fileID: 2100000, guid: 700e278102f8d5a44bd359f18849e2f9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
