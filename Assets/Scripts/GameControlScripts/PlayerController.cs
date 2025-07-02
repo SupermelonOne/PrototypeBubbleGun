@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] ArduinoInputManager arduinoInputManager;
 
     //pretty sure these are useless but im keepin em here just in case
     /*[SerializeField] private string Horizontal = "Horizontal";
@@ -205,6 +206,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnFireAction()
+    {
+
+    }
+
     public void InteractionToggle(bool isOpen)
     {
         interactPossible = isOpen;
@@ -212,12 +218,66 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        m_moveAmt = ctx.ReadValue<Vector2>();
+        if (arduinoInputManager != null)
+            return;
+        OnMoveAction(ctx.ReadValue<Vector2>());
+    }
+    
+    private Vector2 FixArduinoVectorHorizontal(Vector2 vec2)
+    {
+        if (vec2.x > 0)
+        {
+            vec2.x *= 2;
+            if (vec2.x > 1)
+            {
+                vec2.x = 1;
+            }
+        }
+        if (vec2.y > 0)
+        {
+            vec2.y *= 2;
+            if (vec2.y > 1)
+            {
+                vec2.y = 1;
+            }
+        }
+
+        vec2.x *= -1;
+        vec2.y *= -1;
+        if (vec2.x > -0.35 && vec2.x < 0.35)
+        {
+            vec2.x = 0;
+        }
+        if (vec2.y > -0.35 && vec2.y < 0.35)
+        {
+            vec2.y = 0;
+        }
+        return vec2;
+    }
+
+    public void OnMoveAction(Vector2 vec2)
+    {
+        if (arduinoInputManager != null)
+        {
+            vec2 = FixArduinoVectorHorizontal(vec2);
+        }
+        m_moveAmt = vec2;
         justRespawned = false;
     }
     public void OnLook(InputAction.CallbackContext ctx)
     {
-        m_lookAmt = ctx.ReadValue<Vector2>();
+
+        if (arduinoInputManager != null)
+            return;
+        OnLookAction(ctx.ReadValue<Vector2>());
+    }
+    public void OnLookAction(Vector2 vec2)
+    {
+        if (arduinoInputManager != null)
+        {
+
+        }
+        m_lookAmt = vec2;
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -243,6 +303,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (characterController == null) return;
+
+        if (arduinoInputManager != null)
+        {
+            OnMoveAction(arduinoInputManager.Joystick1);
+            OnLookAction(arduinoInputManager.Joystick2);
+            Debug.Log(arduinoInputManager.Joystick2);
+        }
+
         if (!respawning)
         {
             if (characterController.isGrounded)

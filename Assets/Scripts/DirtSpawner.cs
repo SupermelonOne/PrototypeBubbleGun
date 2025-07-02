@@ -16,6 +16,6 @@ public class DirtSpawner : MonoBehaviour
             newDirt.transform.position = transform.position;
 
         }
-        Debug.Log("atleast I tried");
+        //Debug.Log("atleast I tried");
     }
 }
