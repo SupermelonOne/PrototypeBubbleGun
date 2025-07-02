@@ -328,7 +328,10 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool IsFirePressed()
     {
-        return mPlayerInput != null && mPlayerInput.GamePad.Shoot.IsPressed();
+        if (arduinoInputManager == null)
+            return mPlayerInput != null && mPlayerInput.GamePad.Shoot.IsPressed();
+        else
+            return arduinoInputManager._button2_pressed;
     }
 
     void Update()

@@ -17,8 +17,17 @@ public class ArduinoInputManager : MonoBehaviour
     public Vector2 Joystick2 = Vector2.zero;
     public Vector3 gyroscope = Vector3.zero;
     public bool _button1 = false;
+    public bool _button1_pressed = false;
+    public bool _button1_hold = false;
+    public bool _button1_released = false;
     public bool _button2 = false;
+    public bool _button2_pressed = false;
+    public bool _button2_hold = false;
+    public bool _button2_released = false;
     public bool _button3 = false;
+    public bool _button3_pressed = false;
+    public bool _button3_hold = false;
+    public bool _button3_released = false;
     float counter = 0;
 
     private ConcurrentQueue<string> lineQueue = new ConcurrentQueue<string>();
@@ -69,6 +78,35 @@ public class ArduinoInputManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        CheckPressed(_button1, ref _button1_pressed, ref _button1_hold, ref _button1_released);
+        CheckPressed(_button2, ref _button2_pressed, ref _button2_hold, ref _button2_released);
+        CheckPressed(_button3, ref _button3_pressed, ref _button3_hold, ref _button3_released);
+    }
+
+    private void CheckPressed(bool p_button, ref bool _pressed, ref bool _hold, ref bool _released)
+    {
+        if (p_button && !_hold)
+        {
+            _pressed = true;
+            _hold = true;
+        }
+        else if (p_button)
+        {
+            _pressed = false;
+            _hold = true;
+        }
+        else if (_hold)
+        {
+            _released = true;
+            _hold = false;
+        }
+        else
+        {
+            _released = false;
+        }
+    }
 
     private void ParseData(string line)
     {
