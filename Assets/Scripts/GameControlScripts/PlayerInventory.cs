@@ -65,6 +65,11 @@ public class PlayerInventory : MonoBehaviour
         var a = Items[item].amount + amount;
         UpdateItems(item, a);
     }
+    public void AddItem(MonsterEventBus.DirtCleaned dirtCleaned)
+    {
+        var a = Items[dirtCleaned.type].amount + dirtCleaned.amount;
+        UpdateItems(dirtCleaned.type, a);
+    }
 
     public void RemoveItem(ItemType item, int amount)
     {

@@ -12,6 +12,9 @@ TagManager:
   - PlayerSpawnPoint
   - Glove
   - RespawnZone
+  - Soap
+  - SprayEnd
+  - MainSpray
   layers:
   - Default
   - TransparentFX

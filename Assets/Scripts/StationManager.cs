@@ -96,21 +96,34 @@ public class StationManager : MonoBehaviour
         }
         if (sendOutTransforms.Count > 0)
         {
-            if (Vector3.Distance(sendOutTransforms[0].position, exitPoint.position) > 0.2f)
-            {
-                Debug.Log(Vector3.Distance(sendOutTransforms[0].position, exitPoint.position));
-                Debug.Log(sendOutTransforms[0].gameObject.name);
-                sendOutTransforms[0].Translate((exitPoint.position - sendOutTransforms[0].position).normalized * Time.deltaTime);
-            }
-            else
-            {
+            int a = 0;
 
-                    sendOutMoveBehaviors[0].ExitStation();
-                    sendOutMoveBehaviors[0].Release();
-                    sendOutMoveBehaviors.RemoveAt(0);
-                    sendOutTransforms.RemoveAt(0);
+            foreach (Transform t in sendOutTransforms)
+            {
+                if (Vector3.Distance(t.position, exitPoint.position) > 0.2f)
+                {
+                    Debug.Log(Vector3.Distance(t.position, exitPoint.position));
+                    t.Translate((exitPoint.position - t.position).normalized * Time.deltaTime);
+                }
+                else
+                {
 
+                    sendOutMoveBehaviors[a].ExitStation();
+                    sendOutMoveBehaviors[a].Release();
+                    sendOutMoveBehaviors.RemoveAt(a);
+                    sendOutTransforms.RemoveAt(a);
+
+                }
+                a++;
             }
+
+
         }
+    }
+
+    public void ReadyCurrentMonster()
+    {
+        if (monsters.Count > 0)
+            SendOut(monsters[0]);
     }
 }

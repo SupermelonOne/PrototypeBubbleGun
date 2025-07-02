@@ -10,7 +10,7 @@ public class IndependanChangeInstruments : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("found player");
+            //Debug.Log("found player");
             PlayerInstrument playerInstruments = other.GetComponentInChildren<PlayerInstrument>();
             //IF THIS GIVES NULL ERRORSS, WE PROBABLY MOVED THE PLAYERINSTRUMENT SCRIPT
             playerInstruments.SwapEquipment(instruments);

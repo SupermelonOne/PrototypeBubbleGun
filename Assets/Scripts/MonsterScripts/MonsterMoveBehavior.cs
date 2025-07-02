@@ -72,11 +72,13 @@ public class MonsterMoveBehavior : MonoBehaviour
     public void EnterStation()
     {
         inStation = true;
+        agent.enabled = false;
     }
 
     public void ExitStation()
     {
         inStation = false;
+        agent.enabled = true;
     }
 
     private void Update()
@@ -226,13 +228,21 @@ public class MonsterMoveBehavior : MonoBehaviour
 
     private void UpdateAnimator()
     {
-
-            animator.SetBool("caught", netPosition != null);
-        if (agent.isOnNavMesh)
+        if (inStation)
         {
+            animator.SetBool("caught", false);
+            animator.SetBool("walking", false);
+        }
+        else
+        {
+            animator.SetBool("caught", netPosition != null);
+            if (agent.isOnNavMesh)
+            {
                 animator.SetBool("walking", !agent.pathPending &&
            agent.remainingDistance > agent.stoppingDistance &&
            agent.velocity.sqrMagnitude > 0f);
+            }
         }
+
     }
 }

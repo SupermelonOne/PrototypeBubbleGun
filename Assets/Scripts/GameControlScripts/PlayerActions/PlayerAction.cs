@@ -87,7 +87,7 @@ public abstract class PlayerAction : MonoBehaviour
             raycastPosition = hit.point;
         }
         else
-            raycastPosition = ray.origin + ray.direction * 15f;
+            raycastPosition = ray.origin + ray.direction * 5f;
         
         
         if (hit.collider != null)

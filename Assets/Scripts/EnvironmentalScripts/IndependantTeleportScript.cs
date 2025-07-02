@@ -9,11 +9,11 @@ public class IndependantTeleportScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("found player");
+            //Debug.Log("found player");
             Transform player = other.transform;
             if (player == null || targetLocation == null)
             {
-                Debug.LogWarning("Teleport failed: player or targetLocation is not set.");
+                //Debug.LogWarning("Teleport failed: player or targetLocation is not set.");
                 return;
             }
 
@@ -31,7 +31,7 @@ public class IndependantTeleportScript : MonoBehaviour
                 player.position += distance;
             }
 
-            Debug.Log("Teleported player by distance: " + distance);
+            //Debug.Log("Teleported player by distance: " + distance);
         }
     }
 }

@@ -42,6 +42,11 @@ public class GrabableBone : MonoBehaviour
                 return;
             if (!gloveScript.holding && gloveScript.grabbing)
             {
+                origin = transform.position;
+                activePosition = origin;
+                Debug.Log(transform.position);
+                Debug.Log(origin);
+
                 gloveScript.Grab();
 
                 // SPAWN PLANE TO MOVE MORE EASILY
@@ -141,6 +146,7 @@ public class GrabableBone : MonoBehaviour
 
 
         //I first wanna fix rotation stuff
+        Debug.Log("Vector3.Distance(origin, pGlovePosition.position) * intensity > allowedDistance * intensity");
         if (Vector3.Distance(origin, pGlovePosition.position) * intensity > allowedDistance * intensity)
         {
             pullPosition = (pGlovePosition.position - origin).normalized * allowedDistance * intensity + origin;
@@ -154,6 +160,7 @@ public class GrabableBone : MonoBehaviour
 
 
         transform.position = activePosition;
+
         activePosition = Vector3.Lerp(activePosition, pullPosition, 10 * Time.deltaTime);
 
         if (parentBone == null) return;

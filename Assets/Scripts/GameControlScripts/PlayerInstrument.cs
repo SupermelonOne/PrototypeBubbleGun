@@ -23,6 +23,7 @@ public class PlayerInstrument : MonoBehaviour
                 enabledSlots.Add(2);
                 enabledSlots.Add(3);
                 enabledSlots.Add(4);
+                enabledSlots.Add(5);
             }
             else
             {
