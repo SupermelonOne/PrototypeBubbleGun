@@ -152,7 +152,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916165176912836984}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98e79c150874a142b862bfcff5e63ce, type: 3}
   m_Name: 
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6066201406736204490}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98e79c150874a142b862bfcff5e63ce, type: 3}
   m_Name: 
@@ -216,8 +216,8 @@ MonoBehaviour:
   pulling: 0
   parentBone: {fileID: 0}
   parentIntensity: 0.5
-  leftArm: 0
-  rightArm: 1
+  leftArm: 1
+  rightArm: 0
   leftLeg: 0
   rightLeg: 0
   up: {x: 0, y: 0, z: 0}
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7156469512293411857}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e98e79c150874a142b862bfcff5e63ce, type: 3}
   m_Name: 
@@ -265,8 +265,8 @@ MonoBehaviour:
   pulling: 0
   parentBone: {fileID: 0}
   parentIntensity: 0.5
-  leftArm: 1
-  rightArm: 0
+  leftArm: 0
+  rightArm: 1
   leftLeg: 0
   rightLeg: 0
   up: {x: 0, y: 0, z: 0}

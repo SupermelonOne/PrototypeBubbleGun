@@ -15,6 +15,19 @@ public class PlayerInventory : MonoBehaviour
     public Dictionary<ItemType, int> Items;
     public event Change OnChange;
 
+
+    private void OnEnable()
+    {
+        MonsterEventBus.Subscribe<MonsterEventBus.DirtCleaned>(AddItem);
+    }
+
+    private void OnDisable()
+    {
+        MonsterEventBus.UnSubscribe<MonsterEventBus.DirtCleaned>(AddItem);
+    }
+
+
+
     private void Start()
     {
         Items = new Dictionary<ItemType, int>();
@@ -33,6 +46,11 @@ public class PlayerInventory : MonoBehaviour
     {
         var a = Items[item] + amount;
         UpdateItems(item, a);
+    }
+    public void AddItem(MonsterEventBus.DirtCleaned dirtCleaned)
+    {
+        var a = Items[dirtCleaned.type] + dirtCleaned.amount;
+        UpdateItems(dirtCleaned.type, a);
     }
 
     public void RemoveItem(ItemType item, int amount)

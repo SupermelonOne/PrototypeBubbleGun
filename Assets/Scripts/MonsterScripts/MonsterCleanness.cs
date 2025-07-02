@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class MonsterCleanness : MonoBehaviour
 {
+    [SerializeField] private int pointsRewarded = 5;
+
     private float completePercentage = 0;
 
     List<DirtScript> dirtSpots = new List<DirtScript>();
@@ -36,6 +38,7 @@ public class MonsterCleanness : MonoBehaviour
         {
             clean = true;
             SetDone();
+            MonsterEventBus.Invoke(new MonsterEventBus.DirtCleaned(pointsRewarded, ItemType.Munny));
             Debug.Log("aw yeah clean");
         }
     }

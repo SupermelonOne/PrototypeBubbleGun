@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DirtScript : MonoBehaviour
 {
+    [SerializeField] private int pointsRewarded = 2;
+
     [SerializeField] private bool requireSoap = true;
     private bool CompletedSoap = false;
     [SerializeField] private bool requireScrub = true;
@@ -185,10 +187,11 @@ public class DirtScript : MonoBehaviour
         if (dirtSize <= 0 && !Cleaned)
         {
             Debug.Log("cleaned this piece of dirt");
+            MonsterEventBus.Invoke(new MonsterEventBus.DirtCleaned(pointsRewarded, ItemType.Munny));
             Cleaned = true;
             monsterCleanness.RemoveDirt(this);
         }
-
+        if (bubbleParticles != null)
         bubbleParticles.transform.localScale = new Vector3(soapValue, soapValue, soapValue);
     }
 

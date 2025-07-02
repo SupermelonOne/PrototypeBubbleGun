@@ -72,11 +72,13 @@ public class MonsterMoveBehavior : MonoBehaviour
     public void EnterStation()
     {
         inStation = true;
+        agent.enabled = false;
     }
 
     public void ExitStation()
     {
         inStation = false;
+        agent.enabled = true;
     }
 
     private void Update()
