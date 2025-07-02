@@ -21,6 +21,5 @@ public class Player : MonoBehaviour
         PlayerEventBus.Invoke(new PlayerEventBus.PlayerJoin(controller.playerCamera, this));
         
         gui.AssignPlayer(this);
-        gui.ToggleUI();
     }
 }

@@ -11,7 +11,8 @@ public class PlayerGUI : MonoBehaviour
     private Player player;
     private Canvas canvas;
     private Vector2Int currentUIIndex = new Vector2Int(0,0);
-    
+
+    [SerializeField] private GameObject tutorial;
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject inventoryText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
@@ -166,8 +167,16 @@ public class PlayerGUI : MonoBehaviour
 
     public void ToggleUI()
     {
+        if (tutorial.activeSelf)
+        {
+            player.controller.SetInventory(false);
+            crosshair.SetActive(true);
+            inventory.SetActive(false);
+            tutorial.SetActive(false);
+            return;
+        }
+        player.controller.SetInventory(inventory.activeSelf);
         crosshair.SetActive(inventory.activeSelf);
         inventory.SetActive(!inventory.activeSelf);
-        player.controller.SetInventory(!inventory.activeSelf);
     }
 }
