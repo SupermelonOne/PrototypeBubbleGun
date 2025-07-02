@@ -294,6 +294,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveAction(Vector2 vec2)
     {
+        if (arduinoInputManager != null)
+            vec2 = FixArduinoVectorHorizontal(vec2);
         m_moveAmt = vec2;
         justRespawned = false;
     }
@@ -306,6 +308,12 @@ public class PlayerController : MonoBehaviour
     }
     public void OnLookAction(Vector2 vec2)
     {
+        if (arduinoInputManager != null)
+        {
+            vec2 = FixArduinoVectorHorizontal(-vec2);
+            vec2.x *= -1f;
+            vec2.y *= -1f;
+        }
         m_lookAmt = vec2;
     }
 
@@ -341,21 +349,10 @@ public class PlayerController : MonoBehaviour
         if (arduinoInputManager != null)
         {
             //moveinput
-            Vector2 vec2 = arduinoInputManager.Joystick1;
-
-                vec2 = FixArduinoVectorHorizontal(vec2);
-            
-            OnMoveAction(vec2);
+            OnMoveAction(arduinoInputManager.Joystick1);
 
             //lookinput
-            vec2 = arduinoInputManager.Joystick2;
-
-                vec2 = FixArduinoVectorHorizontal(-vec2);
-                vec2.x *= -1f;
-                vec2.y *= -1f;
-                Debug.Log(vec2);
-            
-            OnLookAction(vec2);
+            OnLookAction(arduinoInputManager.Joystick2);
 
             //jumpInput
             jumpInput = arduinoInputManager._button1;
