@@ -12,6 +12,8 @@ public class DirtScript : MonoBehaviour
     [SerializeField] private bool requireWater = false;
     private bool CompletedWater = false;
 
+    private bool Cleaned = false;
+
     [SerializeField] private ParticleSystem bubbleParticles;
     [SerializeField] private ParticleSystem dirtParticles;
     [SerializeField] private ParticleSystem completeParticles;
@@ -28,9 +30,16 @@ public class DirtScript : MonoBehaviour
     [SerializeField] private GrabableBone hiddenUnder;
     [SerializeField] private float requiredAngle = 100;
     bool canClean = false;
-    [SerializeField] private float maxHealth = 1; //time needs to be cleaned
+    private float maxHealth = 1; //time needs to be cleaned
     private float health;
     //ParticleSystem dirtParticles;
+
+    [SerializeField] private AudioSource completeSound;
+    [SerializeField] private AudioSource dirtSound;
+
+
+
+    //A NULL REFERENCE TO THE MONSTERCLEANNESS COULD BE THAT THE REFERENCE IS NEVER PROPERLY SET DUE TO THE GetComponentInParent<MonsterCleanness>() IN START
     MonsterCleanness monsterCleanness;
 
     [SerializeField] private Transform dirtVisual;
@@ -42,11 +51,16 @@ public class DirtScript : MonoBehaviour
         }
         health = maxHealth;
         monsterCleanness = GetComponentInParent<MonsterCleanness>();
+
+        if (monsterCleanness == null)
+            return;
+        monsterCleanness.AddDirt(this);
     }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Soap"))
         {
+            Debug.Log("found souap");
             if (soapValue < 1)
             {
                 soapValue += Time.deltaTime;
@@ -87,7 +101,7 @@ public class DirtScript : MonoBehaviour
                     waterValue += Time.deltaTime;
                     if (waterValue < requiredWaterValue)
                     {
-                        dirtParticles.Play();
+                        ShowDirtPart();
                     }
                     else
                     {
@@ -120,7 +134,7 @@ public class DirtScript : MonoBehaviour
                     }
                     else
                     {
-                        dirtParticles.Play();
+                        ShowDirtPart();
                     }
                 }
             }
@@ -135,6 +149,16 @@ public class DirtScript : MonoBehaviour
     private void ShowFinish()
     {
         completeParticles.Play();
+        completeSound.Play();
+    }
+    private void ShowDirtPart()
+    {
+        dirtParticles.Play();
+
+        if (dirtSound == null || Random.Range(0, 30) > 2)
+            return;
+        dirtSound.pitch = Random.Range(0.8f, 1.2f);
+        dirtSound.Play();
     }
     private void Update()
     {
@@ -150,13 +174,20 @@ public class DirtScript : MonoBehaviour
 
         //Require soap, scrub, water
 
-        if (requireScrub && requireSoap && requireWater)
-            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
-        else if (requireSoap && requireWater)
-            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
-        else if (requireScrub && requireWater)
-            SetDirtSize(Mathf.Abs(1 - (waterValue / requiredWaterValue)));
+        float dirtSize = Mathf.Abs(1 - (waterValue / requiredWaterValue));
 
+        if (requireScrub && requireSoap && requireWater)
+            SetDirtSize(dirtSize);
+        else if (requireSoap && requireWater)
+            SetDirtSize(dirtSize);
+        else if (requireScrub && requireWater)
+            SetDirtSize(dirtSize);
+        if (dirtSize <= 0 && !Cleaned)
+        {
+            Debug.Log("cleaned this piece of dirt");
+            Cleaned = true;
+            monsterCleanness.RemoveDirt(this);
+        }
 
         bubbleParticles.transform.localScale = new Vector3(soapValue, soapValue, soapValue);
     }

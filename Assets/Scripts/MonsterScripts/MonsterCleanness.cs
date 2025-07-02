@@ -5,12 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class MonsterCleanness : MonoBehaviour
 {
+    private float completePercentage = 0;
+
     List<DirtScript> dirtSpots = new List<DirtScript>();
     [SerializeField] private Sprite goodTexture;
     [SerializeField] private Sprite badTexture;
     [SerializeField] private SpriteRenderer status;
     public bool clean = false;
     public bool done = false;
+
+    private int amountOfDirtSpots;
 
     private void Start()
     {
@@ -20,27 +24,31 @@ public class MonsterCleanness : MonoBehaviour
             if (!dirtSpots.Contains(dirt))
             {
                 dirtSpots.Add(dirt);
+                amountOfDirtSpots++;
             }
         }
+        Debug.Log(amountOfDirtSpots);
     }
 
     public void CheckDirt()
     {
-        foreach (var dirt in dirtSpots)
+        if (amountOfDirtSpots <= 0)
         {
-            if (dirt == null)
-                dirtSpots.Remove(dirt);
-            break;
-        }
-        if (dirtSpots.Count <= 0)
-        {
-            Debug.Log("awyeah clean");
             clean = true;
+            SetDone();
+            Debug.Log("aw yeah clean");
         }
     }
     public void RemoveDirt(DirtScript dirt)
     {
         dirtSpots.Remove(dirt);
+        amountOfDirtSpots--;
+        CheckDirt();
+    }
+    public void AddDirt(DirtScript dirt)
+    {
+        dirtSpots.Add(dirt);
+        amountOfDirtSpots++;
     }
 
     public void GetSoaped()
