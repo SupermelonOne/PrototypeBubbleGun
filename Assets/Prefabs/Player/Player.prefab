@@ -1362,6 +1362,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 676caae6-ada9-46b5-9dc4-5d261cdcd0c9
     m_ActionName: UIMap/Inventory[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc0a88d7-09a3-4f12-9f64-bb74cae04240
+    m_ActionName: UIMap/NavigateLeft[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af8fae8e-07b3-4171-8f4b-9617115f7489
+    m_ActionName: UIMap/NavigateRight[/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KeyboardMouse
   m_DefaultActionMap: GamePad
@@ -10414,5 +10422,9 @@ MonoBehaviour:
   inventory: {fileID: 0}
   inventoryText: {fileID: 0}
   itemDescriptionText: {fileID: 0}
+  itemNameText: {fileID: 0}
+  itemIcon: {fileID: 0}
   interactIcon: {fileID: 0}
   itemTextPrefab: {fileID: 0}
+  crosshair: {fileID: 0}
+  rowCount: 2
