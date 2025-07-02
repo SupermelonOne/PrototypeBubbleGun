@@ -252,6 +252,32 @@ public class PlayerController : MonoBehaviour
         {
             vec2.y = 0;
         }
+        if (vec2.x != 0)
+        {
+            if (vec2.x > 0)
+            {
+                vec2.x -= 0.35f;
+                vec2.x *= 1.2f;
+            }
+            if (vec2.x < 0)
+            {
+                vec2.x += 0.35f;
+                vec2.x *= 1.538f;
+            }
+        }
+        if (vec2.y != 0)
+        {
+            if (vec2.y > 0)
+            {
+                vec2.y -= 0.35f;
+                vec2.y *= 1.2f;
+            }
+            if (vec2.y < 0)
+            {
+                vec2.y += 0.35f;
+                vec2.y *= 1.538f;
+            }
+        }
         return vec2;
     }
 
@@ -275,13 +301,18 @@ public class PlayerController : MonoBehaviour
     {
         if (arduinoInputManager != null)
         {
-
+            vec2 = FixArduinoVectorHorizontal(-vec2);
+            vec2.x *= -1f;
+            vec2.y *= -1f;
+            Debug.Log(vec2);
         }
         m_lookAmt = vec2;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (arduinoInputManager != null)
+            return;
         //TODO: vezko istg what is this
         if (context.started)
         {
@@ -308,7 +339,7 @@ public class PlayerController : MonoBehaviour
         {
             OnMoveAction(arduinoInputManager.Joystick1);
             OnLookAction(arduinoInputManager.Joystick2);
-            Debug.Log(arduinoInputManager.Joystick2);
+            jumpInput = arduinoInputManager._button1;
         }
 
         if (!respawning)

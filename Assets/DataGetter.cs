@@ -16,6 +16,9 @@ public class ArduinoInputManager : MonoBehaviour
     public Vector2 Joystick1 = Vector2.zero;
     public Vector2 Joystick2 = Vector2.zero;
     public Vector3 gyroscope = Vector3.zero;
+    public bool _button1 = false;
+    public bool _button2 = false;
+    public bool _button3 = false;
     float counter = 0;
 
     private ConcurrentQueue<string> lineQueue = new ConcurrentQueue<string>();
@@ -100,8 +103,13 @@ public class ArduinoInputManager : MonoBehaviour
         //          $"Buttons: {button1}, {button2}, {button3}");
 
         if (button1 == 1) OnButton1();
+        _button1 = button1 == 1;
         if (button2 == 1) OnButton2();
+        _button2 = button2 == 1;
+
         if (button3 == 1) OnButton3();
+        _button3 = button3 == 1;
+
     }
 
     // General normalization for 2D input (like joysticks, accel, gyro)
