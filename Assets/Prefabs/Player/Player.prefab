@@ -1397,9 +1397,17 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 676caae6-ada9-46b5-9dc4-5d261cdcd0c9
     m_ActionName: UIMap/Inventory[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc0a88d7-09a3-4f12-9f64-bb74cae04240
+    m_ActionName: UIMap/NavigateLeft[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af8fae8e-07b3-4171-8f4b-9617115f7489
+    m_ActionName: UIMap/NavigateRight[/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: KeyboardMouse
-  m_DefaultActionMap: GamePad
+  m_DefaultActionMap: UIMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 8157560693681419678}
 --- !u!82 &6922002117521506691
@@ -10730,7 +10738,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1361468411926817657, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2933049596508140355, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
       propertyPath: m_Name
@@ -10856,8 +10864,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 765ccdb92d5297f4f9d217aac1445a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorial: {fileID: 0}
   inventory: {fileID: 0}
   inventoryText: {fileID: 0}
   itemDescriptionText: {fileID: 0}
+  itemNameText: {fileID: 0}
+  itemIcon: {fileID: 0}
   interactIcon: {fileID: 0}
   itemTextPrefab: {fileID: 0}
+  crosshair: {fileID: 0}
+  rowCount: 2

@@ -10,14 +10,18 @@ public class PlayerGUI : MonoBehaviour
 {
     private Player player;
     private Canvas canvas;
-    private int currentUIIndex = 0;
-    
+    private Vector2Int currentUIIndex = new Vector2Int(0,0);
+
+    [SerializeField] private GameObject tutorial;
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject inventoryText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private RawImage itemIcon;
     [SerializeField] private RawImage interactIcon;
     [SerializeField] private GameObject itemTextPrefab;
     [SerializeField] private GameObject crosshair;
+    [SerializeField] private int rowCount = 2;
 
     public void AssignPlayer(Player p)
     {
@@ -26,9 +30,10 @@ public class PlayerGUI : MonoBehaviour
 
     private void Start()
     {
-        if (player == null)
+        if (player?.inventory == null)
         {
-            Debug.LogError("Player is null");
+            var message = player == null ? "Player is null" : "Player Inventory is null";
+            Debug.LogError(message);
             return;
         }
         
@@ -68,13 +73,41 @@ public class PlayerGUI : MonoBehaviour
         var items = player.inventory.Items;
         int index = 0;
 
+        var rows = new List<Transform>();
+        RectTransform inventoryTextRect = inventoryText.GetComponent<RectTransform>();
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            var row = new GameObject($"Row{i + 1}", typeof(RectTransform), typeof(HorizontalLayoutGroup));
+            
+            row.transform.SetParent(inventoryTextRect, false);
+
+            var rowRect = row.GetComponent<RectTransform>();
+            var step = 1f / rowCount;
+            var anchorMinY = 1f - step * (i + 1);
+            var anchorMaxY = 1f - step * i;
+
+            rowRect.anchorMin = new Vector2(0f, anchorMinY);
+            rowRect.anchorMax = new Vector2(1f, anchorMaxY);
+            rowRect.offsetMin = Vector2.zero;
+            rowRect.offsetMax = Vector2.zero;
+            rows.Add(row.transform);
+        }
+
+
+        
+
         foreach (var kvp in items)
         {
             // Create new TextMeshProUGUI object
             GameObject textObj = Instantiate(itemTextPrefab, inventoryText.transform);
             textObj.name = "Item" + kvp.Key;
             textObj.transform.localScale = Vector3.one;
-
+            
+            int rowIndex = Mathf.FloorToInt((float)index / items.Count * rowCount);
+            rowIndex = Mathf.Clamp(rowIndex, 0, rowCount - 1);
+            textObj.transform.SetParent(rows[rowIndex], false);
+            
             var tmp = textObj.GetComponentInChildren<TextMeshProUGUI>();
             tmp.fontSize = 34;
             tmp.text = $"{kvp.Key}: {kvp.Value.amount}";
@@ -84,13 +117,21 @@ public class PlayerGUI : MonoBehaviour
             img.texture = kvp.Value.icon;
 
             // Highlight current selection
-            if (index == currentUIIndex)
+            int column = rows[rowIndex].childCount; 
+            textObj.transform.SetParent(rows[rowIndex], false);
+
+            if (currentUIIndex.x+1 == column && currentUIIndex.y == rowIndex)
             {
                 tmp.text = $"> {kvp.Key}: {kvp.Value.amount}";
                 tmp.color = Color.black;
 
                 if (player.inventory.Items.TryGetValue(kvp.Key, out var value))
+                {
                     itemDescriptionText.text = value.description;
+                    itemNameText.text = kvp.Key.ToString();
+                    
+                    itemIcon.texture = kvp.Value.icon;
+                }
             }
 
             index++;
@@ -98,17 +139,26 @@ public class PlayerGUI : MonoBehaviour
     }
 
     
-    public void OnMoveCursor(InventoryEventBus.OnNavigateUI navigateUI)
+    private void OnMoveCursor(InventoryEventBus.OnNavigateUI navigateUI)
     {
-        
-        if (currentUIIndex - 1 >= 0 && navigateUI.inputType == InputTypes.Left)
-            currentUIIndex--;
-        
-        if (currentUIIndex + 1 < player.inventory.Items.Count && navigateUI.inputType == InputTypes.Right)
-            currentUIIndex++;
-        
+        var totalItems = player.inventory.Items.Count;
+        var columns = totalItems / rowCount;
+
+        if (navigateUI.inputType == InputTypes.Left && currentUIIndex.x > 0)
+            currentUIIndex.x--;
+
+        if (navigateUI.inputType == InputTypes.Right && currentUIIndex.x < columns - 1)
+            currentUIIndex.x++;
+
+        if (navigateUI.inputType == InputTypes.Up && currentUIIndex.y > 0)
+            currentUIIndex.y--;
+
+        if (navigateUI.inputType == InputTypes.Down && currentUIIndex.y < rowCount - 1)
+            currentUIIndex.y++;
+
         UpdateInventory();
     }
+
 
     public void OnInteract(bool isOn)
     {
@@ -117,8 +167,16 @@ public class PlayerGUI : MonoBehaviour
 
     public void ToggleUI()
     {
+        if (tutorial.activeSelf)
+        {
+            player.controller.SetInventory(false);
+            crosshair.SetActive(true);
+            inventory.SetActive(false);
+            tutorial.SetActive(false);
+            return;
+        }
+        player.controller.SetInventory(inventory.activeSelf);
         crosshair.SetActive(inventory.activeSelf);
         inventory.SetActive(!inventory.activeSelf);
-        player.controller.SetInventory(!inventory.activeSelf);
     }
 }
