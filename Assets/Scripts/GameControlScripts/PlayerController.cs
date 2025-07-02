@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] ArduinoInputManager arduinoInputManager;
+    [SerializeField] private string comPort = "COM5";
 
     //pretty sure these are useless but im keepin em here just in case
     /*[SerializeField] private string Horizontal = "Horizontal";
@@ -53,6 +54,16 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        foreach (ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+            if (im.portName == comPort)
+            {
+                arduinoInputManager = im;
+            }
+        }
+        if (arduinoInputManager == null)
+            Debug.Log("failed to find controller");
+
         Cursor.lockState = CursorLockMode.Locked;
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
@@ -283,10 +294,6 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveAction(Vector2 vec2)
     {
-        if (arduinoInputManager != null)
-        {
-            vec2 = FixArduinoVectorHorizontal(vec2);
-        }
         m_moveAmt = vec2;
         justRespawned = false;
     }
@@ -299,13 +306,6 @@ public class PlayerController : MonoBehaviour
     }
     public void OnLookAction(Vector2 vec2)
     {
-        if (arduinoInputManager != null)
-        {
-            vec2 = FixArduinoVectorHorizontal(-vec2);
-            vec2.x *= -1f;
-            vec2.y *= -1f;
-            Debug.Log(vec2);
-        }
         m_lookAmt = vec2;
     }
 
@@ -337,8 +337,24 @@ public class PlayerController : MonoBehaviour
 
         if (arduinoInputManager != null)
         {
-            OnMoveAction(arduinoInputManager.Joystick1);
-            OnLookAction(arduinoInputManager.Joystick2);
+            //moveinput
+            Vector2 vec2 = arduinoInputManager.Joystick1;
+
+                vec2 = FixArduinoVectorHorizontal(vec2);
+            
+            OnMoveAction(vec2);
+
+            //lookinput
+            vec2 = arduinoInputManager.Joystick2;
+
+                vec2 = FixArduinoVectorHorizontal(-vec2);
+                vec2.x *= -1f;
+                vec2.y *= -1f;
+                Debug.Log(vec2);
+            
+            OnLookAction(vec2);
+
+            //jumpInput
             jumpInput = arduinoInputManager._button1;
         }
 
