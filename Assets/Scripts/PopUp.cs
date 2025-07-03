@@ -55,6 +55,10 @@ public class RequirementsAndFeedback
     public Cost cost;
     [Tooltip("Time in seconds to display an error message if interaction fails.")]
     public float errorMessageTime = 1.0f;
+    [Tooltip("the object that displays before the interaction is pressed.")]
+    public GameObject interactionObject;
+    [Tooltip("the object that displays after the interaction is pressed and shit goes wrong.")]
+    public GameObject interactionFeedbackObject;
 }
 
 #endregion
