@@ -611,6 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58483ffb42d8a46468b1aabee0bbac52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!114 &369468161946649085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,10 +624,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f57309cb14bb4ca57015f1e4098df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueOptions: []
+  dialogueOptions:
+  - rid: 2877695140980064256
+  shop: {fileID: 0}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2877695140980064256
+      type: {class: DialogueOption, ns: , asm: Assembly-CSharp}
+      data:
+        name: Root
+        description: 
+        id: 0
+        layer: 0
+        options:
+        - rid: 2877695140980064257
+    - rid: 2877695140980064257
+      type: {class: BuyOption, ns: , asm: Assembly-CSharp}
+      data:
+        name: keys
+        description: ye you get 71 keys for 2 munny, so what?
+        id: 1
+        layer: 1
+        item: 1
+        amount: 71
+        price: 2
+        onlyOne: 0
+        managerReference: {fileID: 369468161946649085}
 --- !u!1 &7540554209286169482
 GameObject:
   m_ObjectHideFlags: 0
