@@ -11,6 +11,7 @@ public class PlayerEventBus : BaseEventBus<PlayerEventBus>
 
         public PlayerJoin(Camera camera, Player player)
         {
+            Debug.Log("PlayerJoin");
             this.camera = camera;
             this.player = player;
         }
