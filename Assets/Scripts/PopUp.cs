@@ -73,7 +73,6 @@ public class PopUp : MonoBehaviour
     
     
     private float minDistance;
-    private KeyCode key;
 
     private PlayerEvent onButtonPressed; // Consider making this private if it's only invoked internally
     private bool isDestroyedAfterPressed;
@@ -85,31 +84,41 @@ public class PopUp : MonoBehaviour
     private List<Player> players = new List<Player>();
     private Dictionary<Player, Camera> playerCams = new Dictionary<Player, Camera>();
     private Canvas canvas;
-    private TextMeshProUGUI tMesh;
+    private GameObject interactionObject;
+    private GameObject interactionFeedbackObject;
+
 
     private void Start()
     {
         canvas = GetComponentInChildren<Canvas>();
-        tMesh = GetComponentInChildren<TextMeshProUGUI>();
-        
+        interactionObject = feedback.interactionObject;
+        interactionFeedbackObject = feedback.interactionFeedbackObject;
+
         minDistance = conditions.minDistance;
-        key = conditions.key;
-        
+
         onButtonPressed = effects.onButtonPressed;
         isDestroyedAfterPressed = effects.isDestroyedAfterPressed;
-        
+
         cost = feedback.cost;
         errorMessageTime = feedback.errorMessageTime;
+
+
+        interactionObject.SetActive(false);
+        List<GameObject> interactions = new List<GameObject>();
+        interactions.Add(interactionFeedbackObject);
+        interactions.Add(interactionObject);
         
-                
-        tMesh.alpha = 0;
-        tMesh.text = key.ToString();
-        tMesh.color = textProperties.textColor;
-        tMesh.rectTransform.anchorMin = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
-        tMesh.rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
-        tMesh.rectTransform.pivot = new Vector2(0.5f, 0.5f);     // Center pivot
-        tMesh.rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
-        tMesh.rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, tMesh.rectTransform.sizeDelta.y);   
+        foreach (var obj in interactions){
+            var rectTransform = obj.GetComponent<RectTransform>();
+            rectTransform.anchorMin = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+            rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
+            rectTransform.pivot = new Vector2(0.5f, 0.5f); // Center pivot
+            rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
+            rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, rectTransform.sizeDelta.y);
+        }
+
+        interactionObject.SetActive(true);
+        interactionFeedbackObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -179,7 +188,7 @@ public class PopUp : MonoBehaviour
             var playerPos = closestPlayer.controller.playerCamera.transform.position;
             if (Physics.Raycast(playerPos, direction, out RaycastHit hit, minDistance))
             {
-                if (hit.collider == tMesh.gameObject.GetComponent<BoxCollider>())
+                if (hit.collider == interactionObject.gameObject.GetComponent<BoxCollider>())
                 {
                     OnPlayerLook(closestPlayer);
                     isHitting = true;
@@ -223,20 +232,18 @@ public class PopUp : MonoBehaviour
 
     private void SetActive(bool active, Player closestPlayer = null)
     {
-        tMesh.alpha = active ? 1 : 0;
+        interactionObject.SetActive(active);
         if (closestPlayer != null)
             closestPlayer.gui.OnInteract(active);
     }
 
     private IEnumerator ErrorMessage(float seconds)
     {
-        var c = tMesh.color;
-        var t = tMesh.text;
-        tMesh.color = Color.red;
-        tMesh.text = $"you're broke, you need {cost.itemType}, and  {cost.cost} of em";
+        interactionObject.SetActive(false);
+        interactionFeedbackObject.SetActive(true);
         yield return new WaitForSeconds(seconds);
-        tMesh.color = c;
-        tMesh.text = t;
+        interactionObject.SetActive(true);
+        interactionFeedbackObject.SetActive(false);
     }
 }
 
