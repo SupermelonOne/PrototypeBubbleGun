@@ -69,11 +69,6 @@ public class Shop : MonoBehaviour
         
         if (player.inventory.ItemAmount(ItemType.Munny) >= cost)
         {
-            if (itemType == ItemType.Grabber || itemType == ItemType.SoapGun)
-            {
-                player.instrument.AddInstrument(1);
-                return true;
-            }
             player.inventory.BuyItem(itemType, amount, cost);
            
             return true;
