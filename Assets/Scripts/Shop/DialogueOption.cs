@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+
 [Serializable]
 public class Option
 {
@@ -28,6 +30,8 @@ public class BuyOption : Option
     public ItemType item;
     public int amount;
     public int price;
+    public bool onlyOne;
+    private bool isBought = false;
 
     [HideInInspector]
     public DialogueManager managerReference; // manually assigned or injected
@@ -37,9 +41,10 @@ public class BuyOption : Option
     {
         if (managerReference == null)
             managerReference = manager;
-        if (managerReference != null)
+        if (managerReference != null && !(onlyOne && isBought))
         {
             managerReference.HandleBuyOption(this);
+            isBought = true;
         }
     }}
 

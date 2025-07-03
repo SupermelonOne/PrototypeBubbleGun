@@ -111,7 +111,7 @@ public class PlayerGUI : MonoBehaviour
             var tmp = textObj.GetComponentInChildren<TextMeshProUGUI>();
             tmp.fontSize = 34;
             tmp.text = $"{kvp.Key}: {kvp.Value.amount}";
-            tmp.color = Color.black;
+            tmp.color = Color.white;
             
             var img = textObj.GetComponentInChildren<RawImage>();
             img.texture = kvp.Value.icon;
@@ -123,7 +123,7 @@ public class PlayerGUI : MonoBehaviour
             if (currentUIIndex.x+1 == column && currentUIIndex.y == rowIndex)
             {
                 tmp.text = $"> {kvp.Key}: {kvp.Value.amount}";
-                tmp.color = Color.black;
+                tmp.color = Color.white;
 
                 if (player.inventory.Items.TryGetValue(kvp.Key, out var value))
                 {

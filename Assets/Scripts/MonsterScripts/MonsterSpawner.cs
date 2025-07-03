@@ -56,6 +56,10 @@ public class MonsterSpawner : MonoBehaviour
             SpawnMonster();
     }
 
+    public void RemoveMonster(GameObject monster)
+    {
+        spwanedMonsters.Remove(monster);
+    }
 
     private void SpawnMonster()
     {
@@ -76,6 +80,8 @@ public class MonsterSpawner : MonoBehaviour
                 Vector3 spawnPos = navHit.position;
 
                 GameObject m = Instantiate(monsterPrefab, spawnPos, Quaternion.identity);
+                m.TryGetComponent<Monster>(out Monster monster);
+                monster.monsterSpawner = this;
                 m.transform.parent = transform;
 
                 SpriteRenderer monsterRend = m.GetComponentInChildren<SpriteRenderer>();

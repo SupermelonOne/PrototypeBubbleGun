@@ -66,7 +66,7 @@ public class ItemShop : MonoBehaviour
 
     private void BuyItem(PlayerInventory inventory, ItemType type, int amount, int price)
     {
-        inventory.BuyItem(itemType, amount, price);
+        PlayerInventory.Instance.BuyItem(itemType, amount, price);
     }
 
 

@@ -10,10 +10,21 @@ public class IndependanChangeInstruments : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //Debug.Log("found player");
-            PlayerInstrument playerInstruments = other.GetComponentInChildren<PlayerInstrument>();
-            //IF THIS GIVES NULL ERRORSS, WE PROBABLY MOVED THE PLAYERINSTRUMENT SCRIPT
-            playerInstruments.SwapEquipment(instruments);
+            SwapInstruments(other.gameObject);
         }
+    }
+
+    private void SwapInstruments(GameObject other)
+    {
+        var inv = PlayerInventory.Instance;
+        if (inv == null) return;
+        if (inv.HasItem(ItemType.Grabber)) instruments.Add(3);
+        if (inv.HasItem(ItemType.SoapGun)) instruments.Add(5);
+        
+        //Debug.Log("found player");
+        PlayerInstrument playerInstruments = other.GetComponentInChildren<PlayerInstrument>();
+        //IF THIS GIVES NULL ERRORSS, WE PROBABLY MOVED THE PLAYERINSTRUMENT SCRIPT
+        playerInstruments.SwapEquipment(instruments);
+        
     }
 }

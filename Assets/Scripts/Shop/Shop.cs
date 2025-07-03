@@ -66,13 +66,16 @@ public class Shop : MonoBehaviour
 
     public bool Purchase(ItemType itemType, int amount, int cost)
     {
-        //TODO: add dialogue if not enough money
-        if (player.inventory.ItemAmount(ItemType.Munny) >= cost)
+        
+        if (PlayerInventory.Instance.ItemAmount(ItemType.Munny) >= cost)
         {
-            player.inventory.BuyItem(itemType, amount, cost);
-            Debug.Log("Purchased Item: " + itemType + " with amount: " + amount + " to " + cost);
+            Debug.Log("You have " + amount + " " + itemType + " in your inventory");
+            PlayerInventory.Instance.BuyItem(itemType, amount, cost);
+           
             return true;
         }
+        
+        
 
         return false;
     }

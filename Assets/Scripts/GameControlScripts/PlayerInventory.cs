@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public enum ItemType{
     Munny,
     Key,
-    Soap,
-    Candy
+    Grabber,
+    SoapGun
 }
 
 [System.Serializable]
-public struct ItemStruct
+public class ItemStruct
 {
     public ItemType type;
     public string description;
@@ -29,7 +29,6 @@ public class PlayerInventory : MonoBehaviour
 {
     public static PlayerInventory Instance { get; private set; }
     
-    [SerializeField] private int munny;
 
     [SerializeField] private List<ItemStruct> itemDescriptions;
     public Dictionary<ItemType, ItemStruct> Items = new Dictionary<ItemType, ItemStruct>();
@@ -57,6 +56,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void BuyItem(ItemType item, int amount, int cost)
     {
+        Debug.Log("BuyItem");
         AddItem(item, amount);
         RemoveItem(ItemType.Munny, cost);
     }
@@ -80,6 +80,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void UpdateItems(ItemType item, int amount)
     {
+        Debug.Log($"{item} has been updated to {amount}");
         Items[item].SetAmount(amount);
         OnChange?.Invoke();
     }
