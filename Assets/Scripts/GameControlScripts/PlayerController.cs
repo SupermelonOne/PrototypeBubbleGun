@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -11,6 +12,16 @@ public class PlayerController : MonoBehaviour
     private PlayerGUI playerGUI;
     [SerializeField] ArduinoInputManager arduinoInputManager;
     [SerializeField] private string comPort = "COM5";
+
+    public bool upUI;
+    public bool downUI;
+    public bool rightUI;
+    public bool leftUI;
+    private bool upHold = false;
+    private bool downHold = false;
+    private bool leftHold = false;
+    private bool rightHold = false;
+
 
     [SerializeField] private Transform playerModel;
     [SerializeField] private Animator animator;
@@ -474,6 +485,61 @@ public class PlayerController : MonoBehaviour
             else
             {
                 animator.SetBool("Jump", false);
+            }
+
+            if (m_moveAmt.x > .5f && !rightHold)
+            {
+                rightUI = true;
+                rightHold = true;
+            }
+            else if (m_moveAmt.x > .5f)
+            {
+                rightUI = false;
+            }
+            else
+            {
+                rightHold = false;
+            }
+            if (m_moveAmt.x < -.5f && !rightHold)
+            {
+                leftUI = true;
+                leftHold = true;
+            }
+            else if (m_moveAmt.x < -.5f)
+            {
+                leftUI = false;
+            }
+            else
+            {
+                leftHold = false;
+            }
+
+            if (m_moveAmt.y < -.5f && !rightHold)
+            {
+                upUI = true;
+                upHold = true;
+            }
+            else if (m_moveAmt.y < -.5f)
+            {
+                upUI = false;
+            }
+            else
+            {
+                upHold = false;
+            }
+
+            if (m_moveAmt.y > .5f && !rightHold)
+            {
+                downUI = true;
+                downHold = true;
+            }
+            else if (m_moveAmt.y > .5f)
+            {
+                downUI = false;
+            }
+            else
+            {
+                downHold = false;
             }
         }
         else

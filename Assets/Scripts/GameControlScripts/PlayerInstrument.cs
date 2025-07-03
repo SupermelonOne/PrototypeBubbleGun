@@ -15,7 +15,7 @@ public class PlayerInstrument : MonoBehaviour
     [SerializeField] private string comPort = "COM5";
     private void Update()
     {
-        if (inputManager._button3_pressed)
+        if (inputManager != null && inputManager._button3_pressed)
         {
             Debug.Log("afiwjfeoijfweoiwefjoif fuck swtijch");
             SwitchWeapon(1);
