@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScenes/JorisTesting.unity
     guid: 95b1a1d029f70704aa8cbae36d47ba5c
+  - enabled: 1
+    path: Assets/Scenes/CurrentScenes/DEATH.unity
+    guid: f3aeb66a26d0b2b46aa282310106f5a9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 6591dc6a03029af45a92928810ba2012, type: 2}
