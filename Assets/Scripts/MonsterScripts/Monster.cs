@@ -23,6 +23,7 @@ public class Monster : MonoBehaviour
     private MonsterMoveBehavior moveBehavior;
     private AudioSource catchSound;
     private float soapiness = 0;
+    [HideInInspector] public MonsterSpawner monsterSpawner;
 
 
     private void Start()
@@ -114,6 +115,11 @@ public class Monster : MonoBehaviour
             catchSound.pitch = UnityEngine.Random.Range(0.85f, 1.2f);
             catchSound.Play();
         }
+    }
+
+    private void OnDestroy()
+    {
+        monsterSpawner.RemoveMonster(gameObject);
     }
 
     private void ReleaseMonster()

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public enum ItemType{
     Munny,
     Key,
-    Soap,
-    Candy
+    Grabber,
+    SoapGun
 }
 
 [System.Serializable]

@@ -75,6 +75,11 @@ public class PlayerInstrument : MonoBehaviour
         }
     }
 
+    public void AddInstrument(int weapon)
+    {
+        enabledSlots.Add(weapon);
+    }
+
     private void SwitchWeapon(int direction)
     {
         failSafe++;
