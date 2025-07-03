@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class ScrubSponge : PlayerAction
 {
-    [SerializeField] private Transform sponge;
+    [SerializeField] private List<Transform> sponge = new List<Transform>();
     [SerializeField] private Transform origin;
     [SerializeField] private float scrubSpeed = 0.1f;
     [SerializeField] private float scrubIntensity = 0.4f;
@@ -26,7 +26,10 @@ public class ScrubSponge : PlayerAction
             scrubTimer = 0;
             realDestination = GetRandomVector(hitPoint, scrubIntensity);
         }
-        sponge.position = Vector3.Lerp(sponge.position, realDestination, Time.deltaTime * 10f);
+        foreach(Transform t in sponge)
+        {
+            t.position = Vector3.Lerp(t.position, realDestination, Time.deltaTime * 10f);
+        }
     }
 
     protected override void StopShooting()
@@ -36,7 +39,12 @@ public class ScrubSponge : PlayerAction
     protected override void PassiveUpdate()
     {
         if (!holding)
-            sponge.position = Vector3.Lerp(sponge.position, origin.position, Time.deltaTime * 10f);
+        {
+            foreach (Transform t in sponge)
+            {
+                t.position = Vector3.Lerp(t.position, origin.position, Time.deltaTime * 10f);
+            }
+        }
     }
 
     protected override void OnMonsterCast(RaycastHit hit)

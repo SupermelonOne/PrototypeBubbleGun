@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    private PlayerGUI playerGUI;
+    [SerializeField] ArduinoInputManager arduinoInputManager;
+    [SerializeField] private string comPort = "COM5";
+
+    [SerializeField] private Transform playerModel;
+    [SerializeField] private Animator animator;
 
     //pretty sure these are useless but im keepin em here just in case
     /*[SerializeField] private string Horizontal = "Horizontal";
@@ -52,6 +59,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        playerGUI = GetComponentInChildren<PlayerGUI>();
+        foreach (ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+            if (im.portName == comPort)
+            {
+                arduinoInputManager = im;
+            }
+        }
+        if (arduinoInputManager == null)
+            Debug.Log("failed to find controller");
+
         Cursor.lockState = CursorLockMode.Locked;
         if (characterController == null)
             characterController = GetComponent<CharacterController>();
@@ -212,16 +230,98 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        m_moveAmt = ctx.ReadValue<Vector2>();
+        if (arduinoInputManager != null)
+            return;
+        OnMoveAction(ctx.ReadValue<Vector2>());
+    }
+    
+    private Vector2 FixArduinoVectorHorizontal(Vector2 vec2)
+    {
+        if (vec2.x > 0)
+        {
+            vec2.x *= 2;
+            if (vec2.x > 1)
+            {
+                vec2.x = 1;
+            }
+        }
+        if (vec2.y > 0)
+        {
+            vec2.y *= 2;
+            if (vec2.y > 1)
+            {
+                vec2.y = 1;
+            }
+        }
+
+        vec2.x *= -1;
+        vec2.y *= -1;
+        if (vec2.x > -0.35 && vec2.x < 0.35)
+        {
+            vec2.x = 0;
+        }
+        if (vec2.y > -0.35 && vec2.y < 0.35)
+        {
+            vec2.y = 0;
+        }
+        if (vec2.x != 0)
+        {
+            if (vec2.x > 0)
+            {
+                vec2.x -= 0.35f;
+                vec2.x *= 1.2f;
+            }
+            if (vec2.x < 0)
+            {
+                vec2.x += 0.35f;
+                vec2.x *= 1.538f;
+            }
+        }
+        if (vec2.y != 0)
+        {
+            if (vec2.y > 0)
+            {
+                vec2.y -= 0.35f;
+                vec2.y *= 1.2f;
+            }
+            if (vec2.y < 0)
+            {
+                vec2.y += 0.35f;
+                vec2.y *= 1.538f;
+            }
+        }
+        return vec2;
+    }
+
+    public void OnMoveAction(Vector2 vec2)
+    {
+/*        if (arduinoInputManager != null)
+            vec2 = FixArduinoVectorHorizontal(vec2);*/
+        m_moveAmt = vec2;
         justRespawned = false;
     }
     public void OnLook(InputAction.CallbackContext ctx)
     {
-        m_lookAmt = ctx.ReadValue<Vector2>();
+
+        if (arduinoInputManager != null)
+            return;
+        OnLookAction(ctx.ReadValue<Vector2>());
+    }
+    public void OnLookAction(Vector2 vec2)
+    {
+/*        if (arduinoInputManager != null)
+        {
+            vec2 = FixArduinoVectorHorizontal(-vec2);
+            vec2.x *= -1f;
+            vec2.y *= -1f;
+        }*/
+        m_lookAmt = vec2;
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (arduinoInputManager != null)
+            return;
         //TODO: vezko istg what is this
         if (context.started)
         {
@@ -237,12 +337,45 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool IsFirePressed()
     {
-        return mPlayerInput != null && mPlayerInput.GamePad.Shoot.IsPressed();
+        if (arduinoInputManager == null)
+            return mPlayerInput != null && mPlayerInput.GamePad.Shoot.IsPressed();
+        else
+            return arduinoInputManager._button2_pressed;
     }
 
     void Update()
     {
         if (characterController == null) return;
+
+        if (arduinoInputManager != null)
+        {
+            if (arduinoInputManager._button2_pressed && playerGUI != null)
+            {
+                playerGUI.ToggleUI();
+                playerGUI = null;
+            }
+            //moveinput
+            
+            Vector2 vec2Hor = FixArduinoVectorHorizontal(arduinoInputManager.Joystick1);
+            Vector2 vec2Ver = arduinoInputManager.Joystick2;
+            if (arduinoInputManager != null)
+            {
+                vec2Ver = FixArduinoVectorHorizontal(-vec2Ver);
+                vec2Ver.x *= -1f;
+                vec2Ver.y *= -1f;
+            }
+
+
+            OnMoveAction(vec2Ver);
+
+            //lookinput
+
+            OnLookAction(vec2Hor);
+
+            //jumpInput
+            jumpInput = arduinoInputManager._button1;
+        }
+
         if (!respawning)
         {
             if (characterController.isGrounded)
@@ -260,10 +393,17 @@ public class PlayerController : MonoBehaviour
             else if (!characterController.isGrounded && !justRespawned)
                 verticalMovement.y -= gravity * Time.deltaTime;
             else if (!jumpInput)
-                verticalMovement.y = 0;
+                verticalMovement.y = -0.5f;
 
+            //playerModel.forward = Vector3.Slerp();
 
             var direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
+
+
+
+            UpdateAnimator();
+                animator.SetFloat("MoveSpeed", direction.magnitude);
+            
 
             if (direction.magnitude > 1)
                 direction.Normalize();
@@ -320,4 +460,25 @@ public class PlayerController : MonoBehaviour
         lookInput = ctx.ReadValue<Vector2>();
     }
     */
+
+    private void UpdateAnimator()
+    {
+        //Debug.Log(verticalMovement.y);
+        if (!characterController.isGrounded)
+        {
+            animator.SetBool("Airborne", true);
+            if (verticalMovement.y > 0)
+            {
+                animator.SetBool("Jump", true);
+            }
+            else
+            {
+                animator.SetBool("Jump", false);
+            }
+        }
+        else
+        {
+            animator.SetBool("Airborne", false);
+        }
+    }
 }

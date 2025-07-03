@@ -7,6 +7,8 @@ public class FPSNetScript : PlayerAction
 {
     [SerializeField] private Transform netTransform;
     [SerializeField] private float rotateModifier = 15f;
+    private Quaternion netRotation = Quaternion.identity;
+    private Quaternion initialRotationOffset = Quaternion.identity; // <-- for syncing
     //[SerializeField] private string Vertical = "Vertical";
     //[SerializeField] private int verticalAmp = 1;
     //[SerializeField] private string Horizontal = "Horizontal";
@@ -33,8 +35,33 @@ public class FPSNetScript : PlayerAction
     }
     void Update()
     {
-        float xRotation = m_moveAmt.y; // * verticalAmp
-        float yRotation = m_moveAmt.x; // * horizontalAmp
-        netTransform.localRotation = Quaternion.Slerp(netTransform.localRotation, Quaternion.Euler(xRotation * 90, yRotation * 90, 0), Time.deltaTime * rotateModifier);
+
+
+        if (inputManager != null)
+        {
+            Vector3 angularVelocity = inputManager.gyroscope; // in degrees per second
+            netRotation *= Quaternion.Euler(angularVelocity * Time.deltaTime);
+
+            // Sync orientation when Button 1 is pressed
+            if (inputManager._button1_pressed)
+            {
+                // Save the current rotation as the "forward" offset
+                initialRotationOffset = Quaternion.Inverse(netRotation);
+                Debug.Log("Synced orientation.");
+            }
+
+            // Apply synced offset
+            netTransform.localRotation = initialRotationOffset * netRotation;
+        }
+        else
+        {
+            float xRotation = m_moveAmt.y;
+            float yRotation = m_moveAmt.x;
+            netTransform.localRotation = Quaternion.Slerp(
+                netTransform.localRotation,
+                Quaternion.Euler(xRotation * 90, yRotation * 90, 0),
+                Time.deltaTime * rotateModifier
+            );
+        }
     }
 }

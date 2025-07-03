@@ -29,7 +29,7 @@ public class MonsterCleanness : MonoBehaviour
                 amountOfDirtSpots++;
             }
         }
-        Debug.Log(amountOfDirtSpots);
+        //Debug.Log(amountOfDirtSpots);
     }
 
     public void CheckDirt()

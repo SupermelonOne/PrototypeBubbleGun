@@ -7,6 +7,26 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public abstract class PlayerAction : MonoBehaviour
 {
+    protected ArduinoInputManager inputManager;
+    [SerializeField] private string comPort = "COM5";
+
+    private bool _pressed = false;
+    private bool _hold = false;
+    private bool _released = false;
+
+    private void Awake()
+    {
+        foreach(ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+            if (im.portName == comPort)
+            {
+                inputManager = im;
+            }
+        }
+        if (inputManager == null)
+            Debug.Log("failed to find controller");
+    }
+
     [SerializeField] public AudioSource audioSource;
     [SerializeField] public Camera cam;
     
@@ -78,6 +98,47 @@ public abstract class PlayerAction : MonoBehaviour
     
     private void Update()
     {
+        //IMPLEMENT NEW CONTROLLER HERE, WITH PROPER PRESSED, HOLD AND RELEASED FUNCTION CALLING
+        if (!enabled)
+            return;
+        if (inputManager != null)
+        {
+            if (inputManager._button2 && !_hold)
+            {
+                _pressed = true;
+                _hold = true;
+                // button.started functionality
+                Debug.Log("pressed");
+                holding = true;
+                StartShooting();
+                sprayCoroutine = StartCoroutine(OnButtonDown());
+            }
+            else if (inputManager._button2)
+            {
+                _pressed = false;
+                _hold = true;
+            }
+            else if (_hold)
+            {
+                _released = true;
+                _hold = false;
+                Debug.Log("released");
+
+                //button.cancelled fuctionality
+                holding = false;
+                StopShooting();
+                if (sprayCoroutine != null)
+                {
+                    StopCoroutine(sprayCoroutine);
+                    sprayCoroutine = null;
+                }
+            }
+            else
+            {
+                _released = false;
+            }
+        }
+
         var ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
@@ -93,6 +154,11 @@ public abstract class PlayerAction : MonoBehaviour
         if (hit.collider != null)
             OnMonsterCast(hit);
 
+        //PassiveUpdate();
+    }
+
+    private void LateUpdate()
+    {
         PassiveUpdate();
     }
 }
