@@ -10,8 +10,17 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerInstrument : MonoBehaviour
 {
     private bool swapped = false;
+
+    private ArduinoInputManager inputManager;
+    [SerializeField] private string comPort = "COM5";
     private void Update()
     {
+        if (inputManager._button3_pressed)
+        {
+            Debug.Log("afiwjfeoijfweoiwefjoif fuck swtijch");
+            SwitchWeapon(1);
+            failSafe = 0;
+        }
         if (Input.GetKeyDown(KeyCode.E))
         {
             swapped = !swapped;
@@ -36,14 +45,22 @@ public class PlayerInstrument : MonoBehaviour
     private int failSafe = 0;
     [SerializeField] private List<PlayerAction> instruments = new List<PlayerAction>();
     [SerializeField] private List<GameObject> instrumentObjects = new List<GameObject>();
-    private List<int> enabledSlots = new List<int>();
+    [SerializeField] private List<int> enabledSlots = new List<int>();
     private void Start()
     {
         if (instruments.Count <= 0)
         {
             instruments = GetComponentsInChildren<PlayerAction>().ToList();
         }
-
+        foreach (ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+            if (im.portName == comPort)
+            {
+                inputManager = im;
+            }
+        }
+        if (inputManager == null)
+            Debug.Log("failed to find controller");
 
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         SwitchWeapon(players.Length);
@@ -78,6 +95,7 @@ public class PlayerInstrument : MonoBehaviour
     private void SwitchWeapon(int direction)
     {
         failSafe++;
+        Debug.Log("hey?");
         if (failSafe > instruments.Count)
         {
             return;
@@ -91,6 +109,8 @@ public class PlayerInstrument : MonoBehaviour
         {
             activeInstrument = instruments.Count-1;
         }
+        Debug.Log("wtff?");
+
         //Debug.Log(activeInstrument);
         if (!enabledSlots.Contains(activeInstrument))
         {
@@ -114,6 +134,7 @@ public class PlayerInstrument : MonoBehaviour
 
     public void SwapEquipment(List<int> newEquipment)
     {
+        Debug.Log("swapped equipment");
         enabledSlots.Clear();
         enabledSlots.AddRange(newEquipment);
         SwitchWeapon(1);

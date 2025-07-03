@@ -2330,6 +2330,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1320014131553269091, guid: 3a376f2562a83e54e8be059d5560da92, type: 3}
+      propertyPath: comPort
+      value: COM6
+      objectReference: {fileID: 0}
     - target: {fileID: 1468480969439525407, guid: 3a376f2562a83e54e8be059d5560da92, type: 3}
       propertyPath: comPort
       value: COM6
