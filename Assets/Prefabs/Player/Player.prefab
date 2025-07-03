@@ -345,7 +345,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.25, y: 1.7200003, z: 2.75}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3259395009605644225}
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   - {fileID: 3922018774208673368}
   origin: {fileID: 8540820681029712800}
   scrubSpeed: 0.1
-  scrubIntensity: 0.4
+  scrubIntensity: 0.04
 --- !u!114 &1468480969439525407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,6 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbbe646a045337f4eabde3f169444e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  comPort: COM5
   instruments:
   - {fileID: 7639554705582182275}
   - {fileID: 654684477806545921}
@@ -1248,6 +1249,7 @@ MonoBehaviour:
   - {fileID: 7559484267324418532}
   - {fileID: 145508687916408063}
   - {fileID: 5154645194075813463}
+  enabledSlots: 
 --- !u!1 &7678281652798319809
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/CurrentScenes/Meno.unity
     guid: 79bd85ec0ec3fdf4ba9cbb0fc4c07c21
   - enabled: 1
-    path: Assets/Scenes/TestScenes/JorisTesting.unity
-    guid: 95b1a1d029f70704aa8cbae36d47ba5c
+    path: Assets/Scenes/CurrentScenes/ActualLevel.unity
+    guid: e46d1a776eeb1c642b01f9ffeffd16a5
   - enabled: 1
     path: Assets/Scenes/CurrentScenes/DEATH.unity
     guid: f3aeb66a26d0b2b46aa282310106f5a9

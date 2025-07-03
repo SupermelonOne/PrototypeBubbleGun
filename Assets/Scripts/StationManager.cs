@@ -77,7 +77,12 @@ public class StationManager : MonoBehaviour
         }
         if (monsters.Count < stationCapacity)
         {
-            MonsterCleanness checkForMonster = monsterStorage.GetFirstInQueue();
+            MonsterCleanness 
+                checkForMonster 
+                = 
+                monsterStorage
+                .
+                GetFirstInQueue();
             if (checkForMonster != null)
             {
                 AddMonster(checkForMonster);

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7127346610039340868}
   - component: {fileID: 1789666872771928673}
   - component: {fileID: 4667402788082476504}
-  - component: {fileID: 1670455658818404537}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -92,7 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e331b156e14804693c8dd240128a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  munny: 0
   itemDescriptions:
   - type: 1
     description: A key you can use to unlock stuff i suppose
@@ -140,34 +138,3 @@ MonoBehaviour:
   highScoreAmount: 5
   menuMode: 1
   dead: 0
---- !u!114 &1670455658818404537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2925361333250021225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: -1372625422
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 1
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
-  m_BuildHeightMesh: 0

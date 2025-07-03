@@ -17,7 +17,7 @@ public class MonsterMoveBehavior : MonoBehaviour
     public bool isCaught;
     public Transform netPosition;
 
-    private float nomalSize = 0.2f;
+    private float normalSize = 0.4f;
     private float smallSize = 0.05f;
 
     [HideInInspector] public bool inStation = false;
@@ -114,9 +114,9 @@ public class MonsterMoveBehavior : MonoBehaviour
             }
         }
         
-        if (transform.localScale.x < nomalSize)
+        if (transform.localScale.x < normalSize)
         {
-            var growAmount = (0.5f * nomalSize)* Time.deltaTime;
+            var growAmount = (0.5f * normalSize)* Time.deltaTime;
             ResizeMonster(growAmount);
         }
     }
@@ -129,9 +129,9 @@ public class MonsterMoveBehavior : MonoBehaviour
         
         if (inStation)
         {
-            if (transform.localScale.x < nomalSize)
+            if (transform.localScale.x < normalSize)
             {
-                var growAmount = (0.5f * nomalSize) * Time.deltaTime;
+                var growAmount = (0.5f * normalSize) * Time.deltaTime;
                 ResizeMonster(growAmount);
             }
         }
@@ -139,7 +139,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         {
             if (transform.localScale.x > smallSize)
             {
-                var shrinkAmount = -(0.5f * nomalSize)* Time.deltaTime;
+                var shrinkAmount = -(0.5f * normalSize)* Time.deltaTime;
                 ResizeMonster(shrinkAmount);
             }
         }

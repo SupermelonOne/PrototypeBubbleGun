@@ -11,6 +11,12 @@ using UnityEngine.AI;
 [ExecuteInEditMode]
 public class GameManager : MonoBehaviour
 {
+    private NavMeshHandler navMeshHandler;
+    public void SetNavHandler(NavMeshHandler newNavMeshHandler)
+    {
+        navMeshHandler = newNavMeshHandler;
+    }
+
     public static GameManager Instance { get; private set; }
 
     public int Points { get; private set; }
@@ -42,6 +48,8 @@ public class GameManager : MonoBehaviour
 
     public void SetNavMesh()
     {
+        if (navMeshHandler != null)
+            globalSurface = navMeshHandler.NavMeshSurface;
         Debug.Log("SetNavMesh");
         foreach (BridgeScript bridge in bridges)
         {
