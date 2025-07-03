@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
 
     public void AddBridge(BridgeScript bridge)
     {
-        bridges.Add(bridge);
+        if (!bridges.Contains(bridge))
+            bridges.Add(bridge);
     }
 
     public void SetNavMesh()
@@ -51,7 +52,11 @@ public class GameManager : MonoBehaviour
 
         foreach (var bridge in bridges)
         {
-            //bridge.RemoveMesh();
+            bridge.RemoveMesh();
+            if (bridge.GetComponent<Collider>() != null)
+            {
+                bridge.GetComponent<Collider>().enabled = false;
+            }
         }
     }
 }
