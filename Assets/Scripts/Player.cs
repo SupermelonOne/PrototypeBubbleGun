@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerInstrument instrument;
     [HideInInspector] public PlayerGUI gui;
 
-    private void Awake()
+    private void OnEnable()
     {
         gui = GetComponentInChildren<PlayerGUI>(true);
         inventory = PlayerInventory.Instance;

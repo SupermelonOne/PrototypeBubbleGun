@@ -67,9 +67,10 @@ public class Shop : MonoBehaviour
     public bool Purchase(ItemType itemType, int amount, int cost)
     {
         
-        if (player.inventory.ItemAmount(ItemType.Munny) >= cost)
+        if (PlayerInventory.Instance.ItemAmount(ItemType.Munny) >= cost)
         {
-            player.inventory.BuyItem(itemType, amount, cost);
+            Debug.Log("You have " + amount + " " + itemType + " in your inventory");
+            PlayerInventory.Instance.BuyItem(itemType, amount, cost);
            
             return true;
         }

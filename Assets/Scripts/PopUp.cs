@@ -121,7 +121,7 @@ public class PopUp : MonoBehaviour
         interactionFeedbackObject.SetActive(false);
     }
 
-    private void OnEnable()
+    private void Awake()
     {
         PlayerEventBus.Subscribe<PlayerEventBus.PlayerJoin>(OnPlayerJoined);
     }
@@ -135,6 +135,7 @@ public class PopUp : MonoBehaviour
     {
         players.Add(playerEvent.player);
         playerCams.Add(playerEvent.player, playerEvent.camera);
+        Debug.Log($"Amount of players: {players.Count}");
     }
 
     //i don't like update but this is just vector math so it should be fineeee
