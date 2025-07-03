@@ -134,8 +134,7 @@
         float gyroY = SafeParseFloat(tokens[6]);
         float gyroZ = SafeParseFloat(tokens[4]);
 
-        gyroscope = new Vector3(gyroX, gyroY, gyroZ);
-        Debug.Log($"Raw Gyro Values: X={gyroX}, Y={gyroY}, Z={gyroZ}");
+        gyroscope = new Vector3(gyroX, gyroY, gyroZ);   
 
         // Buttons
         int button1 = SafeParseInt(tokens[7]);

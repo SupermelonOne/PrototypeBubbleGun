@@ -66,11 +66,11 @@ public class MonsterSpawner : MonoBehaviour
         float posZ = Random.Range(areaCenter.z - areaSize.z / 2, areaCenter.z + areaSize.z / 2);
         Vector3 randomPos = new Vector3(posX, transform.position.y + 10f, posZ);
 
-        if (Physics.Raycast(randomPos, Vector3.down, out RaycastHit hit, 50f, LayerMask.GetMask("Surface")))
+        if (Physics.Raycast(randomPos, Vector3.down, out RaycastHit hit, 50f))
         {
             Vector3 groundPos = hit.point;
 
-            // 🔍 Check for NavMesh position near groundPos
+            // Check for NavMesh position near groundPos
             if (NavMesh.SamplePosition(groundPos, out NavMeshHit navHit, 1, NavMesh.AllAreas))
             {
                 Vector3 spawnPos = navHit.position;

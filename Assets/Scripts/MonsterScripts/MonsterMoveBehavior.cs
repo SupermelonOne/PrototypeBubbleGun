@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
-
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,7 +16,10 @@ public class MonsterMoveBehavior : MonoBehaviour
     public float waitTime;
     public bool isCaught;
     public Transform netPosition;
-    
+
+    private float nomalSize = 0.2f;
+    private float smallSize = 0.05f;
+
     [HideInInspector] public bool inStation = false;
     
     [SerializeField] private float walkRange = 50;
@@ -111,9 +114,9 @@ public class MonsterMoveBehavior : MonoBehaviour
             }
         }
         
-        if (transform.localScale.x < 0.9f)
+        if (transform.localScale.x < nomalSize)
         {
-            var growAmount = 0.5f * Time.deltaTime;
+            var growAmount = (0.5f * nomalSize)* Time.deltaTime;
             ResizeMonster(growAmount);
         }
     }
@@ -126,17 +129,17 @@ public class MonsterMoveBehavior : MonoBehaviour
         
         if (inStation)
         {
-            if (transform.localScale.x < 0.9f)
+            if (transform.localScale.x < nomalSize)
             {
-                var growAmount = 0.5f * Time.deltaTime;
+                var growAmount = (0.5f * nomalSize) * Time.deltaTime;
                 ResizeMonster(growAmount);
             }
         }
         else
         {
-            if (transform.localScale.x > 0.5f)
+            if (transform.localScale.x > smallSize)
             {
-                var shrinkAmount = -0.5f * Time.deltaTime;
+                var shrinkAmount = -(0.5f * nomalSize)* Time.deltaTime;
                 ResizeMonster(shrinkAmount);
             }
         }

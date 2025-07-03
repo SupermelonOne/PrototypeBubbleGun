@@ -43,7 +43,7 @@ public class FPSNetScript : PlayerAction
             netRotation *= Quaternion.Euler(angularVelocity * Time.deltaTime);
 
             // Sync orientation when Button 1 is pressed
-            if (inputManager._button1_pressed)
+            if (inputManager._button1_pressed && inputManager._button2_hold)
             {
                 // Save the current rotation as the "forward" offset
                 initialRotationOffset = Quaternion.Inverse(netRotation);
