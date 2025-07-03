@@ -69,11 +69,13 @@ public class BridgeScript : MonoBehaviour
         bridgeStartObject.transform.rotation = Quaternion.LookRotation(-startToEnd, Vector3.up);
         
         SetNavObstacles();
+        RemoveMesh();
     }
 
 
     private void OnEnable()
     {
+        Debug.Log("Enabled");
         GameManager.Instance.AddBridge(this);
     }
 
@@ -237,12 +239,13 @@ public class BridgeScript : MonoBehaviour
 
     public void SetNavMesh()
     {
+        GameManager.Instance.AddBridge(this);
         Debug.Log("yeeee");
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
             Debug.Log("In edit mode");
-            var gm = FindObjectOfType<GameManager>();
+            var gm = GameManager.Instance;
             if (gm != null)
             {
                 Debug.Log(gm.name);
@@ -255,7 +258,6 @@ public class BridgeScript : MonoBehaviour
             return;
         }
 #endif
-        Debug.Log(GameManager.Instance);
         if (GameManager.Instance != null)
             GameManager.Instance.SetNavMesh();
         else
@@ -286,6 +288,7 @@ public class BridgeScript : MonoBehaviour
         points.Add(GetPlankPosition(0) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset1r);
         points.Add(GetPlankPosition(0) +  new Vector3(0,plankRenderer.bounds.extents.y,0) + localOffset2r);
         
+        Debug.Log(amount);
         for (int i = 0; i < amount; i++)
         {
             if (i % 3 == 0 || i >= amount-1 || i <= 1)
@@ -372,6 +375,11 @@ public class BridgeScript : MonoBehaviour
         endLink.enabled = true;
         
         obstacle.enabled = false;
+        
+        if (GetComponent<Collider>() != null)
+        {
+            GetComponent<Collider>().enabled = false;
+        }
     }
 
     private Vector3 GetPlankPosition(int index)
