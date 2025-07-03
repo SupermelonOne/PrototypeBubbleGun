@@ -18,16 +18,12 @@ public class SprayWater : PlayerAction
     private List<ParticleSystem> sprayParticles = new List<ParticleSystem>();
     private void OnEnable()
     {
+        sprayParticles = streamObject.GetComponentsInChildren<ParticleSystem>().ToList();
         StopShooting();
     }
     private void OnDisable()
     {
         StopShooting();
-    }
-
-    private void Awake()
-    {
-        sprayParticles = streamObject.GetComponentsInChildren<ParticleSystem>().ToList();
     }
 
     protected override void OnMonsterCast(RaycastHit hit)

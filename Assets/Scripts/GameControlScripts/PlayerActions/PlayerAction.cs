@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public abstract class PlayerAction : MonoBehaviour
 {
-    ArduinoInputManager inputManager;
+    protected ArduinoInputManager inputManager;
     [SerializeField] private string comPort = "COM5";
 
     private bool _pressed = false;
@@ -108,7 +108,7 @@ public abstract class PlayerAction : MonoBehaviour
                 _pressed = true;
                 _hold = true;
                 // button.started functionality
-                Debug.Log("Fire");
+                Debug.Log("pressed");
                 holding = true;
                 StartShooting();
                 sprayCoroutine = StartCoroutine(OnButtonDown());
@@ -122,6 +122,7 @@ public abstract class PlayerAction : MonoBehaviour
             {
                 _released = true;
                 _hold = false;
+                Debug.Log("released");
 
                 //button.cancelled fuctionality
                 holding = false;
@@ -153,6 +154,11 @@ public abstract class PlayerAction : MonoBehaviour
         if (hit.collider != null)
             OnMonsterCast(hit);
 
+        //PassiveUpdate();
+    }
+
+    private void LateUpdate()
+    {
         PassiveUpdate();
     }
 }

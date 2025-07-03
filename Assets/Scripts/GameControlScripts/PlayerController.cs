@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -9,6 +10,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] ArduinoInputManager arduinoInputManager;
     [SerializeField] private string comPort = "COM5";
+
+    [SerializeField] private Transform playerModel;
+    [SerializeField] private Animator animator;
 
     //pretty sure these are useless but im keepin em here just in case
     /*[SerializeField] private string Horizontal = "Horizontal";
@@ -217,11 +221,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnFireAction()
-    {
-
-    }
-
     public void InteractionToggle(bool isOpen)
     {
         interactPossible = isOpen;
@@ -294,8 +293,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveAction(Vector2 vec2)
     {
-        if (arduinoInputManager != null)
-            vec2 = FixArduinoVectorHorizontal(vec2);
+/*        if (arduinoInputManager != null)
+            vec2 = FixArduinoVectorHorizontal(vec2);*/
         m_moveAmt = vec2;
         justRespawned = false;
     }
@@ -308,12 +307,12 @@ public class PlayerController : MonoBehaviour
     }
     public void OnLookAction(Vector2 vec2)
     {
-        if (arduinoInputManager != null)
+/*        if (arduinoInputManager != null)
         {
             vec2 = FixArduinoVectorHorizontal(-vec2);
             vec2.x *= -1f;
             vec2.y *= -1f;
-        }
+        }*/
         m_lookAmt = vec2;
     }
 
@@ -349,10 +348,22 @@ public class PlayerController : MonoBehaviour
         if (arduinoInputManager != null)
         {
             //moveinput
-            OnMoveAction(arduinoInputManager.Joystick1);
+            
+            Vector2 vec2Hor = FixArduinoVectorHorizontal(arduinoInputManager.Joystick1);
+            Vector2 vec2Ver = arduinoInputManager.Joystick2;
+            if (arduinoInputManager != null)
+            {
+                vec2Ver = FixArduinoVectorHorizontal(-vec2Ver);
+                vec2Ver.x *= -1f;
+                vec2Ver.y *= -1f;
+            }
+
+
+            OnMoveAction(vec2Ver);
 
             //lookinput
-            OnLookAction(arduinoInputManager.Joystick2);
+
+            OnLookAction(vec2Hor);
 
             //jumpInput
             jumpInput = arduinoInputManager._button1;
@@ -375,10 +386,17 @@ public class PlayerController : MonoBehaviour
             else if (!characterController.isGrounded && !justRespawned)
                 verticalMovement.y -= gravity * Time.deltaTime;
             else if (!jumpInput)
-                verticalMovement.y = 0;
+                verticalMovement.y = -0.5f;
 
+            //playerModel.forward = Vector3.Slerp();
 
             var direction = new Vector3(m_moveAmt.x, 0, m_moveAmt.y);
+
+
+
+            UpdateAnimator();
+                animator.SetFloat("MoveSpeed", direction.magnitude);
+            
 
             if (direction.magnitude > 1)
                 direction.Normalize();
@@ -435,4 +453,25 @@ public class PlayerController : MonoBehaviour
         lookInput = ctx.ReadValue<Vector2>();
     }
     */
+
+    private void UpdateAnimator()
+    {
+        //Debug.Log(verticalMovement.y);
+        if (!characterController.isGrounded)
+        {
+            animator.SetBool("Airborne", true);
+            if (verticalMovement.y > 0)
+            {
+                animator.SetBool("Jump", true);
+            }
+            else
+            {
+                animator.SetBool("Jump", false);
+            }
+        }
+        else
+        {
+            animator.SetBool("Airborne", false);
+        }
+    }
 }
