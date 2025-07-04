@@ -241,8 +241,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        Debug.Log("fuck");
+
         if (arduinoInputManager != null)
             return;
+        Debug.Log("hell yeah");
+
         OnMoveAction(ctx.ReadValue<Vector2>());
     }
     
@@ -313,7 +317,6 @@ public class PlayerController : MonoBehaviour
     }
     public void OnLook(InputAction.CallbackContext ctx)
     {
-
         if (arduinoInputManager != null)
             return;
         OnLookAction(ctx.ReadValue<Vector2>());

@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2565403049017857565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2793061768654994499}
+  - component: {fileID: 3363329413899423934}
+  - component: {fileID: 8322009885232961646}
+  m_Layer: 0
+  m_Name: controllers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2793061768654994499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565403049017857565}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -83.82512, y: 69.31197, z: 39.040913}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3363329413899423934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565403049017857565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068cbe709d1b138489b1290da10b05b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM6
+  baudRate: 9600
+  lateststring: 
+  Joystick1: {x: 0, y: 0}
+  Joystick2: {x: 0, y: 0}
+  gyroscope: {x: 0, y: 0, z: 0}
+  _button1: 0
+  _button1_pressed: 0
+  _button1_hold: 0
+  _button1_released: 0
+  _button2: 0
+  _button2_pressed: 0
+  _button2_hold: 0
+  _button2_released: 0
+  _button3: 0
+  _button3_pressed: 0
+  _button3_hold: 0
+  _button3_released: 0
+--- !u!114 &8322009885232961646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565403049017857565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068cbe709d1b138489b1290da10b05b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM5
+  baudRate: 9600
+  lateststring: 
+  Joystick1: {x: 0, y: 0}
+  Joystick2: {x: 0, y: 0}
+  gyroscope: {x: 0, y: 0, z: 0}
+  _button1: 0
+  _button1_pressed: 0
+  _button1_hold: 0
+  _button1_released: 0
+  _button2: 0
+  _button2_pressed: 0
+  _button2_hold: 0
+  _button2_released: 0
+  _button3: 0
+  _button3_pressed: 0
+  _button3_hold: 0
+  _button3_released: 0
