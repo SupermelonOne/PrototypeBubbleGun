@@ -33,6 +33,8 @@ public class ShopUI : MonoBehaviour
     {
         canvas.enabled = true;
         player = p;
+        canvas.worldCamera = p.controller.playerCamera;
+        canvas.planeDistance = .15f;
     }
     public void GenerateShopUI(List<DialogueOption> dialogueOptions, DialogueManager m)
     {

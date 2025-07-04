@@ -14,16 +14,17 @@ public class Shop : MonoBehaviour
     private void OnEnable()
     {
         ShopEventBus.Subscribe<ShopEventBus.OnNavigateUI>(NavigateUI);
+        ShopEventBus.Subscribe<ShopEventBus.OnShopActivated>(OnShop);
     }
 
     private void OnDisable()
     {
         ShopEventBus.UnSubscribe<ShopEventBus.OnNavigateUI>(NavigateUI);
+        ShopEventBus.UnSubscribe<ShopEventBus.OnShopActivated>(OnShop);
     }
 
     private void Start()
     {
-        ShopEventBus.Subscribe<ShopEventBus.OnShopActivated>(OnShop);
         manager = GetComponent<DialogueManager>();
         shopUI = GetComponentInChildren<ShopUI>();
         

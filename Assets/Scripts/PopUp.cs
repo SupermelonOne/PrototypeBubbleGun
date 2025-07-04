@@ -217,6 +217,9 @@ public class PopUp : MonoBehaviour
 
     private void IsPressed(Player closestPlayer)
     {
+        if (closestPlayer == null)
+            return;
+        
         var amount = closestPlayer.inventory.ItemAmount(cost.itemType);
         if (amount > cost.cost || cost.cost <= 0)
         {
