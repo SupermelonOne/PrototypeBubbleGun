@@ -384,6 +384,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arduinoInputManager: {fileID: 0}
   comPort: COM5
+  upUI: 0
+  downUI: 0
+  rightUI: 0
+  leftUI: 0
   playerModel: {fileID: 8891809574450937151}
   animator: {fileID: 1067768799737034733}
   playerInput: {fileID: 0}
@@ -2500,6 +2504,22 @@ PrefabInstance:
     - target: {fileID: 5384606918334109086, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6643745455577887161, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626423033047922127, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8157560693681419678}
+    - target: {fileID: 7626423033047922127, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626423033047922127, guid: 0804ea89a97b98243b984df755418d2d, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
