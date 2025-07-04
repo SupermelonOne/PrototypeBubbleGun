@@ -14,7 +14,7 @@ public class HighScore : MonoBehaviour
         SetText();
     }
 
-    private void SetText()
+    public void SetText()
     {
         var scores = GameLoopManager.Instance.GetHighScores();
         highscore = "EL High scores:\n";
@@ -23,5 +23,11 @@ public class HighScore : MonoBehaviour
             highscore += $"{i+1}: {scores[i]} \n";
         }
         text.text = highscore;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+            GameLoopManager.Instance.ResetHighscores();
     }
 }

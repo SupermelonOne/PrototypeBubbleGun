@@ -164,4 +164,13 @@ public class GameLoopManager : MonoBehaviour
             Debug.LogError("Failed to save high scores: " + e.Message);
         }
     }
+
+    public void ResetHighscores()
+    {
+        for (int i = 0; i < highScores.Length; i++)
+        {
+            highScores[i] = 0;
+        }
+        SaveHighScores();
+    }
 }

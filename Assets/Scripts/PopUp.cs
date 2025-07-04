@@ -103,7 +103,6 @@ public class PopUp : MonoBehaviour
         errorMessageTime = feedback.errorMessageTime;
 
 
-        interactionObject.SetActive(false);
         List<GameObject> interactions = new List<GameObject>();
         interactions.Add(interactionFeedbackObject);
         interactions.Add(interactionObject);
@@ -117,7 +116,7 @@ public class PopUp : MonoBehaviour
             rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, rectTransform.sizeDelta.y);
         }
 
-        interactionObject.SetActive(true);
+        interactionObject.SetActive(false);
         interactionFeedbackObject.SetActive(false);
     }
 
@@ -158,7 +157,7 @@ public class PopUp : MonoBehaviour
         if (nearestPlayer != null)
             OnPlayerClose(nearestPlayer);
         else
-            SetActive(true);
+            SetActive(false);
     }
 
 
@@ -196,21 +195,17 @@ public class PopUp : MonoBehaviour
                     break;
                 }
             }
-
         }
-        if (!isHitting)
-            SetActive(false, closestPlayer);
-
-    }
-
-    private void OnPlayerLook(Player closestPlayer)
-    {
         canvas.worldCamera = playerCams[closestPlayer];
         canvas.transform.LookAt(closestPlayer.transform.position);
         canvas.transform.Rotate(Vector3.up, 180f);
         SetActive(true, closestPlayer);
         closestPlayer.controller.InteractionToggle(true);
-        
+
+    }
+
+    private void OnPlayerLook(Player closestPlayer)
+    {
         if(closestPlayer.controller.IsFirePressed())
             IsPressed(closestPlayer);
     }
