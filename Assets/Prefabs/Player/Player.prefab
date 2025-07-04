@@ -399,6 +399,7 @@ MonoBehaviour:
   gravity: 15
   jumpForce: 5
   respawnSeconds: 5
+  m_moveAmt: {x: 0, y: 0}
   disabledOnRespawn:
     serializedVersion: 2
     m_Bits: 4294967295
