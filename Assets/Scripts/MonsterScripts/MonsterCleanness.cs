@@ -39,6 +39,7 @@ public class MonsterCleanness : MonoBehaviour
             clean = true;
             SetDone();
             MonsterEventBus.Invoke(new MonsterEventBus.DirtCleaned(pointsRewarded, ItemType.Munny));
+            //PlayerInventory.Instance.AddItem(ItemType.Munny, 8);
             Debug.Log("aw yeah clean");
         }
     }

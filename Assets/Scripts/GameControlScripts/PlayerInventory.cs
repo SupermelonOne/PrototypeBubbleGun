@@ -28,7 +28,16 @@ public delegate void Change();
 public class PlayerInventory : MonoBehaviour
 {
     public static PlayerInventory Instance { get; private set; }
-    
+
+    private void OnEnable()
+    {
+        MonsterEventBus.Subscribe<MonsterEventBus.DirtCleaned>(AddItem);
+    }
+    private void OnDisable()
+    {
+        MonsterEventBus.UnSubscribe<MonsterEventBus.DirtCleaned>(AddItem);
+
+    }
 
     [SerializeField] private List<ItemStruct> itemDescriptions;
     public Dictionary<ItemType, ItemStruct> Items = new Dictionary<ItemType, ItemStruct>();

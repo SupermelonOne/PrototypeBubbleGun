@@ -100,7 +100,7 @@ public class PlayerInstrument : MonoBehaviour
     private void SwitchWeapon(int direction)
     {
         failSafe++;
-        Debug.Log("hey?");
+        //Debug.Log("hey?");
         if (failSafe > instruments.Count)
         {
             return;
@@ -114,7 +114,7 @@ public class PlayerInstrument : MonoBehaviour
         {
             activeInstrument = instruments.Count-1;
         }
-        Debug.Log("wtff?");
+        //Debug.Log("wtff?");
 
         //Debug.Log(activeInstrument);
         if (!enabledSlots.Contains(activeInstrument))

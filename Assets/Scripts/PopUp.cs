@@ -221,7 +221,7 @@ public class PopUp : MonoBehaviour
             return;
         
         var amount = closestPlayer.inventory.ItemAmount(cost.itemType);
-        if (amount > cost.cost || cost.cost <= 0)
+        if (amount >= cost.cost || cost.cost <= 0)
         {
             onButtonPressed?.Invoke(closestPlayer);
             

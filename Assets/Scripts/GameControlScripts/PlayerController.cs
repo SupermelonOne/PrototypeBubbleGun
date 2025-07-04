@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool inventoryOpen = false;
     
     private bool interactPossible = false;
-    private Vector2 m_moveAmt = Vector2.zero;
+    [HideInInspector] public Vector2 m_moveAmt = Vector2.zero;
     private Vector2 m_lookAmt = Vector2.zero;
     private Vector3 verticalMovement = Vector3.zero;
     private PlayerInputActions mPlayerInput;

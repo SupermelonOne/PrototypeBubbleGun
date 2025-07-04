@@ -14,7 +14,16 @@ public class FPSNetScript : PlayerAction
     //[SerializeField] private string Horizontal = "Horizontal";
     //[SerializeField] private int horizontalAmp = 1;
 
+    private PlayerController playerController;
+
     private Vector2 m_moveAmt = Vector2.zero;
+    private void OnEnable()
+    {
+        if (playerController == null)
+        {
+            playerController = GetComponentInParent<PlayerController>();
+        }   
+    }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
@@ -53,9 +62,10 @@ public class FPSNetScript : PlayerAction
             // Apply synced offset
             netTransform.localRotation = initialRotationOffset * netRotation;
         }
-        else
+        else if (playerController != null)
         {
-            float xRotation = m_moveAmt.y;
+            m_moveAmt = playerController.m_moveAmt;
+            float xRotation = m_moveAmt.y + 1;
             float yRotation = m_moveAmt.x;
             netTransform.localRotation = Quaternion.Slerp(
                 netTransform.localRotation,
