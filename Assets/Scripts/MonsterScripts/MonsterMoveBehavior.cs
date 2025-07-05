@@ -52,7 +52,7 @@ public class MonsterMoveBehavior : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error: HidingSpots not found");
+           // Debug.Log("Error: HidingSpots not found");
         }
 
         bool snappedSuccessfully = TryReconnectAgentToNavMesh();

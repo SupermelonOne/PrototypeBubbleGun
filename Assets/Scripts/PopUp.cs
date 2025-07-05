@@ -169,9 +169,6 @@ public class PopUp : MonoBehaviour
         var sinAngle = halfWidth / coneLength;
         var coneAngleRadians = Mathf.Asin(sinAngle);
         var coneAngleDegrees = coneAngleRadians * Mathf.Rad2Deg;
-
-        
-        
         
         var rayCount = 10;
         
@@ -186,12 +183,13 @@ public class PopUp : MonoBehaviour
             var direction = Quaternion.Euler(0f, angleH, 0f) * forward;
             
             var playerPos = closestPlayer.controller.playerCamera.transform.position;
+
             if (Physics.Raycast(playerPos, direction, out RaycastHit hit, minDistance))
             {
+                Debug.DrawRay(playerPos, direction * minDistance, Color.yellow);
                 if (hit.collider == interactionObject.gameObject.GetComponent<BoxCollider>())
                 {
                     OnPlayerLook(closestPlayer);
-                    isHitting = true;
                     break;
                 }
             }
@@ -201,17 +199,18 @@ public class PopUp : MonoBehaviour
         canvas.transform.Rotate(Vector3.up, 180f);
         SetActive(true, closestPlayer);
         closestPlayer.controller.InteractionToggle(true);
-
     }
 
     private void OnPlayerLook(Player closestPlayer)
     {
+        Debug.Log("Player look");
         if(closestPlayer.controller.IsFirePressed())
             IsPressed(closestPlayer);
     }
 
     private void IsPressed(Player closestPlayer)
     {
+        Debug.Log("IsPressed");
         if (closestPlayer == null)
             return;
         
