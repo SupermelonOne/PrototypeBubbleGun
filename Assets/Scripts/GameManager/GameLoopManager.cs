@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
+    private ArduinoInputManager inputManager;
     //variables
     [SerializeField] private int minutes;
     [SerializeField] private int seconds;
@@ -44,6 +45,12 @@ public class GameLoopManager : MonoBehaviour
 
     private void Start()
     {
+        foreach (ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+
+                inputManager = im;
+            
+        }
         // save initial values
         initialMinutes = minutes;
         initialSeconds = seconds;
@@ -56,7 +63,7 @@ public class GameLoopManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.anyKeyDown && (SceneManager.GetActiveScene().name != gameSceneName))
+        if((Input.anyKeyDown || inputManager._button1_pressed || inputManager._button2_pressed || inputManager._button3_pressed) && (SceneManager.GetActiveScene().name != gameSceneName))
             SwitchScene();
         
         if (menuMode || dead)

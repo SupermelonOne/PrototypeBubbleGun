@@ -18,7 +18,7 @@ public class MonsterMoveBehavior : MonoBehaviour
     public Transform netPosition;
 
     private float normalSize = 0.4f;
-    private float smallSize = 0.05f;
+    private float smallSize = 0.15f;
 
     [HideInInspector] public bool inStation = false;
     

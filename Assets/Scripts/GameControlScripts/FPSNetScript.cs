@@ -49,7 +49,7 @@ public class FPSNetScript : PlayerAction
         if (inputManager != null)
         {
             Vector3 angularVelocity = inputManager.gyroscope; // in degrees per second
-            netRotation *= Quaternion.Euler(angularVelocity * Time.deltaTime);
+            netRotation *= Quaternion.Euler(angularVelocity * 1.25f * Time.deltaTime);
 
             // Sync orientation when Button 1 is pressed
             if (inputManager._button1_pressed && inputManager._button2_hold)
@@ -64,14 +64,14 @@ public class FPSNetScript : PlayerAction
         }
         else if (playerController != null)
         {
-            m_moveAmt = playerController.m_moveAmt;
+/*            m_moveAmt = playerController.m_moveAmt;
             float xRotation = m_moveAmt.y + 1;
             float yRotation = m_moveAmt.x;
             netTransform.localRotation = Quaternion.Slerp(
                 netTransform.localRotation,
                 Quaternion.Euler(xRotation * 90, yRotation * 90, 0),
                 Time.deltaTime * rotateModifier
-            );
+            );*/
         }
     }
 }

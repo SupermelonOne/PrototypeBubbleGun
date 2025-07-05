@@ -107,7 +107,7 @@ public class StationManager : MonoBehaviour
             {
                 if (Vector3.Distance(t.position, exitPoint.position) > 0.2f)
                 {
-                    Debug.Log(Vector3.Distance(t.position, exitPoint.position));
+                    //Debug.Log(Vector3.Distance(t.position, exitPoint.position));
                     t.Translate((exitPoint.position - t.position).normalized * Time.deltaTime);
                 }
                 else
@@ -117,7 +117,7 @@ public class StationManager : MonoBehaviour
                     sendOutMoveBehaviors[a].Release();
                     sendOutMoveBehaviors.RemoveAt(a);
                     sendOutTransforms.RemoveAt(a);
-
+                    return;
                 }
                 a++;
             }

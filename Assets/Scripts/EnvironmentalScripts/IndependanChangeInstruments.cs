@@ -6,6 +6,8 @@ using static UnityEngine.GraphicsBuffer;
 public class IndependanChangeInstruments : MonoBehaviour
 {
     [SerializeField] private List<int> instruments = new List<int>();
+    [SerializeField] private bool GrabberAdder = false;
+    [SerializeField] private bool SoapAdder = false;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -18,9 +20,15 @@ public class IndependanChangeInstruments : MonoBehaviour
     {
         var inv = PlayerInventory.Instance;
         if (inv == null) return;
-        if (inv.HasItem(ItemType.Grabber)) instruments.Add(3);
-        if (inv.HasItem(ItemType.SoapGun)) instruments.Add(5);
-        
+        if (GrabberAdder)
+        {
+            if (inv.HasItem(ItemType.Grabber)) instruments.Add(3);
+        }
+        if (SoapAdder)
+        {
+            if (inv.HasItem(ItemType.SoapGun)) instruments.Add(5);
+        }
+
         //Debug.Log("found player");
         PlayerInstrument playerInstruments = other.GetComponentInChildren<PlayerInstrument>();
         //IF THIS GIVES NULL ERRORSS, WE PROBABLY MOVED THE PLAYERINSTRUMENT SCRIPT
