@@ -17341,18 +17341,118 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458]
+      value: Assembly-CSharp BuyOption
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459]
+      value: Assembly-CSharp BuyOption
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].id
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].item
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].name
+      value: Soap Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].item
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].name
+      value: Grabber
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695140980064256].name
+      value: Buy
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].price
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].price
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695140980064257].price
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].amount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695140980064257].amount
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].onlyOne
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].onlyOne
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].description
+      value: Listen man, this is a good soap gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].description
+      value: This'll teach those monsters
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695140980064256].description
+      value: Wanna buy stuff kid?
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: managedReferences[2877695140980064257].description
       value: '10 money for 1 key seems fair
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547458].managerReference
+      value: 
+      objectReference: {fileID: 1220493864}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2273387746662547459].managerReference
+      value: 
+      objectReference: {fileID: 1220493864}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695140980064256].options.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695140980064256].options.Array.data[1]
+      value: 2273387746662547458
+      objectReference: {fileID: 0}
+    - target: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: managedReferences[2877695140980064256].options.Array.data[2]
+      value: 2273387746662547459
       objectReference: {fileID: 0}
     - target: {fileID: 4157479620871344650, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: feedback.interactionObject
@@ -17370,6 +17470,14 @@ PrefabInstance:
       propertyPath: feedback.interactionFeedbackObject
       value: 
       objectReference: {fileID: 2082546105}
+    - target: {fileID: 4227693294171066134, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: brokeText
+      value: You dont have enough money for this unfortunately
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227693294171066134, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: initialText
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7381573917729208795, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: m_Name
       value: Shop
@@ -17382,6 +17490,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 190119297}
   m_SourcePrefab: {fileID: 100100000, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+--- !u!114 &1220493864 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 369468161946649085, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+  m_PrefabInstance: {fileID: 1220493863}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0f57309cb14bb4ca57015f1e4098df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1221515271
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19377,6 +19496,9 @@ MonoBehaviour:
   minutes: 0
   seconds: 0
   highScoreAmount: 0
+  menuSceneName: 
+  gameSceneName: 
+  gameOverSceneName: 
   menuMode: 1
   dead: 0
 --- !u!1001 &1387781263

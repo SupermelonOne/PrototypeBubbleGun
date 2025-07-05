@@ -134,7 +134,7 @@ public class PopUp : MonoBehaviour
     {
         players.Add(playerEvent.player);
         playerCams.Add(playerEvent.player, playerEvent.camera);
-        Debug.Log($"Amount of players: {players.Count}");
+//        Debug.Log($"Amount of players: {players.Count}");
     }
 
     //i don't like update but this is just vector math so it should be fineeee
@@ -198,19 +198,17 @@ public class PopUp : MonoBehaviour
         canvas.transform.LookAt(closestPlayer.transform.position);
         canvas.transform.Rotate(Vector3.up, 180f);
         SetActive(true, closestPlayer);
-        closestPlayer.controller.InteractionToggle(true);
+        //closestPlayer.controller.InteractionToggle(true);
     }
 
     private void OnPlayerLook(Player closestPlayer)
     {
-        Debug.Log("Player look");
         if(closestPlayer.controller.IsFirePressed())
             IsPressed(closestPlayer);
     }
 
     private void IsPressed(Player closestPlayer)
     {
-        Debug.Log("IsPressed");
         if (closestPlayer == null)
             return;
         
