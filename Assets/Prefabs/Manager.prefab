@@ -136,5 +136,8 @@ MonoBehaviour:
   minutes: 5
   seconds: 0
   highScoreAmount: 5
+  menuSceneName: Meno
+  gameSceneName: ActualLevel
+  gameOverSceneName: DEATH
   menuMode: 1
   dead: 0

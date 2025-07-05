@@ -113,7 +113,7 @@ public class PopUp : MonoBehaviour
             rectTransform.anchorMax = new Vector2(0.5f, 0.5f); // Center horizontal and vertical anchors
             rectTransform.pivot = new Vector2(0.5f, 0.5f); // Center pivot
             rectTransform.anchoredPosition = new Vector2(0f, textProperties.textHoverHeight);
-            rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, rectTransform.sizeDelta.y);
+            //rectTransform.sizeDelta = new Vector2(textProperties.textDimensions.x, rectTransform.sizeDelta.y);
         }
 
         interactionObject.SetActive(false);

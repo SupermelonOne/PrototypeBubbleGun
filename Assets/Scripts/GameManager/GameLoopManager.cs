@@ -10,6 +10,10 @@ public class GameLoopManager : MonoBehaviour
     [SerializeField] private int minutes;
     [SerializeField] private int seconds;
     [SerializeField] private int highScoreAmount;
+    
+    [SerializeField] private string menuSceneName;
+    [SerializeField] private string gameSceneName;
+    [SerializeField] private string gameOverSceneName;
 
     private int initialMinutes;
     private int initialSeconds;
@@ -52,7 +56,7 @@ public class GameLoopManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.anyKeyDown && (menuMode || dead))
+        if(Input.anyKeyDown && (SceneManager.GetActiveScene().name != gameSceneName))
             SwitchScene();
         
         if (menuMode || dead)
@@ -86,10 +90,13 @@ public class GameLoopManager : MonoBehaviour
 
     private void SwitchScene()
     {
-        if (SceneManager.GetActiveScene().buildIndex + 1 >= SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(0);
-        else
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if(SceneManager.GetActiveScene().name == menuSceneName)
+            SceneManager.LoadScene(gameSceneName);
+        else if (SceneManager.GetActiveScene().name == gameSceneName)
+            SceneManager.LoadScene(gameOverSceneName);
+        else if (SceneManager.GetActiveScene().name == gameOverSceneName)
+            SceneManager.LoadScene(menuSceneName);
+        
 
         if (dead)
         {

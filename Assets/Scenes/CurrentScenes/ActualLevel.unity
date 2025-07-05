@@ -17363,6 +17363,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4157479620871344650, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
+      propertyPath: textProperties.textDimensions.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157479620871344650, guid: bc6d619cea4b2ff4395c41a40045745b, type: 3}
       propertyPath: feedback.interactionFeedbackObject
       value: 
       objectReference: {fileID: 2082546105}
