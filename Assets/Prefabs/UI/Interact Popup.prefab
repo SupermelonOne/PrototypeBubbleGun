@@ -310,5 +310,5 @@ MonoBehaviour:
       itemType: 0
       cost: 0
     errorMessageTime: 1
-    interactionObject: {fileID: 0}
-    interactionFeedbackObject: {fileID: 0}
+    interactionObject: {fileID: 4666639958209313845}
+    interactionFeedbackObject: {fileID: 2858548867513559107}

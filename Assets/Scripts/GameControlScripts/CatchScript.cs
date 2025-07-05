@@ -23,6 +23,7 @@ public class CatchScript : MonoBehaviour
     {
         foreach (MonsterMoveBehavior monster in caughtMonsters)
         {
+            if (monster != null)
             monster.gameObject.SetActive(false);
         }
     }
