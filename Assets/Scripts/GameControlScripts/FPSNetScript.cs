@@ -64,14 +64,14 @@ public class FPSNetScript : PlayerAction
         }
         else if (playerController != null)
         {
-/*            m_moveAmt = playerController.m_moveAmt;
+            m_moveAmt = playerController.m_moveAmt;
             float xRotation = m_moveAmt.y + 1;
             float yRotation = m_moveAmt.x;
             netTransform.localRotation = Quaternion.Slerp(
                 netTransform.localRotation,
                 Quaternion.Euler(xRotation * 90, yRotation * 90, 0),
                 Time.deltaTime * rotateModifier
-            );*/
+            );
         }
     }
 }
