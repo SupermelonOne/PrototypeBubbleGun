@@ -38,8 +38,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float lookXLimit = 45.0f;
     
     [SerializeField] private Vector3 respawnPosition;
+    [SerializeField] public Transform PCamParent;
     [SerializeField] public Camera playerCamera;
-    
+    private Quaternion upperbodyRotationX = Quaternion.identity;
+    private Quaternion upperBodyInitial;
+    [SerializeField] private Transform upperBody;
+
+    [SerializeField] private Transform hips;
+    private Quaternion hipsInitial;
+    private Quaternion moveRotation = Quaternion.identity;
+    private Vector3 actualDirection = Vector3.zero;
+
+
     [SerializeField] private float sensitivity = 2.0f;
     [SerializeField] private float speedModifier = 2;
     [SerializeField] private float gravity  = 20.0f;
@@ -67,6 +77,12 @@ public class PlayerController : MonoBehaviour
     private BlinkScript blinkScript;
 
     private bool justRespawned = false;
+
+    private void Start()
+    {
+        upperBodyInitial = upperBody.rotation;
+        hipsInitial = hips.rotation;
+    }
 
     private void Awake()
     {
@@ -397,7 +413,8 @@ public class PlayerController : MonoBehaviour
             rotationX += -m_lookAmt.y * sensitivity;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
+            PCamParent.rotation *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
+            //transform.rotation *= 
 
             if (jumpInput && characterController.isGrounded || jumpInput && justRespawned)
                 verticalMovement.y = jumpForce;
@@ -423,6 +440,12 @@ public class PlayerController : MonoBehaviour
             var camRight = new Vector3(playerCamera.transform.right.x, 0, playerCamera.transform.right.z).normalized;
 
             var desiredDirection = (direction.z * camForward + direction.x * camRight) * speedModifier;
+            actualDirection = desiredDirection.normalized;
+
+            if (desiredDirection.magnitude > 0)
+            {
+                moveRotation = Quaternion.LookRotation(desiredDirection.normalized);
+            }
 
 
             desiredDirection += verticalMovement;
@@ -445,6 +468,59 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    private bool wasBackwards = false; // Track previous state
+
+    private void LateUpdate()
+    {
+        upperbodyRotationX *= Quaternion.Euler(0, m_lookAmt.x * sensitivity, 0);
+
+        // Calculate desired upper body rotation
+        Quaternion desiredUpperBodyRot =
+            Quaternion.Euler(-rotationX, 0, 0) *
+            upperbodyRotationX *
+            upperBodyInitial;
+
+        // Transform movement direction into upper body's LOCAL space
+
+        actualDirection = Quaternion.Euler(0, 90, 0) * actualDirection;
+        Vector3 localMoveDir = Quaternion.Inverse(desiredUpperBodyRot) * actualDirection;
+        localMoveDir.y = 0;
+        localMoveDir.Normalize();
+
+        // Determine if moving backwards (negative Z in local space)
+        bool isMoving = m_moveAmt.magnitude > 0.1f;
+        bool backwards = !(isMoving && localMoveDir.z < -0.3f); // Using -0.3 threshold for better responsiveness
+
+        // Apply rotation to hips
+        Quaternion finalHipsRotation = moveRotation * hipsInitial;
+
+        isMoving = actualDirection.magnitude > 0.15f;
+
+        if (backwards && isMoving)
+        {
+            // Flip 180 degrees for backwards movement
+            finalHipsRotation *= Quaternion.Euler(180f, 0, 0); // Rotate around Y axis
+        }
+        else if (backwards && !isMoving)
+        {
+            Debug.Log("does this ever happen?");
+            // Maintain backwards state during transition to idle
+            //finalHipsRotation *= Quaternion.Euler(180f, 0, 0);
+            backwards = true;
+        }
+
+        hips.rotation = finalHipsRotation;
+        upperBody.rotation = desiredUpperBodyRot;
+
+        animator.SetBool("Backwards", backwards);
+        wasBackwards = backwards;
+
+        // Debug visualization
+        Debug.DrawRay(upperBody.position, upperBody.forward * 2, Color.blue); // Upper body forward
+        Debug.DrawRay(upperBody.position, actualDirection * 2, Color.green); // World movement direction
+        Debug.DrawRay(upperBody.position, upperBody.TransformDirection(localMoveDir) * 2, Color.red); // Local movement direction in world space
     }
 
     private void OnTriggerEnter(Collider other)
