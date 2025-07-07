@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2462658318367177624}
   - component: {fileID: 3629062918437019842}
   - component: {fileID: 7127346610039340868}
+  - component: {fileID: 1076416287470546196}
   - component: {fileID: 1789666872771928673}
-  - component: {fileID: 4667402788082476504}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: 10
-  m_AllowJoining: 1
+  m_MaxPlayerCount: 0
+  m_AllowJoining: 0
   m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
@@ -93,22 +93,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDescriptions:
   - type: 1
-    description: A key you can use to unlock stuff i suppose
-    icon: {fileID: 2800000, guid: 444477064a690e34ea8b56fd26f77280, type: 3}
+    description: You can use keys to unlock new areas.
+    icon: {fileID: 2800000, guid: 46928b6988f79d249830da0210c7db39, type: 3}
     amount: 0
   - type: 0
-    description: It's a bit pathetic we still dont have a name we use for the currency
-      in this game
-    icon: {fileID: 2800000, guid: 651a76a5f7a8e764ba6cfd9b68046f22, type: 3}
+    description: You can buy things in the shop with these...
+    icon: {fileID: 2800000, guid: 24b3eff99adb5eb44aece1876fd1abba, type: 3}
     amount: 0
   - type: 2
-    description: Scrub scub
-    icon: {fileID: 2800000, guid: 8d60a791ab9111c4892e47a0ef191504, type: 3}
+    description: You can grab monsters with it!
+    icon: {fileID: 2800000, guid: 9d54ae02db6063a4e94db0025287b3fd, type: 3}
     amount: 0
   - type: 3
-    description: Scrub scub
-    icon: {fileID: 2800000, guid: 8d60a791ab9111c4892e47a0ef191504, type: 3}
+    description: You can soap up the monsters with this.
+    icon: {fileID: 2800000, guid: e2f2d8a9726ce38439159d8f4a8f45c0, type: 3}
     amount: 0
+--- !u!114 &1076416287470546196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2925361333250021225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0a51e7a00d21447ab7a500db3990be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minutes: 0
+  seconds: 0
+  highScoreAmount: 0
+  menuSceneName: 
+  gameSceneName: 
+  gameOverSceneName: 
+  menuMode: 1
+  dead: 0
 --- !u!114 &1789666872771928673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,23 +140,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd1679a34d12d7c4dbab0fd2ef7fdb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4667402788082476504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2925361333250021225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0a51e7a00d21447ab7a500db3990be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minutes: 5
-  seconds: 0
-  highScoreAmount: 5
-  menuSceneName: Meno
-  gameSceneName: ActualLevel
-  gameOverSceneName: DEATH
-  menuMode: 1
-  dead: 0

@@ -226,6 +226,14 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        if (context.started)
+        {
+            sensitivity *= 0.25f;
+        }
+        if (context.canceled)
+        {
+            sensitivity *= 4;
+        }
 
         var c = GetComponentsInChildren<PlayerAction>();
         foreach (var action in c)
@@ -357,6 +365,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (characterController == null) return;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            sensitivity = 5;
+        }
 
         if (arduinoInputManager != null)
         {

@@ -39,7 +39,7 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
-    [SerializeField] private List<ItemStruct> itemDescriptions;
+    [SerializeField] private List<ItemStruct> itemDescriptions = new List<ItemStruct>();
     public Dictionary<ItemType, ItemStruct> Items = new Dictionary<ItemType, ItemStruct>();
     public event Change OnChange;
 
