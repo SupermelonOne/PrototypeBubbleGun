@@ -14,12 +14,14 @@ public class Shop : MonoBehaviour
     private void OnEnable()
     {
         ShopEventBus.Subscribe<ShopEventBus.OnNavigateUI>(NavigateUI);
+        ShopEventBus.Subscribe<ShopEventBus.OnNavigateUIReal>(NavigateUIReal);
         ShopEventBus.Subscribe<ShopEventBus.OnShopActivated>(OnShop);
     }
 
     private void OnDisable()
     {
         ShopEventBus.UnSubscribe<ShopEventBus.OnNavigateUI>(NavigateUI);
+        ShopEventBus.UnSubscribe<ShopEventBus.OnNavigateUIReal>(NavigateUIReal);
         ShopEventBus.UnSubscribe<ShopEventBus.OnShopActivated>(OnShop);
     }
 
@@ -60,6 +62,28 @@ public class Shop : MonoBehaviour
                 shopUI.OnSelectDialogueOption();
                 break;
             case InputTypes.Back:
+                shopUI.OnBack();
+                break;
+        }
+    }
+
+    private void NavigateUIReal(ShopEventBus.OnNavigateUIReal navigate)
+    {
+        Debug.Log("does it do anything????");
+
+        switch (navigate.direction)
+        {
+            case 0:
+                shopUI.OnMoveCursorUp();
+                break;
+            case 1:
+                shopUI.OnMoveCursorDown();
+                break;
+            case 2:
+                Debug.Log("does it work");
+                shopUI.OnSelectDialogueOption();
+                break;
+            case 3:
                 shopUI.OnBack();
                 break;
         }

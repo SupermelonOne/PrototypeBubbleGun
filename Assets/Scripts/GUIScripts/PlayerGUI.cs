@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class PlayerGUI : MonoBehaviour
 {
+    private ArduinoInputManager inputManager;
+    [SerializeField] private string comPort = "COM5";
     private Player player;
     private Canvas canvas;
     private Vector2Int currentUIIndex = new Vector2Int(0,0);
@@ -30,6 +32,14 @@ public class PlayerGUI : MonoBehaviour
 
     private void Start()
     {
+        foreach (ArduinoInputManager im in FindObjectsOfType<ArduinoInputManager>())
+        {
+            if (im.portName == comPort)
+            {
+                inputManager = im;
+            }
+        }
+
         if (player?.inventory == null)
         {
             var message = player == null ? "Player is null" : "Player Inventory is null";
@@ -178,5 +188,9 @@ public class PlayerGUI : MonoBehaviour
         player.controller.SetInventory(inventory.activeSelf);
         crosshair.SetActive(inventory.activeSelf);
         inventory.SetActive(!inventory.activeSelf);
+    }
+
+    private void Update()
+    {
     }
 }

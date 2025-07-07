@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum InputTypes
@@ -33,6 +34,16 @@ public class ShopEventBus : BaseEventBus<ShopEventBus>
         public OnNavigateUI(InputTypes inputType)
         {
             this.inputType = inputType;
+        }
+    }
+
+    public class OnNavigateUIReal
+    {
+        public int direction;
+
+        public OnNavigateUIReal(int newDirection)
+        {
+            direction = newDirection;
         }
     }
 }

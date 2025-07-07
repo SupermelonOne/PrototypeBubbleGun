@@ -75,7 +75,7 @@ public class BridgeScript : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("Enabled");
+        //Debug.Log("Enabled");
         GameManager.Instance.AddBridge(this);
     }
 

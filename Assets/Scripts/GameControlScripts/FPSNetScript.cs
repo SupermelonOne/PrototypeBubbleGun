@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FPSNetScript : PlayerAction
 {
+    [SerializeField] bool flipXY = false;
     [SerializeField] private Transform netTransform;
     [SerializeField] private float rotateModifier = 15f;
     private Quaternion netRotation = Quaternion.identity;
@@ -48,7 +50,20 @@ public class FPSNetScript : PlayerAction
 
         if (inputManager != null)
         {
-            Vector3 angularVelocity = inputManager.gyroscope; // in degrees per second
+            Vector3 angularVelocity = Vector3.zero;
+            if (flipXY)
+            {
+                float xi = inputManager.gyroscope.z;
+                float yi = inputManager.gyroscope.y;
+                float zi = -inputManager.gyroscope.x;
+                Vector3 newGyro = new Vector3(xi, yi, zi);
+                angularVelocity = newGyro; // in degrees per second
+            }
+            else
+            {
+                angularVelocity = inputManager.gyroscope; // in degrees per second
+            }
+
             netRotation *= Quaternion.Euler(angularVelocity * 1.25f * Time.deltaTime);
 
             // Sync orientation when Button 1 is pressed

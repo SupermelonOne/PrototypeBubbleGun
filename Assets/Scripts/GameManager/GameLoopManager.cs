@@ -63,9 +63,16 @@ public class GameLoopManager : MonoBehaviour
 
     void Update()
     {
-        if((Input.anyKeyDown || inputManager._button1_pressed || inputManager._button2_pressed || inputManager._button3_pressed) && (SceneManager.GetActiveScene().name != gameSceneName))
+        if((Input.anyKeyDown ) && (
+            SceneManager.GetActiveScene().name != gameSceneName))
             SwitchScene();
-        
+        if (inputManager != null)
+        {
+            if ((inputManager._button1_pressed || inputManager._button2_pressed || inputManager._button3_pressed) && SceneManager.GetActiveScene().name != gameSceneName)
+                SwitchScene();
+        }
+
+
         if (menuMode || dead)
             return;
 

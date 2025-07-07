@@ -356,14 +356,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Fuck();
         if (characterController == null) return;
 
         if (arduinoInputManager != null)
         {
-            if (arduinoInputManager._button2_pressed && playerGUI != null)
+            if (arduinoInputManager._button3_pressed && playerGUI != null && arduinoInputManager._button2_hold)
             {
                 playerGUI.ToggleUI();
-                playerGUI = null;
+                //playerGUI = null;
             }
             //moveinput
             
@@ -487,6 +488,18 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("Jump", false);
             }
 
+ 
+        }
+        else
+        {
+            animator.SetBool("Airborne", false);
+        }
+    }
+    
+    private void Fuck()
+    {
+        if (arduinoInputManager != null)
+        {
             if (m_moveAmt.x > .5f && !rightHold)
             {
                 rightUI = true;
@@ -500,7 +513,7 @@ public class PlayerController : MonoBehaviour
             {
                 rightHold = false;
             }
-            if (m_moveAmt.x < -.5f && !rightHold)
+            if (m_moveAmt.x < -.5f && !leftHold)
             {
                 leftUI = true;
                 leftHold = true;
@@ -514,9 +527,10 @@ public class PlayerController : MonoBehaviour
                 leftHold = false;
             }
 
-            if (m_moveAmt.y < -.5f && !rightHold)
+            if (m_moveAmt.y < -.5f && !upHold)
             {
                 upUI = true;
+                ShopEventBus.Invoke(new ShopEventBus.OnNavigateUIReal(1));
                 upHold = true;
             }
             else if (m_moveAmt.y < -.5f)
@@ -528,9 +542,10 @@ public class PlayerController : MonoBehaviour
                 upHold = false;
             }
 
-            if (m_moveAmt.y > .5f && !rightHold)
+            if (m_moveAmt.y > .5f && !downHold)
             {
                 downUI = true;
+                ShopEventBus.Invoke(new ShopEventBus.OnNavigateUIReal(0));
                 downHold = true;
             }
             else if (m_moveAmt.y > .5f)
@@ -541,10 +556,15 @@ public class PlayerController : MonoBehaviour
             {
                 downHold = false;
             }
-        }
-        else
-        {
-            animator.SetBool("Airborne", false);
+
+            if (arduinoInputManager._button3_pressed)
+            {
+                ShopEventBus.Invoke(new ShopEventBus.OnNavigateUIReal(2));
+            }
+            if (arduinoInputManager._button1_pressed)
+            {
+                ShopEventBus.Invoke(new ShopEventBus.OnNavigateUIReal(3));
+            }
         }
     }
 }

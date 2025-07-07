@@ -17,7 +17,7 @@ public class PlayerInstrument : MonoBehaviour
     {
         if (inputManager != null && inputManager._button3_pressed)
         {
-            Debug.Log("afiwjfeoijfweoiwefjoif fuck swtijch");
+            //Debug.Log("afiwjfeoijfweoiwefjoif fuck swtijch");
             SwitchWeapon(1);
             failSafe = 0;
         }
